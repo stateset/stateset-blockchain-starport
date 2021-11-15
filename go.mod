@@ -5,7 +5,11 @@ go 1.16
 require (
 	github.com/cosmos/cosmos-sdk v0.44.1
 	github.com/cosmos/ibc-go v1.2.0
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.6.0 // indirect
+	github.com/regen-network/cosmos-proto v0.3.1 // indirect
 	github.com/spf13/cast v1.3.1
 	github.com/tendermint/spm v0.1.5
 	github.com/tendermint/tendermint v0.34.13

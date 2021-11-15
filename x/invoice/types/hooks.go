@@ -32,19 +32,19 @@ func (h MultiInvoiceHooks) AfterFactorInvoice(ctx sdk.Context, sender sdk.AccAdd
 	}
 }
 
-func (h MultiInvoiceHooks) AfterCompleteInvoice(ctx sdk.Context, sender sdk.AccAddress, invoiceId) {
+func (h MultiInvoiceHooks) AfterCompleteInvoice(ctx sdk.Context, sender sdk.AccAddress, invoiceId uint64, amount sdk.Coins) {
 	for i := range h {
 		h[i].AfterCompleteInvoice(ctx, sender, poolId, amount)
 	}
 }
 
-func (h MultiInvoiceHooks) AfterCancelInvoice(ctx sdk.Context, sender sdk.AccAddress, invoiceId) {
+func (h MultiInvoiceHooks) AfterCancelInvoice(ctx sdk.Context, sender sdk.AccAddress, invoiceId uint64, amount sdk.Coins) {
 	for i := range h {
 		h[i].AfterCancelInvoice(ctx, sender, poolId, amount)
 	}
 }
 
-func (h MultiInvoiceHooks) AfterLockInvoice(ctx sdk.Context, sender sdk.AccAddress, invoiceId uint64) {
+func (h MultiInvoiceHooks) AfterLockInvoice(ctx sdk.Context, sender sdk.AccAddress, invoiceId uint64, amount sdk.Coins) {
 	for i := range h {
 		h[i].AfterLockInvoice(ctx, sender, poolId, input, output)
 	}

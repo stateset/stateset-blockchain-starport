@@ -50,7 +50,7 @@ func NewInvoice(invoiceId uint64, invoiceNumber string, invoiceName string, bill
 		BillingReason:   billingReason,
 		AmountDue:       amountDue,
 		AmountPaid:		 amountPaid,
-		AmountRemaining  amountRemaining,
+		AmountRemaining:  amountRemaining,
 		Subtotal:        subtotal,
 		Total: 			 total,
 		Party:		     party,

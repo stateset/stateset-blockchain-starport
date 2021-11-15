@@ -13,4 +13,3 @@ var (
 	ErrInvalidVersion       = sdkerrors.Register(ModuleName, 1501, "invalid version")
 	ErrWrongAgreementState = sdkerrors.Register(ModuleName, 6, "invalide agreement state")
 )
-)

@@ -62,7 +62,8 @@ type BankKeeper interface {
 
 // DidKeeper defines the expected interface needed to add dids.
 type DidKeeper interface {
-	AddDid(ctx sdk.Context, did) error
-	GetDid(ctx sdk.Context, did) error
-	AddCredentials(ctx sdk.Context, did, credentials) error
+	AddDidDoc(ctx sdk.Context, did exported.DidDoc)
+	GetDid(ctx sdk.Context, did exported.Did)
+	AddCredentials(ctx sdk.Context, did exported.Did, credential types.DidCredential) error
 }
+

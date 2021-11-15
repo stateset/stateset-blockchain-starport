@@ -72,11 +72,11 @@ func NewMsgCreateInvoice(statesetID, invoiceId string, invoiceNumber string, bil
 		Party: party,
 		Counterparty: counterparty,
 		DueDate: dueDate,
-		PeriodStartDate: periodStartDate
-		PeriodEndDate: periodEndDate
+		PeriodStartDate: periodStartDate,
+		PeriodEndDate: periodEndDate,
 		Paid: paid,
 		Active: active,
-		CreatedTime: CreatedTime
+		CreatedTime: CreatedTime,
 	}
 }
 

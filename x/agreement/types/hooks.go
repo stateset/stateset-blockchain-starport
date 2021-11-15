@@ -35,9 +35,9 @@ func (h MultiAgreementHooks) AfterFinanceAgreement(ctx sdk.Context, sender sdk.A
 	}
 }
 
-func (h MultiAgreementHooks) AfterCompleteAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId) {
+func (h MultiAgreementHooks) AfterCompleteAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterCompleteAgreement(ctx, sender, poolId, amount)
+		h[i].AfterCompleteAgreement(ctx, sender, agreementId, amount)
 	}
 }
 

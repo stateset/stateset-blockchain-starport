@@ -9,8 +9,6 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 )
 
-// AccountKeeper defines the account contract that must be fulfilled when
-// creating a x/gamm keeper.
 type AccountKeeper interface {
 	NewAccount(sdk.Context, authtypes.AccountI) authtypes.AccountI
 	NewAccountWithAddress(ctx sdk.Context, addr sdk.AccAddress) authtypes.AccountI
@@ -61,8 +59,8 @@ type BankKeeper interface {
 
 // DidKeeper defines the expected interface needed to add dids.
 type DidKeeper interface {
-	AddDid(ctx sdk.Context, did) error
-	GetDid(ctx sdk.Context, did) error
-	AddCredentials(ctx sdk.Context, did, credentials) error
+	AddDidDoc(ctx sdk.Context, did exported.DidDoc)
+	GetDid(ctx sdk.Context, did exported.Did)
+	AddCredentials(ctx sdk.Context, did exported.Did, credential types.DidCredential) error
 }
 
