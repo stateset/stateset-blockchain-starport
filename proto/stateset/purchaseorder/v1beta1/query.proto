@@ -1,0 +1,56 @@
+syntax = "proto3";
+package stateset.purchaseorder.v1beta1;
+
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/any.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+
+option go_package = "github.com/stateset/stateset-blockchain/x/purchaseorder/types";
+
+// Query defines the gRPC querier service.
+service Query {
+
+  // PurchaseOrders returns purchase order details based on purchase order.
+  rpc PurchaseOrders(QueryPurchaseOrdersRequest) returns (QueryPurchaseOrdersResponse) {
+    option (google.api.http).get = 
+        "/stateset/purchaseorder/v1beta1/purchaseorders";
+  }
+
+  // Purchase Order returns purchase order details based on purchase order.
+  rpc PurchaseOrder(QueryPurchaseOrderRequest) returns (QueryPurchaseOrderResponse) {
+    option (google.api.http).get = 
+        "/stateset/purchaseorder/v1beta1/purchaseorders/{purchaseorder_id}";
+  }
+
+}
+
+// QueryPurchaseOrderRequest is the Query/PurchaseOrder request type.
+message QueryPurchaseOrderRequest {
+
+   // purchase_id is the unique ID of purchase order to query.
+   string purchaseorder_id = 1 [ (gogoproto.moretags) = "yaml:\"purchaseorder_id\"" ];
+   
+}
+
+message QueryPurchaseOrderResponse {
+
+    PurchaseOrder purchaseorder = 1;
+    
+}
+
+
+message QueryPurchaseOrdersRequest {
+
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+
+}
+
+
+message QueryPurchaseOrdersResponse {
+
+	repeated PurchaseOrder PurchaseOrder = 1;
+
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

@@ -1,0 +1,18 @@
+// IbcPurchaseOrderPacketData defines a struct for the packet payload
+message IbcPurchaseOrderPacketData {
+  string creator = 1;
+  string purchaseorder_id = 2;
+  string purchaseorder_number = 3;
+  string purchaseorder_hash = 4;
+  string purchaseorder_status = 5;
+  string description = 6;
+  string purchase_date = 7;
+  string delivery_date = 8;
+  string subtotal = 9;
+  string total = 10;
+  string purchaser = 11;
+  string vendor = 12;
+  string fulfiller = 13;
+  string financer = 14;
+  
+}

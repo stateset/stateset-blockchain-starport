@@ -1,0 +1,186 @@
+syntax = "proto3";
+
+package stateset.agreement.v1beta1;
+
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/stateset/stateset-blockchain/x/agreement/types";
+
+// Msg is the stateset.agreement.v1beta1 Msg service
+service Msg {
+
+  // Create defines a method to create a new agreement.
+  rpc Create(MsgCreateAgreementRequest) returns (MsgCreateAgreementResponse);
+
+   // Update defines a method to update an agreement.
+  rpc Update(MsgUpdateAgreementRequest) returns (MsgUpdateAgreementResponse);
+
+   // Delete defines a method to create a new agreement.
+  rpc Delete(MsgDeleteAgreementRequest) returns (MsgDeleteAgreementResponse);
+
+  // Activate defines a method to activate an agreement
+  rpc Activate(MsgActivateAgreementRequest) returns (MsgActivateAgreementResponse);
+
+  // Renew defines a method to renew an agreement
+  rpc Renew(MsgRenewAgreementRequest) returns (MsgRenewAgreementResponse);
+
+  // Amend defines a method to amend an agreement
+  rpc Amend(MsgAmendAgreementRequest) returns (MsgAmendAgreementResponse);
+
+  // Terminate defines a method to terminate an agreement
+  rpc Terminate(MsgTerminateAgreementRequest) returns (MsgTerminateAgreementResponse);
+
+  // Expire defines a method to expire an agreement
+  rpc Expire(MsgExpireAgreementRequest) returns (MsgExpireAgreementResponse);
+
+}
+
+// MsgCreateAgreementRequest is the Msg/CreateAgreement request type.
+message MsgCreateAgreementRequest {
+
+   // creator is the address of the account that created the agreement class.
+  string creator = 1;
+
+   // agreement_id is the address of the agreement
+  string agreement_id = 2 [ (gogoproto.moretags) = "yaml:\"agreement_id\"" ];
+
+  string agreement_number = 3; 
+
+  string agreement_name = 4; 
+
+  string agreement_type = 5; 
+
+  string agreement_status = 6; 
+
+  int32 total_agreement_value = 7; 
+
+  string party = 8; 
+
+  string counterparty = 9; 
+
+  google.protobuf.Timestamp start_date = 10
+  [(gogoproto.stdtime) = true, (gogoproto.moretags) = "yaml:\"start_date\""];
+
+  google.protobuf.Timestamp end_date = 11
+  [(gogoproto.stdtime) = true, (gogoproto.moretags) = "yaml:\"end_date\""];
+
+}
+
+// MsgCreateAgreementResponse is the Msg/CreateAgreement response type.
+message MsgCreateAgreementResponse {
+
+    // agreement_id is the unique ID of the newly created agreement class.
+    string agreement_id = 1;
+  
+}
+
+
+// MsgCreateAgreementRequest is the Msg/CreateAgreement request type.
+message MsgUpdateAgreementRequest {
+
+    // creator is the address of the account that created the agreement class.
+  string creator = 1;
+
+  string agreement_id = 2 [ (gogoproto.moretags) = "yaml:\"agreement_id\"" ];
+
+  string agreement_number = 3; 
+
+  string agreement_name = 4; 
+
+  string agreement_type = 5; 
+
+  string agreement_status = 6; 
+
+  int32 total_agreement_value = 7; 
+
+  string party = 8; 
+
+  string counterparty = 9; 
+
+  google.protobuf.Timestamp start_date = 10
+  [(gogoproto.stdtime) = true, (gogoproto.moretags) = "yaml:\"start_date\""];
+
+  google.protobuf.Timestamp end_date = 11
+  [(gogoproto.stdtime) = true, (gogoproto.moretags) = "yaml:\"end_date\""];
+}
+
+// MsgSignDataResponse is the Msg/SignData response type.
+message MsgUpdateAgreementResponse {
+
+    // agreement_id is the unique ID of the newly created agreement class.
+    string agreement_id = 1;
+}
+
+message MsgDeleteAgreement {
+  string creator = 1;
+  uint64 agreement_id = 2;
+}
+
+message MsgDeleteAgreementResponse { }
+
+// MsgActivateAgreementRequest is the Msg/ActivateAgreement request type.
+message MsgActivateAgreementRequest {
+
+  string activator = 1;
+
+  string agreement_id = 2 [ (gogoproto.moretags) = "yaml:\"agreement_id\"" ];
+
+  string activation_date = 3 [(gogoproto.moretags) = "yaml:\"activation_date\""];
+
+}
+
+// MsgSignDataResponse is the Msg/SignData response type.
+message MsgActivateAgreementResponse {}
+
+// MsgActivateAgreementRequest is the Msg/ActivateAgreement request type.
+message MsgActivateAgreementRequest {
+  // sender is the address of the sender of the transaction.
+  string sender = 1;
+  string agreement_id = 2;
+}
+
+// MsgSignDataResponse is the Msg/SignData response type.
+message MsgActivateAgreementResponse {}
+
+// MsgRenewRenewRequest is the Msg/RenewAgreement request type.
+message MsgRenewAgreementRequest {
+  // sender is the address of the sender of the transaction.
+  string sender = 1;
+  string agreement_id = 2;
+}
+
+// MsgRenewAgreementResponse is the Msg/SignData response type.
+message MsgRenewAgreementResponse {}
+
+// MsgAmendAgreementRequest is the Msg/AmendAgreement request type.
+message MsgAmendAgreementRequest {
+  // sender is the address of the sender of the transaction.
+  string sender = 1;
+  string agreement_id = 2;
+}
+
+// MsgAmendResponse is the Msg/AmendAgreement response type.
+message MsgAmendAgreementResponse {}
+
+// MsgTerminateAgreementRequest is the Msg/TerminateAgreement request type.
+message MsgTerminateAgreementRequest {
+  // sender is the address of the sender of the transaction.
+  string sender = 1;
+  string agreement_id = 2;
+}
+
+// MsgTerminateResponse is the Msg/TerminateAgreement response type.
+message MsgTerminateAgreementResponse {}
+
+// MsgExpireAgreementRequest is the Msg/ExpireAgreement request type.
+message MsgExpireAgreementRequest {
+  // sender is the address of the sender of the transaction.
+  string sender = 1;
+  string agreement_id = 2;
+}
+
+// MsgExpireResponse is the Msg/ExpireAgreement response type.
+message MsgExpireAgreementResponse {}

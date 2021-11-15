@@ -1,0 +1,58 @@
+syntax = "proto3";
+package stateset.agreement.v1beta1;
+
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/any.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "stateset/agreement/v1beta1/agreement.proto";
+
+option go_package = "github.com/stateset/stateset-blockchain/x/agreement/types";
+
+// Query defines the gRPC querier service.
+service Query {
+
+  // Agreements returns agreeement details based on agreement.
+  rpc Agreements(QueryAgreementsRequest) returns (QueryAgreementsResponse) {
+    option (google.api.http).get = 
+        "/stateset/agreement/v1beta1/agreements";
+  }
+
+  // Agreement returns agreeement details based on agreement.
+  rpc Agreement(QueryAgreementRequest) returns (QueryAgreementResponse) {
+    option (google.api.http).get =
+        "/stateset/agreement/v1beta1/agreements/{agreement_id}";
+  }
+}
+
+//=============================== Agreements
+// QueryAgreementRequest is the Query/Agreement request type.
+message QueryAgreementsRequest {
+
+AgreementFilters filters = 1 [(gogoproto.nullable) = false];
+
+cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryAgreementsResponse {
+
+repeated Agreement agreements = 1 [(gogoproto.nullable) = false];
+
+cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+//=============================== Agreement
+// QueryAgreementRequest is the Query/Agreement request type.
+
+message QueryAgreementRequest {
+
+  // agreement_id is the unique ID of agreement to query.
+  string agreement_id = 1 [(gogoproto.moretags) = "yaml:\"agreement_id\""];
+  
+}
+
+// QueryClassInfoResponse is the Query/ClassInfo request type.
+message QueryAgreementResponse {
+
+  Agreement agreement = 1;
+}
