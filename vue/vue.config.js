@@ -3,6 +3,7 @@ const path = require('path')
 
 module.exports = {
   transpileDependencies: true,
+  devServer: { allowedHosts: 'all', },
   configureWebpack: {
     resolve: {
       symlinks: false,
