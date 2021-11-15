@@ -6,7 +6,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stateset/stateset-blockchain/x/did/exported"
-	statesettypes "github.com/stateset/stateset-blockchain/x/stateset/types"
 )
 
 const (

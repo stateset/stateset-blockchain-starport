@@ -10,7 +10,6 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stateset/stateset-blockchain/x/did/keeper"
 	"github.com/stateset/stateset-blockchain/x/did/types"
-	statesettypes "github.com/stateset/stateset-blockchain/x/stateset/types"
 )
 
 var (

@@ -7,7 +7,5 @@ These are the modules that make Stateset:
 - `x/agreement`: Agreement logic.
 - `x/common`: Common logic.
 - `x/did`: DID logic.
-- `x/ibc`: IBC logic.
 - `x/invoice`: Invoice logic.
 - `x/purchaseorder`: Purchase Order logic.
-- `x/wasm`: CosmWasm Smart Contracts.

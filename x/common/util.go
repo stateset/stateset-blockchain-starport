@@ -18,7 +18,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/rest"
-	apptypes "github.com/stateset/stateset-blockchain/types"
+	apptypes "github.com/stateset/stateset-blockchain/app"
 )
 
 const (

@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"time"
 
-	app "github.com/stateset/stateset-blockchain/types"
+	app "github.com/stateset/stateset-blockchain/app"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
