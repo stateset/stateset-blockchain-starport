@@ -2,7 +2,6 @@ syntax = "proto3";
 package did;
 
 import "gogoproto/gogo.proto";
-
 option go_package = "github.com/stateset/stateset-blockchain/x/did/types";
 
 // Digital identity credential issued to an stateset DID

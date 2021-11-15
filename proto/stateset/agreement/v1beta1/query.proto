@@ -1,11 +1,10 @@
 syntax = "proto3";
 package stateset.agreement.v1beta1;
 
-import "cosmos_proto/cosmos.proto";
+import "google/api/annotations.proto";
 import "gogoproto/gogo.proto";
-import "google/protobuf/any.proto";
+import "stateset/agreement/v1beta1/tx.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
-import "stateset/agreement/v1beta1/agreement.proto";
 
 option go_package = "github.com/stateset/stateset-blockchain/x/agreement/types";
 

@@ -1,14 +1,14 @@
 syntax = "proto3";
-package stateset.ibcdex.v1alpha1
+package stateset.ibcdex.v1alpha1;
 
-import "ibcdex/v1alpha1/buyOrderBook.proto";
-import "ibcdex/v1alpha1/sellOrderBook.proto";
+import "stateset/ibc/applications/ibcdex/v1alpha1/buyOrderBook.proto";
+import "stateset/ibc/applications/ibcdex/v1alpha1/sellOrderBook.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/ibc/applications/ibcdex/types";
+option go_package = "stateset/stateset-blockchain/x/ibc/applications/ibcdex/types";
 
 // GenesisState defines the ibcdex module's genesis state.
 message GenesisState {
+	    string port_id = 1; 
 		repeated BuyOrderBook buyOrderBookList = 3; 
 		repeated SellOrderBook sellOrderBookList = 2;
-    string port_id = 1; 
 }

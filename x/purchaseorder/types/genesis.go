@@ -14,7 +14,7 @@ const DefaultIndex uint64 = 1
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		PortId: PortID,	
-		PurchaseOrders:	[]*codectypes:Any{},
+		PurchaseOrders:	[]*PurchaseOrder{},
 		Params:         DefaultParams(),
 		TimedoutPurchaseOrderList: []*TimedoutPurchaseOrder{},
 		SentPurchaseOrderList:     []*SentPurchaseOrder{},

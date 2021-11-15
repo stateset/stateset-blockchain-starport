@@ -4,9 +4,9 @@ package ibc.account;
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 
-import "ibc/account/account.proto";
+import "stateset/ibc/applications/account/account.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/ibc/core/types";
+option go_package = "github.com/cosmos/ibc-go/modules/core/types";
 
 // Query defines the gRPC querier service.
 service Query {

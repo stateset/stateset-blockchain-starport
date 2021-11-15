@@ -65,7 +65,7 @@ func (AppModuleBasic) RegisterRESTRoutes(ctx context.CLIContext, rtr *mux.Router
 }
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the module.
-func (AppModuleBasic) RegisterGRPCRoutes(ctx client.Context, *runtime.ServeMux) {
+func (AppModuleBasic) RegisterGRPCRoutes(ctx client.Context, mux *runtime.ServeMux) {
 
 }
 

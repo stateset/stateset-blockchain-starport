@@ -1,9 +1,9 @@
 syntax = "proto3";
 package stateset.purchaseorder.v1beta1;
 
-import "stateset-blockchain/purchaseorder.proto";
+import "stateset/purchaseorder/v1beta1/tx.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/purchaseorders/types";
+option go_package = "github.com/stateset/stateset-blockchain/x/purchaseorder/types";
 
 // GenesisState defines the genesis state used by agreement module
 message GenesisState {

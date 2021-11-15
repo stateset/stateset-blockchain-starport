@@ -2,12 +2,54 @@ syntax = "proto3";
 
 package stateset.agreement.v1beta1;
 
-import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
-import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/stateset/stateset-blockchain/x/agreement/types";
+
+message Agreement {
+  string creator = 1;
+  string agreement_id = 2;
+  string agreementNumber = 3; 
+  string agreementName = 4; 
+  string agreementType = 5; 
+  string agreementStatus = 6; 
+  string totalAgreementValue = 7; 
+  string party = 8; 
+  string counterparty = 9; 
+  string start_date = 10; 
+  string end_date = 11;
+}
+
+// State is an enum which refers to state of an agreement
+enum State {
+
+  option (gogoproto.goproto_enum_prefix) = false;
+  // Prefix should start with 0 in enum. So declaring dummy state
+  invalid = 0 [(gogoproto.enumvalue_customname) = "AgreementStateInvalid"];
+
+  request = 1 [(gogoproto.enumvalue_customname) = "Request"];
+
+  active = 2 [(gogoproto.enumvalue_customname) = "Activated"];
+
+  amended = 3 [(gogoproto.enumvalue_customname) = "Amended"];
+
+  renewed = 4 [(gogoproto.enumvalue_customname) = "Renewed"];
+
+  terminated = 5 [(gogoproto.enumvalue_customname) = "Terminated"];
+
+  expired = 6 [(gogoproto.enumvalue_customname) = "Expired"];
+
+}
+
+message AgreementFilters {
+  option (gogoproto.equal) = false;
+
+  string owner = 1 [(gogoproto.jsontag) = "owner", (gogoproto.moretags) = "yaml:\"owner\""];
+
+  string state = 2 [(gogoproto.jsontag) = "state", (gogoproto.moretags) = "yaml:\"state\""];
+
+}
 
 // Msg is the stateset.agreement.v1beta1 Msg service
 service Msg {
@@ -119,6 +161,13 @@ message MsgDeleteAgreement {
   uint64 agreement_id = 2;
 }
 
+// MsgDeleteAgreementRequest is the Msg/DeleteAgreement request type.
+message MsgDeleteAgreementRequest {
+  // sender is the address of the sender of the transaction.
+  string sender = 1;
+  string agreement_id = 2;
+}
+
 message MsgDeleteAgreementResponse { }
 
 // MsgActivateAgreementRequest is the Msg/ActivateAgreement request type.
@@ -130,16 +179,6 @@ message MsgActivateAgreementRequest {
 
   string activation_date = 3 [(gogoproto.moretags) = "yaml:\"activation_date\""];
 
-}
-
-// MsgSignDataResponse is the Msg/SignData response type.
-message MsgActivateAgreementResponse {}
-
-// MsgActivateAgreementRequest is the Msg/ActivateAgreement request type.
-message MsgActivateAgreementRequest {
-  // sender is the address of the sender of the transaction.
-  string sender = 1;
-  string agreement_id = 2;
 }
 
 // MsgSignDataResponse is the Msg/SignData response type.

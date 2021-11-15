@@ -2,7 +2,7 @@ syntax = "proto3";
 package did;
 
 import "gogoproto/gogo.proto";
-import "did/did.proto";
+import "stateset/did/v1beta1/did.proto";
 
 option go_package = "github.com/stateset/stateset-blockchain/x/did/types";
 

@@ -4,7 +4,7 @@ package stateset.purchaseorder.v1beta1;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/purchaseorder";
+option go_package = "github.com/stateset/stateset-blockchain/x/purchaseorder/types";
 
 // EventCreatePurchaseOrder is an event emitted when an purchaseorder is created.
 message EventCreatePurchaseOrder {

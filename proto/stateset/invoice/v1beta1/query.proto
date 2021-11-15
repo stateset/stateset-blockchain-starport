@@ -1,10 +1,9 @@
 syntax = "proto3";
 package stateset.invoice.v1beta1;
 
-import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
-import "google/protobuf/any.proto";
 import "google/api/annotations.proto";
+import "stateset/invoice/v1beta1/tx.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 
 option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
@@ -12,35 +11,37 @@ option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
 // Query defines the gRPC querier service.
 service Query {
 
-  // Queries a day by id.
-	rpc Invoice(QueryGetInvoiceRequest) returns (QueryGetInvoiceResponse) {
-		option (google.api.http).get = "/stateset/invoice/v1beta1/invoices/{invoice_id}";
-	}
-
   // Invoices returns purchase order details based on purchase order.
   rpc Invoices(QueryInvoicesRequest) returns (QueryInvoicesResponse) {
     option (google.api.http).get = "/stateset/invoice/v1beta1/invoices";
   }
 
+    // Queries a day by id.
+	rpc Invoice(QueryInvoiceRequest) returns (QueryInvoiceResponse) {
+		option (google.api.http).get = "/stateset/invoice/v1beta1/invoices/{invoice_id}";
+	}
 
 }
 
 // QueryInvoiceRequest is the Query/Invoice request type.
-message QueryInvoiceRequest {
+message QueryInvoicesRequest {}
 
-    // invoice_id is the unique ID of invoice to query.
-    string invoice_id = 1 [(gogoproto.moretags) = "yaml:\"invoice_id\""];
-}
+message QueryInvoicesResponse {
 
-message QueryInvoiceResponse {
-    repeated QueryInvoiceResponse invoices = 1;
-    
-}
+	repeated Invoice invoices = 1 [(gogoproto.nullable) = false];
 
-message QueryAllInvoiceResponse {
-	repeated Invoice Invoice = 1;
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
+message QueryInvoiceRequest {
 
-message QueryInvoiceResponse {}
+  // invoice_id is the unique ID of invoice to query.
+  string invoice_id = 1 [(gogoproto.moretags) = "yaml:\"invoice_id\""];
+  
+}
+
+// QueryClassInfoResponse is the Query/ClassInfo request type.
+message QueryInvoiceResponse {
+
+  Invoice invoice = 1;
+}

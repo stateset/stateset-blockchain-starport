@@ -1,11 +1,45 @@
 syntax = "proto3";
+
 package stateset.invoice.v1beta1;
 
-import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
-import "google/protobuf/any.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/invoices/types";
+option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
+
+message Invoice {
+  string creator = 1;
+  string invoice_id = 2;
+  string invoice_number = 3; 
+  string invoice_name = 4;
+  string billing_reason = 5;
+  string amount_due = 6;
+  string amount_paid = 7;
+  string amount_remaining = 8;
+  string subtotal = 9;
+  string total = 10;
+  string party = 11;
+  string counterparty = 12;
+  string factor = 13;
+  string due_date = 14;
+  string period_start_date = 15;
+  string period_end_date = 16;
+}
+
+// State is an enum which refers to state of an ourchase order
+enum State {
+  option (gogoproto.goproto_enum_prefix) = false;
+  // Prefix should start with 0 in enum. So declaring dummy state
+  invalid = 0 [(gogoproto.enumvalue_customname) = "InvoiceStateInvalid"];
+
+  request = 1 [(gogoproto.enumvalue_customname) = "Request"];
+
+  paid = 2 [(gogoproto.enumvalue_customname) = "Paid"];
+
+  canceled = 3 [(gogoproto.enumvalue_customname) = "Canceled"];
+
+  factored = 4 [(gogoproto.enumvalue_customname) = "Factored"];
+}
+
 
 // Msg is the stateset.invoice.v1beta1 Msg service
 service Msg {
@@ -26,7 +60,7 @@ service Msg {
   rpc Complete(MsgCompleteInvoiceRequest) returns (MsgCompleteInvoiceResponse);
 
   // Factor defines a method to factor an invoice
-  rpc Complete(MsgFactorInvoiceRequest) returns (MsgFactorInvoiceResponse);
+  rpc Factor(MsgFactorInvoiceRequest) returns (MsgFactorInvoiceResponse);
 
 }
 
@@ -79,13 +113,6 @@ message MsgUpdateInvoiceRequest {
 // MsgSignDataResponse is the Msg/SignData response type.
 message MsgUpdateInvoiceResponse {}
 
-message MsgDeleteInvoice {
-  string creator = 1;
-  uint64 invoice_id = 2;
-}
-
-message MsgDeleteInvoiceResponse { }
-
 // MsgActivateInvoiceRequest is the Msg/ActivateInvoice request type.
 message MsgCancelInvoiceRequest {
   // sender is the address of the sender of the transaction.
@@ -97,6 +124,16 @@ message MsgCancelInvoiceRequest {
 message MsgCancelInvoiceResponse {}
 
 // MsgActivateInvoiceRequest is the Msg/ActivateInvoice request type.
+message MsgDeleteInvoiceRequest {
+  // sender is the address of the sender of the transaction.
+  string sender = 1;
+  string invoice_id = 2;
+}
+
+// MsgSignDataResponse is the Msg/SignData response type.
+message MsgDeleteInvoiceResponse {}
+
+// MsgActivateInvoiceRequest is the Msg/ActivateInvoice request type.
 message MsgCompleteInvoiceRequest {
   // sender is the address of the sender of the transaction.
   string sender = 1;
@@ -106,14 +143,11 @@ message MsgCompleteInvoiceRequest {
 // MsgSignDataResponse is the Msg/SignData response type.
 message MsgCompleteInvoiceResponse {}
 
-// MsgFinancePurchaseOrder is the Msg/FinancePurchaseOrder request type.
-message MsgFactorPurchaseOrderRequest {
+message MsgFactorInvoiceRequest {
 
   // sender is the address of the sender of the transaction.
   string creator = 1;
   string invoice_id = 2;
 }
 
-// MsgFinancePurchaseOrderResponse is the Msg/FinancePurchaseOrder response
-// type.
-message MsgFactorPurchaseOrderResponse {}
+message MsgFactorInvoiceResponse {}

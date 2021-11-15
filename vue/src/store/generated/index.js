@@ -10,6 +10,12 @@ import CosmosCosmosSdkCosmosSlashingV1Beta1 from './cosmos/cosmos-sdk/cosmos.sla
 import CosmosCosmosSdkCosmosStakingV1Beta1 from './cosmos/cosmos-sdk/cosmos.staking.v1beta1';
 import CosmosCosmosSdkCosmosVestingV1Beta1 from './cosmos/cosmos-sdk/cosmos.vesting.v1beta1';
 import CosmosIbcGoIbcApplicationsTransferV1 from './cosmos/ibc-go/ibc.applications.transfer.v1';
+import StatesetStatesetBlockchainDid from './stateset/stateset-blockchain/did';
+import StatesetStatesetBlockchainStatesetAgreementV1Beta1 from './stateset/stateset-blockchain/stateset.agreement.v1beta1';
+import StatesetStatesetBlockchainStatesetInoviceV1Beta1 from './stateset/stateset-blockchain/stateset.inovice.v1beta1';
+import StatesetStatesetBlockchainStatesetInvoiceV1Beta1 from './stateset/stateset-blockchain/stateset.invoice.v1beta1';
+import StatesetStatesetBlockchainStatesetPurchaseorderV1Beta1 from './stateset/stateset-blockchain/stateset.purchaseorder.v1beta1';
+import StatesetStatesetBlockchainStatesetWasmV1Beta1 from './stateset/stateset-blockchain/stateset.wasm.v1beta1';
 export default {
     CosmosCosmosSdkCosmosAuthzV1Beta1: load(CosmosCosmosSdkCosmosAuthzV1Beta1, 'cosmos.authz.v1beta1'),
     CosmosCosmosSdkCosmosBankV1Beta1: load(CosmosCosmosSdkCosmosBankV1Beta1, 'cosmos.bank.v1beta1'),
@@ -22,6 +28,12 @@ export default {
     CosmosCosmosSdkCosmosStakingV1Beta1: load(CosmosCosmosSdkCosmosStakingV1Beta1, 'cosmos.staking.v1beta1'),
     CosmosCosmosSdkCosmosVestingV1Beta1: load(CosmosCosmosSdkCosmosVestingV1Beta1, 'cosmos.vesting.v1beta1'),
     CosmosIbcGoIbcApplicationsTransferV1: load(CosmosIbcGoIbcApplicationsTransferV1, 'ibc.applications.transfer.v1'),
+    StatesetStatesetBlockchainDid: load(StatesetStatesetBlockchainDid, 'did'),
+    StatesetStatesetBlockchainStatesetAgreementV1Beta1: load(StatesetStatesetBlockchainStatesetAgreementV1Beta1, 'stateset.agreement.v1beta1'),
+    StatesetStatesetBlockchainStatesetInoviceV1Beta1: load(StatesetStatesetBlockchainStatesetInoviceV1Beta1, 'stateset.inovice.v1beta1'),
+    StatesetStatesetBlockchainStatesetInvoiceV1Beta1: load(StatesetStatesetBlockchainStatesetInvoiceV1Beta1, 'stateset.invoice.v1beta1'),
+    StatesetStatesetBlockchainStatesetPurchaseorderV1Beta1: load(StatesetStatesetBlockchainStatesetPurchaseorderV1Beta1, 'stateset.purchaseorder.v1beta1'),
+    StatesetStatesetBlockchainStatesetWasmV1Beta1: load(StatesetStatesetBlockchainStatesetWasmV1Beta1, 'stateset.wasm.v1beta1'),
 };
 function load(mod, fullns) {
     return function init(store) {

@@ -4,7 +4,7 @@ package did;
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/any.proto";
-import "did/did.proto";
+import "stateset/did/v1beta1/did.proto";
 
 option go_package = "github.com/stateset/stateset-blockchain/x/did/types";
 
@@ -27,7 +27,7 @@ service Query {
 
   // AddressFromDid retrieves the cosmos address associated to an stateset DID.
   rpc AddressFromDid(QueryAddressFromDidRequest) returns (QueryAddressFromDidResponse) {
-    option (google.api.http).get = "/stateset/didToAddr/{did=**}";
+    option (google.api.http).get = "/stateset/didToAddr/{did}";
   }
 
   // AddressFromBase58EncodedPubkey retrieves the cosmos address associated to an stateset DID's pubkey.
