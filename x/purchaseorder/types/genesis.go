@@ -3,7 +3,7 @@ package types
 import (
 	"fmt"
 
-	host "github.com/cosmos/cosmos-sdk/x/ibc/core/24-host"
+	host "github.com/stateset/stateset-blockchain/x/ibc/core"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 )
 

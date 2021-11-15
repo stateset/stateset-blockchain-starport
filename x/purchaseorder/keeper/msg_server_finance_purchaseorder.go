@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/stateset/stateset-blockchain/x/loan/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )

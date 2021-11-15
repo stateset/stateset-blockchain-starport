@@ -4,17 +4,17 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgStoreCode } from "./types/stateset/wasm/v1beta1/tx";
-import { MsgInstantiateContract } from "./types/stateset/wasm/v1beta1/tx";
 import { MsgExecuteContract } from "./types/stateset/wasm/v1beta1/tx";
 import { MsgMigrateContract } from "./types/stateset/wasm/v1beta1/tx";
+import { MsgStoreCode } from "./types/stateset/wasm/v1beta1/tx";
+import { MsgInstantiateContract } from "./types/stateset/wasm/v1beta1/tx";
 
 
 const types = [
-  ["/stateset.wasm.v1beta1.MsgStoreCode", MsgStoreCode],
-  ["/stateset.wasm.v1beta1.MsgInstantiateContract", MsgInstantiateContract],
   ["/stateset.wasm.v1beta1.MsgExecuteContract", MsgExecuteContract],
   ["/stateset.wasm.v1beta1.MsgMigrateContract", MsgMigrateContract],
+  ["/stateset.wasm.v1beta1.MsgStoreCode", MsgStoreCode],
+  ["/stateset.wasm.v1beta1.MsgInstantiateContract", MsgInstantiateContract],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -43,10 +43,10 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgStoreCode: (data: MsgStoreCode): EncodeObject => ({ typeUrl: "/stateset.wasm.v1beta1.MsgStoreCode", value: data }),
-    msgInstantiateContract: (data: MsgInstantiateContract): EncodeObject => ({ typeUrl: "/stateset.wasm.v1beta1.MsgInstantiateContract", value: data }),
     msgExecuteContract: (data: MsgExecuteContract): EncodeObject => ({ typeUrl: "/stateset.wasm.v1beta1.MsgExecuteContract", value: data }),
     msgMigrateContract: (data: MsgMigrateContract): EncodeObject => ({ typeUrl: "/stateset.wasm.v1beta1.MsgMigrateContract", value: data }),
+    msgStoreCode: (data: MsgStoreCode): EncodeObject => ({ typeUrl: "/stateset.wasm.v1beta1.MsgStoreCode", value: data }),
+    msgInstantiateContract: (data: MsgInstantiateContract): EncodeObject => ({ typeUrl: "/stateset.wasm.v1beta1.MsgInstantiateContract", value: data }),
     
   };
 };

@@ -6,9 +6,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
-	channeltypes "github.com/cosmos/cosmos-sdk/x/ibc/core/04-channel/types"
-	porttypes "github.com/cosmos/cosmos-sdk/x/ibc/core/05-port/types"
-	host "github.com/cosmos/cosmos-sdk/x/ibc/core/24-host"
+	channeltypes "github.com/stateset/stateset-blockchain/x/ibc/core/types"
+	porttypes "github.com/stateset/stateset-blockchain/x/ibc/core/types"
+	host "github.com/stateset/stateset-blockchain/x/ibc/core"
 	"github.com/stateset/stateset-blockchain/x/agreement/types"
 )
 
