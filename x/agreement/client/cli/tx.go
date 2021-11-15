@@ -18,7 +18,6 @@ import (
 
 	tmtime "github.com/tendermint/tendermint/types/time"
 
-	"github.com/stateset/stateset-blockchain/types"
 )
 
 // TxCmd returns the transaction commands for this module

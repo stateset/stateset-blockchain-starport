@@ -142,6 +142,7 @@ var (
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
+		wasm.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -154,6 +155,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
+		wasm.ModuleName: {authtypes.Burner},
 	}
 )
 
@@ -210,6 +212,8 @@ type App struct {
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
+	wasmKeeper       wasm.Keeper
+	scopedWasmKeeper capabilitykeeper.ScopedKeeper
 
 	// the module manager
 	mm *module.Manager
@@ -379,6 +383,7 @@ func New(
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
+		wasm.NewAppModule(appCodec, &app.wasmKeeper, app.StakingKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that

@@ -15,7 +15,7 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	porttypes "github.com/stateset/stateset-blockchain/x/ibc/core/types"
+	porttypes "github.com/cosmos/ibc-go/modules/core/types"
 	"github.com/stateset/stateset-blockchain/x/agreement/client/cli"
 	"github.com/stateset/stateset-blockchain/x/agreement/keeper"
 	"github.com/stateset/stateset-blockchain/x/agreement/types"

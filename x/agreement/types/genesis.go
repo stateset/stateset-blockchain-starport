@@ -3,7 +3,7 @@ package types
 import (
 	"fmt"
 
-	host "github.com/stateset/stateset-blockchain/x/ibc/core"
+	host "github.com/cosmos/ibc-go/modules/core"
 )
 
 // DefaultIndex is the default capability global index

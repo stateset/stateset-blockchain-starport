@@ -3,8 +3,8 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
-	channeltypes "github.com/stateset/stateset-blockchain/x/ibc/core/types"
-	ibcexported "github.com/cosmos/cosmos-sdk/x/ibc/core/exported"
+	channeltypes "github.com/cosmos/ibc-go/modules/core/types"
+	ibcexported "github.com/cosmos/ibc-go/modules/core/exported"
 )
 
 // ChannelKeeper defines the expected IBC channel keeper
