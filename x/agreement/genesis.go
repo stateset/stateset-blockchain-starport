@@ -3,7 +3,6 @@ package agreement
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stateset/stateset-blockchain/x/agreement/keeper"
-	"github.com/stateset/stateset-blockchain/x/agreement/types"
 )
 
 // DefaultGenesis returns the default Capability genesis state

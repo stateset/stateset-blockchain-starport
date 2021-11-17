@@ -82,7 +82,7 @@ message MsgCreatePurchaseOrderRequest {
 
   string purchaseorder_number = 3;
 
-  string purchaseorder_hash = 4;
+  string purchaseorder_name = 4;
 
   string purchaseorder_status = 5;
 

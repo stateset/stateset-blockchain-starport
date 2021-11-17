@@ -1,42 +1,11 @@
-package invoice
+package types
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 
-	app "github.com/stateset/stateset-blockchain/app"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
-
-// Defines module constants
-const (
-	RouterKey         = ModuleName
-	QuerierRoute      = ModuleName
-	StoreKey          = ModuleName
-	DefaultParamspace = ModuleName
-)
-
-// Invoice stores data about an invoice
-type Invoice struct {
-	invoiceID         uint64         `json:"invoiceId"`
-	invoiceNumber     string         `json:"invoiceNumber`
-	invoiceName		  string		 `json:"invoiceName"`
-	billingReason     string		 `json:"billingReason"`
-	amountDue	 	  sdk.Coin	     `json:"amountDue"`
-	amountPaid		  sdk.Coin		 `json:"amountPaid"`
-	amountRemaining   sdk.Coin       `json:"amountRemaining"`
-	subtotal	      sdk.Coin		 `json:"subtotal"`
-	total			  sdk.Coin 	     `json:"total"`
-	party			  sdk.AccAddress `json:"party"`
-	counterparty      sdk.AccAddress `json:"counterparty"`
-	dueDate			  time.Time 	 `json:"dueDate"`
-	periodStartDate   time.Time	     `json:"periodStartDate"`
-	periodEndDate	  time.Time 	 `json:"periodEndDate"`
-	paid			  bool			 `json:"paid"`
-	active 	          bool           `json:"active"`
-	CreatedTime       time.Time      `json:"created_time"`
-}
 
 // Invoices is an array of invoices
 type Invoices []Invoice

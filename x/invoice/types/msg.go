@@ -1,9 +1,11 @@
-package invoice
+package types
 
 import (
 	"fmt"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 const (
@@ -28,6 +30,7 @@ const (
 // verify interface at compile time
 var _ sdk.Msg = &MsgCreateInvoice{}
 var _ sdk.Msg = &MsgCancelInvoice{}
+var _ sdk.Msg = &MsgUpdateInvoice{}
 var _ sdk.Msg = &MsgEditInvoice{}
 var _ sdk.Msg = &MsgFactorInvoice{}
 var _ sdk.Msg = &MsgPayInvoice{}
@@ -57,7 +60,7 @@ type MsgCreateInvoice struct {
 }
 
 // NewMsgCreateInvoice creates a new message to create a invoice
-func NewMsgCreateInvoice(statesetID, invoiceId string, invoiceNumber string, billingReason string, amountDue sdk.Coin, amountpaid sdk.Coin, amountRemaining sdk.Coin, subtotal Int, total Int, dueDate Date, periodStartDate Date, periodEndDate Date, merchant sdk.AccAddress, source string) MsgCreateInvoice {
+func NewMsgCreateInvoice(statesetID, invoiceId string, invoiceNumber string, billingReason string, amountDue sdk.Coin, amountpaid sdk.Coin, amountRemaining sdk.Coin, subtotal sdk.Coin, total  sdk.Coin, dueDate time.Time, periodStartDate time.Time, periodEndDate time.Time, merchant sdk.AccAddress, source string) MsgCreateInvoice {
 	return MsgCreateInvoice{
 		StatesetID: statesetID,
 		Invoice: invoiceID,
@@ -91,7 +94,7 @@ func (msg MsgCreateInvoice) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgCreateInvoice) ValidateBasic() sdk.Error {
+func (msg MsgCreateInvoice) ValidateBasic() sdkerrors.Error {
 	if len(msg.Body) == 0 {
 		return ErrInvalidBodyTooShort(msg.Body)
 	}
@@ -116,8 +119,15 @@ func (msg MsgCreateInvoice) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{sdk.AccAddress(msg.Creator)}
 }
 
+// MsgEditInvoice defines a message to submit a invoice
+type MsgUpdateInvoice struct {
+	ID     uint64         `json:"id"`
+	Editor sdk.AccAddress `json:"editor"`
+}
+
 // UpdateInvoice
 var _ sdk.Msg = &MsgUpdateInvoice{}
+
 
 func NewMsgUpdateInvoice(creator string, id string, number string, name string, status string, amountDue string, amountPaid string, amontRemaining string, dueDate string) *MsgUpdateInvoice {
   return &MsgUpdateInvoice{
@@ -217,7 +227,7 @@ func (msg MsgCancelInvoice) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgCancelInvoice) ValidateBasic() sdk.Error {
+func (msg MsgCancelInvoice) ValidateBasic() sdkerrors.Error {
 	if msg.ID == 0 {
 		return ErrUnknownInvoice(msg.ID)
 	}
@@ -256,7 +266,7 @@ func (msg MsgDeleteInvoice) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgDeleteInvoice) ValidateBasic() sdk.Error {
+func (msg MsgDeleteInvoice) ValidateBasic() sdkerrors.Error {
 	if msg.ID == 0 {
 		return ErrUnknownInvoice(msg.ID)
 	}
@@ -305,7 +315,7 @@ func (msg MsgEditInvoice) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgEditInvoice) ValidateBasic() sdk.Error {
+func (msg MsgEditInvoice) ValidateBasic() sdkerrors.Error {
 	if msg.ID == 0 {
 		return ErrUnknownInvoice(msg.ID)
 	}
@@ -344,7 +354,7 @@ func NewMsgFactorInvoice(id uint64, body string, factor sdk.AccAddress) MsgFacto
 }
 
 // Route is the name of the route for invoice
-func (msg MsgfactorInvoice) Route() string {
+func (msg MsgFactorInvoice) Route() string {
 	return RouterKey
 }
 
@@ -354,7 +364,7 @@ func (msg MsgFactorInvoice) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgFactorInvoice) ValidateBasic() sdk.Error {
+func (msg MsgFactorInvoice) ValidateBasic() sdkerrors.Error {
 	if msg.ID == 0 {
 		return ErrUnknownInvoice(msg.ID)
 	}
@@ -391,7 +401,7 @@ func NewMsgAddAdmin(admin, creator sdk.AccAddress) MsgAddAdmin {
 }
 
 // ValidateBasic implements Msg
-func (msg MsgAddAdmin) ValidateBasic() sdk.Error {
+func (msg MsgAddAdmin) ValidateBasic() sdkerrors.Error {
 	if len(msg.Admin) == 0 {
 		return sdk.ErrInvalidAddress(fmt.Sprintf("Invalid address: %s", msg.Admin.String()))
 	}
@@ -435,7 +445,7 @@ func NewMsgRemoveAdmin(admin, remover sdk.AccAddress) MsgRemoveAdmin {
 }
 
 // ValidateBasic implements Msg
-func (msg MsgRemoveAdmin) ValidateBasic() sdk.Error {
+func (msg MsgRemoveAdmin) ValidateBasic() sdkerrors.Error {
 	if len(msg.Admin) == 0 {
 		return sdk.ErrInvalidAddress(fmt.Sprintf("Invalid address: %s", msg.Admin.String()))
 	}
@@ -462,42 +472,4 @@ func (msg MsgRemoveAdmin) GetSignBytes() []byte {
 // GetSigners implements Msg. Returns the remover as the signer.
 func (msg MsgRemoveAdmin) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{sdk.AccAddress(msg.Remover)}
-}
-
-// MsgUpdateParams defines the message to remove an admin
-type MsgUpdateParams struct {
-	Updates       Params         `json:"updates"`
-	UpdatedFields []string       `json:"updated_fields"`
-	Updater       sdk.AccAddress `json:"updater"`
-}
-
-// NewMsgUpdateParams returns the message to update the params
-func NewMsgUpdateParams(updates Params, updatedFields []string, updater sdk.AccAddress) MsgUpdateParams {
-	return MsgUpdateParams{
-		Updates:       updates,
-		UpdatedFields: updatedFields,
-		Updater:       updater,
-	}
-}
-
-// ValidateBasic implements Msg
-func (msg MsgUpdateParams) ValidateBasic() sdk.Error {
-	return nil
-}
-
-// Route implements Msg
-func (msg MsgUpdateParams) Route() string { return RouterKey }
-
-// Type implements Msg
-func (msg MsgUpdateParams) Type() string { return TypeMsgUpdateParams }
-
-// GetSignBytes implements Msg
-func (msg MsgUpdateParams) GetSignBytes() []byte {
-	msgBytes := ModuleCodec.MustMarshalJSON(msg)
-	return sdk.MustSortJSON(msgBytes)
-}
-
-// GetSigners implements Msg. Returns the remover as the signer.
-func (msg MsgUpdateParams) GetSigners() []sdk.AccAddress {
-	return []sdk.AccAddress{sdk.AccAddress(msg.Updater)}
 }

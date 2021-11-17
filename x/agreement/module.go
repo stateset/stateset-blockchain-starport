@@ -18,7 +18,6 @@ import (
 	porttypes "github.com/cosmos/ibc-go/modules/core/types"
 	"github.com/stateset/stateset-blockchain/x/agreement/client/cli"
 	"github.com/stateset/stateset-blockchain/x/agreement/keeper"
-	"github.com/stateset/stateset-blockchain/x/agreement/types"
 )
 
 var (

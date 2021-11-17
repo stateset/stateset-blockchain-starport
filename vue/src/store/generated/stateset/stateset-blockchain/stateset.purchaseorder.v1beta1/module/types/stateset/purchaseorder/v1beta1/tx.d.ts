@@ -38,7 +38,7 @@ export interface MsgCreatePurchaseOrderRequest {
     creator: string;
     purchaseorderId: string;
     purchaseorderNumber: string;
-    purchaseorderHash: string;
+    purchaseorderName: string;
     purchaseorderStatus: string;
     description: string;
     purchaseDate: string;

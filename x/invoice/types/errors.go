@@ -8,9 +8,9 @@ import (
 
 // x/invoice module sentinel errors
 var (
-	ErrInvoiceNotFound      = sdkerrors.Register(ModuleName, 1, "invoice not found")
-	ErrInvoiceAlreadyExist  = sdkerrors.Register(ModuleName, 2, "invoice already exist")
-	ErrInvoiceLocked        = sdkerrors.Register(ModuleName, 3, "invoice is locked")
-	ErrInvalidPacketTimeout = sdkerrors.Register(ModuleName, 4, "invalid packet timeout")
-	ErrInvalidVersion       = sdkerrors.Register(ModuleName, 5, "invalid version")
+	ErrInvoiceNotFound      = sdkerrors.Register("invoice", 1, "invoice not found")
+	ErrInvoiceAlreadyExist  = sdkerrors.Register("invoice", 2, "invoice already exist")
+	ErrInvoiceLocked        = sdkerrors.Register("invoice", 3, "invoice is locked")
+	ErrInvalidPacketTimeout = sdkerrors.Register("invoice", 4, "invalid packet timeout")
+	ErrInvalidVersion       = sdkerrors.Register("invoice", 5, "invalid version")
 )

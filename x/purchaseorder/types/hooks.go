@@ -3,7 +3,7 @@ package types
 import sdk "github.com/cosmos/cosmos-sdk/types"
 
 type PurchaseOrderHooks interface {
-	AfterPurchaseOrderCreated(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64)
+	AfterPurchaseOrderCreated(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins)
 	AfterFinancePurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins)
 	AfterCompletePurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins)
 	AfterCancelPurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins)
@@ -20,13 +20,13 @@ func NewPurchaseOrderHooks(hooks ...PurchaseOrderHooks) MultiPurchaseOrderHooks 
 	return hooks
 }
 
-func (h MultiPurchaseOrderHooks) AfterPurchaseOrderCreated(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64) {
+func (h MultiPurchaseOrderHooks) AfterPurchaseOrderCreated(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins) {
 	for i := range h {
 		h[i].AfterPurchaseOrderCreated(ctx, sender, purchaseOrderId)
 	}
 }
 
-func (h MultiPurchaseOrderHooks) AfterFinancePurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64) {
+func (h MultiPurchaseOrderHooks) AfterFinancePurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins) {
 	for i := range h {
 		h[i].AfterFinancePurchaseOrder(ctx, sender, purchaseOrderId, amount)
 	}
@@ -34,12 +34,18 @@ func (h MultiPurchaseOrderHooks) AfterFinancePurchaseOrder(ctx sdk.Context, send
 
 func (h MultiPurchaseOrderHooks) AfterCompletePurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterCompletePurchaseOrder(ctx, sender, poolId, amount)
+		h[i].AfterCompletePurchaseOrder(ctx, sender, purchaseOrderId, amount)
 	}
 }
 
-func (h MultiPurchaseOrderHooks) AfterLockPurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64) {
+func (h MultiPurchaseOrderHooks) AfterCancelPurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterLockPurchaseOrder(ctx, sender, poolId, input, output)
+		h[i].AfterCancelPurchaseOrder(ctx, sender, agreementId, amount)
+	}
+}
+
+func (h MultiPurchaseOrderHooks) AfterLockPurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins) {
+	for i := range h {
+		h[i].AfterLockPurchaseOrder(ctx, sender, purchaseOrderId, amount)
 	}
 }

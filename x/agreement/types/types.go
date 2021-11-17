@@ -2,9 +2,11 @@ package types
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"gopkg.in/yaml.v2"
 )
 
 type ID uint64
@@ -32,6 +34,23 @@ func (a AgreementID) Uint64() uint64 {
 }
 func (a AgreementID) Empty() bool {
 	return a == 0
+}
+
+// Agreement stores data about an agreement
+type Agreement struct {
+	agreementID         uint64         `json:"agreementId"`
+	agreementNumber     string         `json:"agreementNumber`
+	agreementName       string         `json:"agreementName"`
+	agreementType       string         `json:"agreementType`
+	agreementStatus     string         `json:"agreementStatus"`
+	totalAgreementValue sdk.Coin       `json:"totalAgreementValue"`
+	party               sdk.AccAddress `json:"party"`
+	counterparty        sdk.AccAddress `json:"counterparty"`
+	agreementStartBlock time.Time      `json:"AgreementStartBlock"`
+	agreementEndBlock   time.Time      `json:"AgreementEndBlock`
+	paid                bool           `json:"paid"`
+	active              bool           `json:"active"`
+	createdTime         time.Time      `json:"created_time"`
 }
 
 // ID method returns AgreementID details of specific agreement
@@ -71,45 +90,27 @@ func (a Agreement) ValidateInactive() error {
 	}
 }
 
-
 // Total method returns total agreement value of specific agreement
 func (a Agreement) Total() sdk.Coin {
 	return a.Spec.Total()
 }
 
-// Agreement stores data about an agreement
-type Agreement struct {
-	agreementID            uint64         `json:"agreementId"`
-	agreementNumber        string         `json:"agreementNumber`
-	agreementName		   string		  `json:"agreementName"`
-	agreementType          string         `json:"agreementType`
-	agreementStatus 	   string 		  `json:"agreementStatus"`
-	totalAgreementValue    sdk.Coin       `json:"totalAgreementValue"`
-	party                  sdk.AccAddress `json:"party"`
-	counterparty           sdk.AccAddress `json:"counterparty"`
-	AgreementStartBlock	   time.Time 	  `json:"AgreementStartBlock"`
-	AgreementEndBlock       time.Time      `json:"AgreementEndBlock`
-	paid			  	   bool		      `json:"paid"`
-	active 	          	   bool           `json:"active"`
-	CreatedTime       	   time.Time      `json:"created_time"`
-}
-
 // NewAgreement creates a new agreement object
-func NewAgreement(agreementId uint64, agreementNumber string, agreementName string, description string, loanAmount sdk.Coin, amountPaid sdk.Coin, amountRemaining sdk.Coin, subtotal sdk.Coin, total sdk.Coin, party sdk.AccAddress, counterparty sdk.AccAddress, dueDate time.Time, periodStartDate time.Time, periodEndDate time.Time, paid bool, active bool, createdTime time.Time) Loan {
+func NewAgreement(agreementId uint64, agreementNumber string, agreementName string, agreementType string, agreementStatus string, totalAgreementValue sdk.Coin, party sdk.AccAddress, counterparty sdk.AccAddress, agreementStartBlock time.Time, agreementEndBlock time.Time, paid bool, active bool, createdTime time.Time) Agreement {
 	return Agreement{
-		AgreementID:       	 agreementID,
+		AgreementID:         agreementID,
 		AgreementNumber:     agreementNumber,
-		AgreementName:     	 agreementName,
-		AgreementType: 		 agreementType,
-		AgreementStatus: 	 agreementStatus,
+		AgreementName:       agreementName,
+		AgreementType:       agreementType,
+		AgreementStatus:     agreementStatus,
 		TotalAgreementValue: totalAgreementValue,
-		Party:		     	 party,
-		Counterparty:	 	 counterparty,
-		AgreementStartBlock:  AgreementStartBlock,
-		AgreementEndBlock:  	 AgreementEndBlock,
-		Paid:			  	 paid,
-		Active: 		 	 active,
-		CreatedTime:     	 createdTime,
+		Party:               party,
+		Counterparty:        counterparty,
+		AgreementStartBlock: agreementStartBlock,
+		AgreementEndBlock:   agreementEndBlock,
+		Paid:                paid,
+		Active:              active,
+		CreatedTime:         createdTime,
 	}
 }
 

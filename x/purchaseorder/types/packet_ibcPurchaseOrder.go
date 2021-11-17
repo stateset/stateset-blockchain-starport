@@ -10,9 +10,9 @@ func (p IbcPurchaseOrderPacketData) ValidateBasic() error {
 
 // GetBytes is a helper for serialising
 func (p IbcPurchaseOrderPacketData) GetBytes() ([]byte, error) {
-	var modulePacket PurchaseorderPacketData
+	var modulePacket PurchaseOrderPacketData
 
-	modulePacket.Packet = &PurchaseorderPacketData_IbcPurchaseOrderPacket{&p}
+	modulePacket.Packet = &PurchaseOrderPacketData_IbcPurchaseOrderPacket{&p}
 
 	return modulePacket.Marshal()
 }

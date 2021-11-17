@@ -49,7 +49,7 @@ func NewCmdAddDidDoc() *cobra.Command {
 				return err
 			}
 
-			return statesettypes.GenerateOrBroadcastTxCLI(cliCtx, cmd.Flags(), statesetDid, msg)
+			return nil
 		},
 	}
 
@@ -87,7 +87,7 @@ func NewCmdAddCredential() *cobra.Command {
 				return err
 			}
 
-			return statesettypes.GenerateOrBroadcastTxCLI(cliCtx, cmd.Flags(), statesetDid, msg)
+			return nil
 		},
 	}
 

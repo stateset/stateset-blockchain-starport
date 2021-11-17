@@ -9,7 +9,6 @@ import (
 	channeltypes "github.com/cosmos/ibc-go/modules/core/types"
 	porttypes "github.com/cosmos/ibc-go/modules/core/types"
 	host "github.com/cosmos/ibc-go/modules/core"
-	"github.com/stateset/stateset-blockchain/x/agreement/types"
 )
 
 // OnChanOpenInit implements the IBCModule interface

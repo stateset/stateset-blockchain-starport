@@ -1,7 +1,6 @@
 package types
 
 import (
-	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -46,11 +45,11 @@ type MsgCreateAgreement struct {
 	AgreementNumber     string `json:"agreementNumber"`
 	AgreementType       string `json:"agreementType"`
 	AgreementStatus     string `json:"agreementStatus"`
-	AgreementNumber     string `json:"agreementNumber"`
+	TotalAgreementValue string `json:"totalAgreementValue"`
 	Party               string `json:"party"`
 	Counterparty        string `json:"counterparty"`
-	AgreementStartBlock string `json:"AgreementStartBlock"`
-	AgreementEndBlock   string `json:"AgreementEndBlock"`
+	AgreementStartBlock string `json:"agreementStartBlock"`
+	AgreementEndBlock   string `json:"agreementEndBlock"`
 }
 
 // NewMsgCreateAgreement creates a new message to create an agreement
@@ -76,7 +75,7 @@ func (msg MsgCreateAgreement) Route() string { return RouterKey }
 func (msg MsgCreateAgreement) Type() string { return TypeMsgCreateAgreement }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgCreateAgreement) ValidateBasic() sdk.Error {
+func (msg MsgCreateAgreement) ValidateBasic() sdkerrors.Error {
 	if len(msg.TotalAgreementValue) == 0 {
 		return ErrInvalidAgreementTooSmall(msg.TotalAgreementValue)
 	}
@@ -92,6 +91,14 @@ func (msg MsgCreateAgreement) GetSignBytes() []byte {
 	msgBytes := ModuleCodec.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(msgBytes)
 }
+
+type MsgUpdateAgreement struct {
+	ID           uint64         `json:"id"`
+}
+
+func (msg *MsgUpdateAgreement) Route() string { return RouterKey }
+
+func (msg *MsgUpdateAgreement) Type() string { return "UpdateAgreement" }
 
 // Update Agreement
 func NewMsgUpdateAgreement(creator string, agreementId string, agreementNumber string, agreementName string, agreementType string, agreementStatus string, totalAgreementValue string, party string, counterparty string, AgreementStartBlock string, AgreementEndBlock string) *MsgUpdateAgreement {
@@ -109,9 +116,6 @@ func NewMsgUpdateAgreement(creator string, agreementId string, agreementNumber s
 	}
 }
 
-func (msg *MsgUpdateAgreement) Route() string { return RouterKey }
-
-func (msg *MsgUpdateAgreement) Type() string { return "UpdateAgreement" }
 
 func (msg *MsgUpdateAgreement) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
@@ -191,7 +195,7 @@ func (msg MsgAmendAgreement) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgAmendAgreement) ValidateBasic() sdk.Error {
+func (msg MsgAmendAgreement) ValidateBasic() sdkerrors.Error {
 	if msg.ID == 0 {
 		return ErrUnknownAgreement(msg.ID)
 	}
@@ -233,7 +237,7 @@ func (msg MsgActivateAgreement) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgActivateAgreement) ValidateBasic() sdk.Error {
+func (msg MsgActivateAgreement) ValidateBasic() sdkerrors.Error {
 	if msg.AgreementID == 0 {
 		return ErrUnknownAgreement(msg.AgreementID)
 	}
@@ -279,7 +283,7 @@ func (msg MsgRenewAgreement) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgRenewAgreement) ValidateBasic() sdk.Error {
+func (msg MsgRenewAgreement) ValidateBasic() sdkerrors.Error {
 	if msg.AgreementID == 0 {
 		return ErrUnknownAgreement(msg.AgreementID)
 	}
@@ -325,7 +329,7 @@ func (msg MsgTerminateAgreement) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgTerminateAgreement) ValidateBasic() sdk.Error {
+func (msg MsgTerminateAgreement) ValidateBasic() sdkerrors.Error {
 	if msg.AgreementID == 0 {
 		return ErrUnknownAgreement(msg.AgreementID)
 	}
@@ -371,7 +375,7 @@ func (msg MsgExpireAgreement) Type() string {
 }
 
 // ValidateBasic validates basic fields of the Msg
-func (msg MsgExpireAgreement) ValidateBasic() sdk.Error {
+func (msg MsgExpireAgreement) ValidateBasic() sdkerrors.Error {
 	if msg.AgreementID == 0 {
 		return ErrUnknownAgreement(msg.AgreementID)
 	}
@@ -397,6 +401,7 @@ func (msg MsgExpireAgreement) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{sdk.AccAddress(msg.Party)}
 }
 
+type MsgSendIbcAgreement struct {}
 
 func NewMsgSendIbcAgreement(
 	sender string,

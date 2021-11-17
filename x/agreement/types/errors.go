@@ -8,8 +8,8 @@ import (
 
 // x/agreement module sentinel errors
 var (
-	ErrSample               = sdkerrors.Register(ModuleName, 1100, "sample error")
-	ErrInvalidPacketTimeout = sdkerrors.Register(ModuleName, 1500, "invalid packet timeout")
-	ErrInvalidVersion       = sdkerrors.Register(ModuleName, 1501, "invalid version")
-	ErrWrongAgreementState = sdkerrors.Register(ModuleName, 6, "invalide agreement state")
+	ErrSample               = sdkerrors.Register("agreement", 1100, "sample error")
+	ErrInvalidPacketTimeout = sdkerrors.Register("agreement", 1500, "invalid packet timeout")
+	ErrInvalidVersion       = sdkerrors.Register("agreement", 1501, "invalid version")
+	ErrWrongAgreementState = sdkerrors.Register("agreement", 6, "invalid agreement state")
 )

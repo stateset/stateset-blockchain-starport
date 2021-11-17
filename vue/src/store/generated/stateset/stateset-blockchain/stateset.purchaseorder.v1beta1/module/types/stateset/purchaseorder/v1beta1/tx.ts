@@ -88,7 +88,7 @@ export interface MsgCreatePurchaseOrderRequest {
   creator: string;
   purchaseorderId: string;
   purchaseorderNumber: string;
-  purchaseorderHash: string;
+  purchaseorderName: string;
   purchaseorderStatus: string;
   description: string;
   purchaseDate: string;
@@ -542,7 +542,7 @@ const baseMsgCreatePurchaseOrderRequest: object = {
   creator: "",
   purchaseorderId: "",
   purchaseorderNumber: "",
-  purchaseorderHash: "",
+  purchaseorderName: "",
   purchaseorderStatus: "",
   description: "",
   purchaseDate: "",
@@ -569,8 +569,8 @@ export const MsgCreatePurchaseOrderRequest = {
     if (message.purchaseorderNumber !== "") {
       writer.uint32(26).string(message.purchaseorderNumber);
     }
-    if (message.purchaseorderHash !== "") {
-      writer.uint32(34).string(message.purchaseorderHash);
+    if (message.purchaseorderName !== "") {
+      writer.uint32(34).string(message.purchaseorderName);
     }
     if (message.purchaseorderStatus !== "") {
       writer.uint32(42).string(message.purchaseorderStatus);
@@ -627,7 +627,7 @@ export const MsgCreatePurchaseOrderRequest = {
           message.purchaseorderNumber = reader.string();
           break;
         case 4:
-          message.purchaseorderHash = reader.string();
+          message.purchaseorderName = reader.string();
           break;
         case 5:
           message.purchaseorderStatus = reader.string();
@@ -693,12 +693,12 @@ export const MsgCreatePurchaseOrderRequest = {
       message.purchaseorderNumber = "";
     }
     if (
-      object.purchaseorderHash !== undefined &&
-      object.purchaseorderHash !== null
+      object.purchaseorderName !== undefined &&
+      object.purchaseorderName !== null
     ) {
-      message.purchaseorderHash = String(object.purchaseorderHash);
+      message.purchaseorderName = String(object.purchaseorderName);
     } else {
-      message.purchaseorderHash = "";
+      message.purchaseorderName = "";
     }
     if (
       object.purchaseorderStatus !== undefined &&
@@ -763,8 +763,8 @@ export const MsgCreatePurchaseOrderRequest = {
       (obj.purchaseorderId = message.purchaseorderId);
     message.purchaseorderNumber !== undefined &&
       (obj.purchaseorderNumber = message.purchaseorderNumber);
-    message.purchaseorderHash !== undefined &&
-      (obj.purchaseorderHash = message.purchaseorderHash);
+    message.purchaseorderName !== undefined &&
+      (obj.purchaseorderName = message.purchaseorderName);
     message.purchaseorderStatus !== undefined &&
       (obj.purchaseorderStatus = message.purchaseorderStatus);
     message.description !== undefined &&
@@ -810,12 +810,12 @@ export const MsgCreatePurchaseOrderRequest = {
       message.purchaseorderNumber = "";
     }
     if (
-      object.purchaseorderHash !== undefined &&
-      object.purchaseorderHash !== null
+      object.purchaseorderName !== undefined &&
+      object.purchaseorderName !== null
     ) {
-      message.purchaseorderHash = object.purchaseorderHash;
+      message.purchaseorderName = object.purchaseorderName;
     } else {
-      message.purchaseorderHash = "";
+      message.purchaseorderName = "";
     }
     if (
       object.purchaseorderStatus !== undefined &&

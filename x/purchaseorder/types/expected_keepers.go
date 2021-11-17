@@ -1,14 +1,13 @@
 package types
 
 import (
-	time "time"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	bankexported "github.com/cosmos/cosmos-sdk/x/bank/exported"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	didexported "github.com/stateset/stateset-blockchain/x/did/exported"
+	didtypes "github.com/stateset/stateset-blockchain/x/did/types"
 )
-
 
 type AccountKeeper interface {
 	NewAccount(sdk.Context, authtypes.AccountI) authtypes.AccountI
@@ -49,7 +48,6 @@ type BankKeeper interface {
 
 	SetDenomMetaData(ctx sdk.Context, denomMetaData banktypes.Metadata)
 
-	GetAllBalances(ctx sdk.Context, addr sdk.AccAddress) sdk.Coins
 	GetBalance(ctx sdk.Context, addr sdk.AccAddress, denom string) sdk.Coin
 	SetBalances(ctx sdk.Context, addr sdk.AccAddress, balances sdk.Coins) error
 	LockedCoins(ctx sdk.Context, addr sdk.AccAddress) sdk.Coins
@@ -59,10 +57,9 @@ type BankKeeper interface {
 	DelegateCoinsFromAccountToModule(ctx sdk.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error
 }
 
-
 // DidKeeper defines the expected interface needed to add dids.
 type DidKeeper interface {
-	AddDidDoc(ctx sdk.Context, did exported.DidDoc)
-	GetDid(ctx sdk.Context, did exported.Did)
-	AddCredentials(ctx sdk.Context, did exported.Did, credential types.DidCredential) error
+	AddDidDoc(ctx sdk.Context, did didexported.DidDoc)
+	GetDid(ctx sdk.Context, did didexported.Did)
+	AddCredentials(ctx sdk.Context, did exported.Did, credential didtypes.DidCredential) error
 }

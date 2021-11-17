@@ -13,11 +13,6 @@ const (
 	TypeMsgAddCredential = "add-credential"
 )
 
-var (
-	_ statesettypes.StatesetMsg = &MsgAddDid{}
-	_ statesettypes.StatesetMsg = &MsgAddCredential{}
-)
-
 func NewMsgAddDid(did string, publicKey string) *MsgAddDid {
 	return &MsgAddDid{
 		Did:    did,

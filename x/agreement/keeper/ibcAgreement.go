@@ -4,7 +4,6 @@ import (
 	"net/url"
 	"time"
 
-	app "github.com/stateset/stateset-blockchain/app"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/store/gaskv"
 	sdk "github.com/cosmos/cosmos-sdk/types"

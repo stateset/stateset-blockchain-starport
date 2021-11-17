@@ -26,7 +26,7 @@ func (h MultiInvoiceHooks) AfterInvoiceCreated(ctx sdk.Context, sender sdk.AccAd
 	}
 }
 
-func (h MultiInvoiceHooks) AfterFactorInvoice(ctx sdk.Context, sender sdk.AccAddress, invoiceId uint64) {
+func (h MultiInvoiceHooks) AfterFactorInvoice(ctx sdk.Context, sender sdk.AccAddress, invoiceId uint64, amount sdk.Coins) {
 	for i := range h {
 		h[i].AfterFactorInvoice(ctx, sender, invoiceId, amount)
 	}
