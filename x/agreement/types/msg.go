@@ -34,10 +34,19 @@ func (msg *MsgCreateAgreementRequest) Type() string {
 	return "CreateAgreement"
 }
 
-// GetSignBytes gets the bytes for Msg signer to sign on
-func (msg *MsgCreateAgreementRequest) GetSignBytes() []byte {
-	bz := ModuleCdc.MustMarshalJSON(msg)
-	return sdk.MustSortJSON(bz)
+func (msg *MsgCreateAgreementRequest) GetSigners() []sdk.AccAddress {
+	creator, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{creator}
+}
+
+func (msg *MsgCreateAgreementRequest) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
 }
 
 var _ sdk.Msg = &MsgUpdateAgreementRequest{}
@@ -47,9 +56,9 @@ func (msg *MsgUpdateAgreementRequest) Route() string { return RouterKey }
 func (msg *MsgUpdateAgreementRequest) Type() string { return "UpdateAgreement" }
 
 // Update Agreement
-func NewMsgUpdateAgreement(creator string, agreementId string, agreementNumber string, agreementName string, agreementType string, agreementStatus string, totalAgreementValue int32, party string, counterparty string, AgreementStartBlock string, AgreementEndBlock string) *MsgUpdateAgreementRequest {
+func NewMsgUpdateAgreement(sender string, agreementId string, agreementNumber string, agreementName string, agreementType string, agreementStatus string, totalAgreementValue int32, party string, counterparty string, AgreementStartBlock string, AgreementEndBlock string) *MsgUpdateAgreementRequest {
 	return &MsgUpdateAgreementRequest{
-		Creator:             creator,
+		Sender:              sender,
 		AgreementId:         agreementId,
 		AgreementNumber:     agreementNumber,
 		AgreementName:       agreementName,
@@ -62,7 +71,7 @@ func NewMsgUpdateAgreement(creator string, agreementId string, agreementNumber s
 }
 
 func (msg *MsgUpdateAgreementRequest) GetSigners() []sdk.AccAddress {
-	creator, err := sdk.AccAddressFromBech32(msg.Creator)
+	creator, err := sdk.AccAddressFromBech32(msg.Sender)
 	if err != nil {
 		panic(err)
 	}
@@ -75,7 +84,7 @@ func (msg *MsgUpdateAgreementRequest) GetSignBytes() []byte {
 }
 
 func (msg *MsgUpdateAgreementRequest) ValidateBasic() error {
-	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
@@ -125,15 +134,25 @@ func (msg *MsgAmendAgreementRequest) Type() string {
 	return "AmendAgreement"
 }
 
+func (msg *MsgAmendAgreementRequest) GetSigners() []sdk.AccAddress {
+	creator, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{creator}
+}
+
+func (msg *MsgAmendAgreementRequest) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+}
+
 // GetSignBytes gets the bytes for Msg signer to sign on
 func (msg *MsgAmendAgreementRequest) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
-}
-
-// GetSigners gets the signs of the Msg
-func (msg *MsgAmendAgreementRequest) GetSigners() []sdk.AccAddress {
-	return []sdk.AccAddress{sdk.AccAddress(msg.Party)}
 }
 
 var _ sdk.Msg = &MsgActivateAgreementRequest{}
@@ -159,6 +178,13 @@ func (msg *MsgActivateAgreementRequest) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{sdk.AccAddress(msg.Sender)}
 }
 
+func (msg *MsgActivateAgreementRequest) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+}
+
 var _ sdk.Msg = &MsgRenewAgreementRequest{}
 
 // Route is the name of the route for an agreement
@@ -182,6 +208,13 @@ func (msg *MsgRenewAgreementRequest) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{sdk.AccAddress(msg.Sender)}
 }
 
+func (msg *MsgRenewAgreementRequest) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+}
+
 // Terminate Agreement
 var _ sdk.Msg = &MsgTerminateAgreementRequest{}
 
@@ -195,15 +228,25 @@ func (msg *MsgTerminateAgreementRequest) Type() string {
 	return "TerminateAgreement"
 }
 
+func (msg *MsgTerminateAgreementRequest) GetSigners() []sdk.AccAddress {
+	creator, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{creator}
+}
+
+func (msg *MsgTerminateAgreementRequest) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+}
+
 // GetSignBytes gets the bytes for Msg signer to sign on
 func (msg *MsgTerminateAgreementRequest) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
-}
-
-// GetSigners gets the signs of the Msg
-func (msg *MsgTerminateAgreementRequest) GetSigners() []sdk.AccAddress {
-	return []sdk.AccAddress{sdk.AccAddress(msg.Sender)}
 }
 
 // Expire Agreement
@@ -228,4 +271,11 @@ func (msg *MsgExpireAgreementRequest) GetSignBytes() []byte {
 // GetSigners gets the signs of the Msg
 func (msg *MsgExpireAgreementRequest) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{sdk.AccAddress(msg.Sender)}
+}
+
+func (msg *MsgExpireAgreementRequest) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
 }

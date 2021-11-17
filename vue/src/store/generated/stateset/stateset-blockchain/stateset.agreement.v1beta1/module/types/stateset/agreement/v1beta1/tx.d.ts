@@ -33,9 +33,7 @@ export interface AgreementFilters {
 }
 /** MsgCreateAgreementRequest is the Msg/CreateAgreement request type. */
 export interface MsgCreateAgreementRequest {
-    /** creator is the address of the account that created the agreement class. */
     creator: string;
-    /** agreement_id is the address of the agreement */
     agreementId: string;
     agreementNumber: string;
     agreementName: string;
@@ -54,7 +52,7 @@ export interface MsgCreateAgreementResponse {
 }
 /** MsgCreateAgreementRequest is the Msg/CreateAgreement request type. */
 export interface MsgUpdateAgreementRequest {
-    creator: string;
+    sender: string;
     agreementId: string;
     agreementNumber: string;
     agreementName: string;
@@ -81,7 +79,7 @@ export interface MsgDeleteAgreementResponse {
 }
 /** MsgActivateAgreementRequest is the Msg/ActivateAgreement request type. */
 export interface MsgActivateAgreementRequest {
-    activator: string;
+    sneder: string;
     agreementId: string;
     activationDate: string;
 }

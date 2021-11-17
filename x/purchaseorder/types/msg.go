@@ -29,7 +29,7 @@ func (msg *MsgCreatePurchaseOrderRequest) Route() string {
 }
 
 func (msg *MsgCreatePurchaseOrderRequest) Type() string {
-	return "CreatePurchaseorder"
+	return "CreatePurchaseOrder"
 }
 
 func (msg *MsgCreatePurchaseOrderRequest) GetSigners() []sdk.AccAddress {

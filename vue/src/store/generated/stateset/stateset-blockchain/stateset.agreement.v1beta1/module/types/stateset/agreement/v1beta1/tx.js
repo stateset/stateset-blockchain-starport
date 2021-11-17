@@ -735,7 +735,7 @@ export const MsgCreateAgreementResponse = {
     },
 };
 const baseMsgUpdateAgreementRequest = {
-    creator: "",
+    sender: "",
     agreementId: "",
     agreementNumber: "",
     agreementName: "",
@@ -747,8 +747,8 @@ const baseMsgUpdateAgreementRequest = {
 };
 export const MsgUpdateAgreementRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.creator !== "") {
-            writer.uint32(10).string(message.creator);
+        if (message.sender !== "") {
+            writer.uint32(10).string(message.sender);
         }
         if (message.agreementId !== "") {
             writer.uint32(18).string(message.agreementId);
@@ -792,7 +792,7 @@ export const MsgUpdateAgreementRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.creator = reader.string();
+                    message.sender = reader.string();
                     break;
                 case 2:
                     message.agreementId = reader.string();
@@ -835,11 +835,11 @@ export const MsgUpdateAgreementRequest = {
         const message = {
             ...baseMsgUpdateAgreementRequest,
         };
-        if (object.creator !== undefined && object.creator !== null) {
-            message.creator = String(object.creator);
+        if (object.sender !== undefined && object.sender !== null) {
+            message.sender = String(object.sender);
         }
         else {
-            message.creator = "";
+            message.sender = "";
         }
         if (object.agreementId !== undefined && object.agreementId !== null) {
             message.agreementId = String(object.agreementId);
@@ -908,7 +908,7 @@ export const MsgUpdateAgreementRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
+        message.sender !== undefined && (obj.sender = message.sender);
         message.agreementId !== undefined &&
             (obj.agreementId = message.agreementId);
         message.agreementNumber !== undefined &&
@@ -938,11 +938,11 @@ export const MsgUpdateAgreementRequest = {
         const message = {
             ...baseMsgUpdateAgreementRequest,
         };
-        if (object.creator !== undefined && object.creator !== null) {
-            message.creator = object.creator;
+        if (object.sender !== undefined && object.sender !== null) {
+            message.sender = object.sender;
         }
         else {
-            message.creator = "";
+            message.sender = "";
         }
         if (object.agreementId !== undefined && object.agreementId !== null) {
             message.agreementId = object.agreementId;
@@ -1184,14 +1184,14 @@ export const MsgDeleteAgreementResponse = {
     },
 };
 const baseMsgActivateAgreementRequest = {
-    activator: "",
+    sneder: "",
     agreementId: "",
     activationDate: "",
 };
 export const MsgActivateAgreementRequest = {
     encode(message, writer = Writer.create()) {
-        if (message.activator !== "") {
-            writer.uint32(10).string(message.activator);
+        if (message.sneder !== "") {
+            writer.uint32(10).string(message.sneder);
         }
         if (message.agreementId !== "") {
             writer.uint32(18).string(message.agreementId);
@@ -1211,7 +1211,7 @@ export const MsgActivateAgreementRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.activator = reader.string();
+                    message.sneder = reader.string();
                     break;
                 case 2:
                     message.agreementId = reader.string();
@@ -1230,11 +1230,11 @@ export const MsgActivateAgreementRequest = {
         const message = {
             ...baseMsgActivateAgreementRequest,
         };
-        if (object.activator !== undefined && object.activator !== null) {
-            message.activator = String(object.activator);
+        if (object.sneder !== undefined && object.sneder !== null) {
+            message.sneder = String(object.sneder);
         }
         else {
-            message.activator = "";
+            message.sneder = "";
         }
         if (object.agreementId !== undefined && object.agreementId !== null) {
             message.agreementId = String(object.agreementId);
@@ -1252,7 +1252,7 @@ export const MsgActivateAgreementRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.activator !== undefined && (obj.activator = message.activator);
+        message.sneder !== undefined && (obj.sneder = message.sneder);
         message.agreementId !== undefined &&
             (obj.agreementId = message.agreementId);
         message.activationDate !== undefined &&
@@ -1263,11 +1263,11 @@ export const MsgActivateAgreementRequest = {
         const message = {
             ...baseMsgActivateAgreementRequest,
         };
-        if (object.activator !== undefined && object.activator !== null) {
-            message.activator = object.activator;
+        if (object.sneder !== undefined && object.sneder !== null) {
+            message.sneder = object.sneder;
         }
         else {
-            message.activator = "";
+            message.sneder = "";
         }
         if (object.agreementId !== undefined && object.agreementId !== null) {
             message.agreementId = object.agreementId;
