@@ -1,8 +1,6 @@
 package types
 
 import (
-	time "time"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -10,7 +8,7 @@ import (
 var _ sdk.Msg = &MsgCreateAgreementRequest{}
 
 // NewMsgCreateAgreement creates a new message to create an agreement
-func NewMsgCreateAgreement(agreementNumber string, agreementName string, agreementType string, agreementStatus string, totalAgreementValue int32, party string, counterparty string, startDate time.Time, endDate time.Time) *MsgCreateAgreementRequest {
+func NewMsgCreateAgreement(agreementNumber string, agreementName string, agreementType string, agreementStatus string, totalAgreementValue int32, party string, counterparty string, startDate string, endDate string) *MsgCreateAgreementRequest {
 	return &MsgCreateAgreementRequest{
 		AgreementNumber:     agreementNumber,
 		AgreementName:       agreementName,
@@ -47,6 +45,7 @@ func (msg *MsgCreateAgreementRequest) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+	return nil
 }
 
 var _ sdk.Msg = &MsgUpdateAgreementRequest{}
@@ -147,6 +146,7 @@ func (msg *MsgAmendAgreementRequest) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+	return nil
 }
 
 // GetSignBytes gets the bytes for Msg signer to sign on
@@ -183,6 +183,7 @@ func (msg *MsgActivateAgreementRequest) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+	return nil
 }
 
 var _ sdk.Msg = &MsgRenewAgreementRequest{}
@@ -213,6 +214,7 @@ func (msg *MsgRenewAgreementRequest) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+	return nil
 }
 
 // Terminate Agreement
@@ -241,6 +243,7 @@ func (msg *MsgTerminateAgreementRequest) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+	return nil
 }
 
 // GetSignBytes gets the bytes for Msg signer to sign on
@@ -278,4 +281,5 @@ func (msg *MsgExpireAgreementRequest) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+	return nil
 }

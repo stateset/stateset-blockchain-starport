@@ -42,8 +42,8 @@ export interface MsgCreateAgreementRequest {
     totalAgreementValue: number;
     party: string;
     counterparty: string;
-    startDate: Date | undefined;
-    endDate: Date | undefined;
+    startDate: string;
+    endDate: string;
 }
 /** MsgCreateAgreementResponse is the Msg/CreateAgreement response type. */
 export interface MsgCreateAgreementResponse {
@@ -79,7 +79,7 @@ export interface MsgDeleteAgreementResponse {
 }
 /** MsgActivateAgreementRequest is the Msg/ActivateAgreement request type. */
 export interface MsgActivateAgreementRequest {
-    sneder: string;
+    sender: string;
     agreementId: string;
     activationDate: string;
 }

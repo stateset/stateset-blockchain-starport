@@ -4,20 +4,16 @@ import (
 	"bufio"
 	"encoding/hex"
 	"fmt"
-	"strconv"
-	"strings"
 
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
+	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/cosmos/cosmos-sdk/x/auth"
-
-	tmtime "github.com/tendermint/tendermint/types/time"
-
 )
 
 // TxCmd returns the transaction commands for this module
@@ -37,7 +33,7 @@ func TxCmd(cdc *codec.LegacyAmino) *cobra.Command {
 		CmdAmendAgreement(cdc),
 		CmdRenewAgreement(cdc),
 		CmdTerminateAgreement(cdc),
-		CmdExpireAgreement(cdc)
+		CmdExpireAgreement(cdc),
 	)...)
 
 	return agreementTxCmd
@@ -48,7 +44,7 @@ func CmdCreateAgreement() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-agreement [agreementNumber] [agreementName] [agreementType] [agreementStatus] [totalAgreementValue] [party] [counterparty] [AgreementStartBlock] [AgreementEndBlock]",
 		Short: "Creates a new agreement",
-		Args: cobra.ExactArgs(9),
+		Args:  cobra.ExactArgs(9),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			argsAgreementNumber := string(args[0])
 			argsAgreementName := string(args[1])
@@ -59,61 +55,61 @@ func CmdCreateAgreement() *cobra.Command {
 			argsCounterparty := string(args[6])
 			argsAgreementStartBlock := string(args[7])
 			argsAgreementEndBlock := string(args[8])
-			
-				  clientCtx, err := client.GetClientTxContext(cmd)
-				  if err != nil {
-					  return err
-				  }
-	  
-				  msg := types.NewMsgCreateAgreement(clientCtx.GetFromAddress().String(), string(argsAgreementNumber), string(argsAgreementName), string(argsAgreementType), string(argsAgreementStatus), string(argsTotalAgreementValue), string(argsParty), string(argsCounterparty), string(argsAgreementStartBlock), string(argsAgreementEndBlock))
-				  if err := msg.ValidateBasic(); err != nil {
-					  return err
-				  }
-				  return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
-			  },
-		  }
-	  
-		  flags.AddTxFlagsToCmd(cmd)
-	  
-		  return cmd
-	  }
 
-	  func CmdUpdateAgreement() *cobra.Command {
-		cmd := &cobra.Command{
-			Use:   "update-agreement [id] [agreementNumber] [agreementName] [agreementType] [agreementStatus] [totalAgreementValue] [party] [counterparty] [AgreementStartBlock] [AgreementEndBlock]",
-			Short: "Update a agreement",
-			Args:  cobra.ExactArgs(10),
-			RunE: func(cmd *cobra.Command, args []string) error {
-				id := args[0]
-		  argsAgreementNumber := string(args[1])
-		  argsAgreementName := string(args[2])
-		  argsAgreementType := string(args[3])
-		  argsAgreementStatus := string(args[4])
-		  argsTotalAgreementValue := string(args[5])
-		  argsParty := string(args[6])
-		  argsCounterparty := string(args[7])
-		  argsAgreementStartBlock := string(args[8])
-		  argsAgreementEndBlock := string(args[9])
-		  
-				clientCtx, err := client.GetClientTxContext(cmd)
-				if err != nil {
-					return err
-				}
-	
-				msg := types.NewMsgUpdateAgreement(clientCtx.GetFromAddress().String(), id, string(argsAgreementNumber), string(argsAgreementName), string(argsAgreementType), string(argsAgreementStatus), string(argsTotalAgreementValue), string(argsParty), string(argsCounterparty), string(argsAgreementStartBlock), string(argsAgreementEndBlock))
-				if err := msg.ValidateBasic(); err != nil {
-					return err
-				}
-				return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
-			},
-		}
-	
-		flags.AddTxFlagsToCmd(cmd)
-	
-		return cmd
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgCreateAgreement(clientCtx.GetFromAddress().String(), string(argsAgreementNumber), string(argsAgreementName), string(argsAgreementType), string(argsAgreementStatus), string(argsTotalAgreementValue), string(argsParty), string(argsCounterparty), string(argsAgreementStartBlock), string(argsAgreementEndBlock))
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
 	}
 
-// GetCmdActivateAgreement cli command for activating an agreement 
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func CmdUpdateAgreement() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "update-agreement [id] [agreementNumber] [agreementName] [agreementType] [agreementStatus] [totalAgreementValue] [party] [counterparty] [AgreementStartBlock] [AgreementEndBlock]",
+		Short: "Update a agreement",
+		Args:  cobra.ExactArgs(10),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			id := args[0]
+			argsAgreementNumber := string(args[1])
+			argsAgreementName := string(args[2])
+			argsAgreementType := string(args[3])
+			argsAgreementStatus := string(args[4])
+			argsTotalAgreementValue := string(args[5])
+			argsParty := string(args[6])
+			argsCounterparty := string(args[7])
+			argsAgreementStartBlock := string(args[8])
+			argsAgreementEndBlock := string(args[9])
+
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgUpdateAgreement(clientCtx.GetFromAddress().String(), id, string(argsAgreementNumber), string(argsAgreementName), string(argsAgreementType), string(argsAgreementStatus), string(argsTotalAgreementValue), string(argsParty), string(argsCounterparty), string(argsAgreementStartBlock), string(argsAgreementEndBlock))
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+// GetCmdActivateAgreement cli command for activating an agreement
 func GetCmdActivateAgreement(cdc *codec.LegacyAmino) *cobra.Command {
 	return &cobra.Command{
 		Use:     "activate [agreement-id]",
@@ -144,7 +140,7 @@ func GetCmdActivateAgreement(cdc *codec.LegacyAmino) *cobra.Command {
 	}
 }
 
-// GetCmdAmendAgreement cli command for activating an agreement 
+// GetCmdAmendAgreement cli command for activating an agreement
 func GetCmdAmendAgreement(cdc *codec.LegacyAmino) *cobra.Command {
 	return &cobra.Command{
 		Use:     "amend [agreement-id]",
@@ -175,7 +171,7 @@ func GetCmdAmendAgreement(cdc *codec.LegacyAmino) *cobra.Command {
 	}
 }
 
-// GetCmdRenewAgreement cli command for activating an agreement 
+// GetCmdRenewAgreement cli command for activating an agreement
 func GetCmdRenewAgreement(cdc *codec.LegacyAmino) *cobra.Command {
 	return &cobra.Command{
 		Use:     "renew [agreement-id]",
@@ -206,7 +202,7 @@ func GetCmdRenewAgreement(cdc *codec.LegacyAmino) *cobra.Command {
 	}
 }
 
-// GetCmdTeriminateAgreement cli command for activating an agreement 
+// GetCmdTeriminateAgreement cli command for activating an agreement
 func GetCmdTerminateAgreement(cdc *codec.LegacyAmino) *cobra.Command {
 	return &cobra.Command{
 		Use:     "terminate [agreement-id]",
@@ -237,7 +233,7 @@ func GetCmdTerminateAgreement(cdc *codec.LegacyAmino) *cobra.Command {
 	}
 }
 
-// GetCmdExpireAgreement cli command for activating an agreement 
+// GetCmdExpireAgreement cli command for activating an agreement
 func GetCmdExpireAgreement(cdc *codec.LegacyAmino) *cobra.Command {
 	return &cobra.Command{
 		Use:     "expire [agreement-id]",

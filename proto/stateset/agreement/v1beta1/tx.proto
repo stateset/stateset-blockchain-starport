@@ -101,11 +101,9 @@ message MsgCreateAgreementRequest {
 
   string counterparty = 9; 
 
-  google.protobuf.Timestamp start_date = 10
-  [(gogoproto.stdtime) = true, (gogoproto.moretags) = "yaml:\"start_date\""];
+  string start_date = 10;
 
-  google.protobuf.Timestamp end_date = 11
-  [(gogoproto.stdtime) = true, (gogoproto.moretags) = "yaml:\"end_date\""];
+  string end_date = 11;
 
 }
 
@@ -165,7 +163,7 @@ message MsgDeleteAgreementResponse { }
 // MsgActivateAgreementRequest is the Msg/ActivateAgreement request type.
 message MsgActivateAgreementRequest {
 
-  string sneder = 1;
+  string sender = 1;
 
   string agreement_id = 2 [ (gogoproto.moretags) = "yaml:\"agreement_id\"" ];
 
