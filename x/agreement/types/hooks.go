@@ -25,7 +25,7 @@ func NewAgreementGammHooks(hooks ...AgreementHooks) MultiAgreementHooks {
 
 func (h MultiAgreementHooks) AfterAgreementCreated(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterAgreementCreated(ctx, sender, agreementId)
+		h[i].AfterAgreementCreated(ctx, sender, agreementId, amount)
 	}
 }
 
@@ -49,24 +49,24 @@ func (h MultiAgreementHooks) AfterCancelAgreement(ctx sdk.Context, sender sdk.Ac
 
 func (h MultiAgreementHooks) AfterLockAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterLockAgreement(ctx, sender, poolId, input, output)
+		h[i].AfterLockAgreement(ctx, sender, agreementId, amount)
 	}
 }
 
 func (h MultiAgreementHooks) AfterRenewAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterRenewAgreement(ctx, sender, poolId, input, output)
+		h[i].AfterRenewAgreement(ctx, sender, agreementId, amount)
 	}
 }
 
 func (h MultiAgreementHooks) AfterAmendAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterAmendAgreement(ctx, sender, poolId, input, output)
+		h[i].AfterAmendAgreement(ctx, sender, agreementId, amount)
 	}
 }
 
 func (h MultiAgreementHooks) AfterExpireAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterExpireAgreement(ctx, sender, poolId, input, output)
+		h[i].AfterExpireAgreement(ctx, sender, agreementId, amount)
 	}
 }

@@ -1,6 +1,10 @@
 package keeper
 
 import (
+	"context"
+	"strconv"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stateset/stateset-blockchain/x/agreement/types"
 )
 
@@ -24,7 +28,7 @@ func (server msgServer) CreateAgreement(goCtx context.Context, msg *types.MsgCre
 		return nil, err
 	}
 
-	poolId, err := server.keeper.CreateAgreement(ctx, sender, msg.AgreementParams, msg.AgremenetAssets)
+	agreementId, err := server.keeper.CreateAgreement(ctx, sender, msg.AgreementParams)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +38,7 @@ func (server msgServer) CreateAgreement(goCtx context.Context, msg *types.MsgCre
 
 	// Verify the Value of the Agreement from existing system
 	k.zkpKeeper.VerifyProof(ctx, agreement)
-	
+
 	// Add a DID to represent the Agreement in the Cosmosverse DID:STATESET:AGREEMENT:123
 	k.didKeeper.AddDID(ctx, agreementhash)
 

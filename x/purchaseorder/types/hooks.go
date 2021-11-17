@@ -22,7 +22,7 @@ func NewPurchaseOrderHooks(hooks ...PurchaseOrderHooks) MultiPurchaseOrderHooks 
 
 func (h MultiPurchaseOrderHooks) AfterPurchaseOrderCreated(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterPurchaseOrderCreated(ctx, sender, purchaseOrderId)
+		h[i].AfterPurchaseOrderCreated(ctx, sender, purchaseOrderId, amount)
 	}
 }
 

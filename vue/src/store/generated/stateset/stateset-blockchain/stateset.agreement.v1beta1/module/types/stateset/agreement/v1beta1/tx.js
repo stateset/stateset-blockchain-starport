@@ -1,7 +1,6 @@
 /* eslint-disable */
-import { Reader, util, configure, Writer } from "protobufjs/minimal";
+import { Reader, Writer } from "protobufjs/minimal";
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import * as Long from "long";
 export const protobufPackage = "stateset.agreement.v1beta1";
 /** State is an enum which refers to state of an agreement */
 export var State;
@@ -1069,77 +1068,6 @@ export const MsgUpdateAgreementResponse = {
         return message;
     },
 };
-const baseMsgDeleteAgreement = { creator: "", agreementId: 0 };
-export const MsgDeleteAgreement = {
-    encode(message, writer = Writer.create()) {
-        if (message.creator !== "") {
-            writer.uint32(10).string(message.creator);
-        }
-        if (message.agreementId !== 0) {
-            writer.uint32(16).uint64(message.agreementId);
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof Uint8Array ? new Reader(input) : input;
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = { ...baseMsgDeleteAgreement };
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.creator = reader.string();
-                    break;
-                case 2:
-                    message.agreementId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        const message = { ...baseMsgDeleteAgreement };
-        if (object.creator !== undefined && object.creator !== null) {
-            message.creator = String(object.creator);
-        }
-        else {
-            message.creator = "";
-        }
-        if (object.agreementId !== undefined && object.agreementId !== null) {
-            message.agreementId = Number(object.agreementId);
-        }
-        else {
-            message.agreementId = 0;
-        }
-        return message;
-    },
-    toJSON(message) {
-        const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.agreementId !== undefined &&
-            (obj.agreementId = message.agreementId);
-        return obj;
-    },
-    fromPartial(object) {
-        const message = { ...baseMsgDeleteAgreement };
-        if (object.creator !== undefined && object.creator !== null) {
-            message.creator = object.creator;
-        }
-        else {
-            message.creator = "";
-        }
-        if (object.agreementId !== undefined && object.agreementId !== null) {
-            message.agreementId = object.agreementId;
-        }
-        else {
-            message.agreementId = 0;
-        }
-        return message;
-    },
-};
 const baseMsgDeleteAgreementRequest = { sender: "", agreementId: "" };
 export const MsgDeleteAgreementRequest = {
     encode(message, writer = Writer.create()) {
@@ -1902,17 +1830,6 @@ export class MsgClientImpl {
         return promise.then((data) => MsgExpireAgreementResponse.decode(new Reader(data)));
     }
 }
-var globalThis = (() => {
-    if (typeof globalThis !== "undefined")
-        return globalThis;
-    if (typeof self !== "undefined")
-        return self;
-    if (typeof window !== "undefined")
-        return window;
-    if (typeof global !== "undefined")
-        return global;
-    throw "Unable to locate global object";
-})();
 function toTimestamp(date) {
     const seconds = date.getTime() / 1000;
     const nanos = (date.getTime() % 1000) * 1000000;
@@ -1933,14 +1850,4 @@ function fromJsonTimestamp(o) {
     else {
         return fromTimestamp(Timestamp.fromJSON(o));
     }
-}
-function longToNumber(long) {
-    if (long.gt(Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-    }
-    return long.toNumber();
-}
-if (util.Long !== Long) {
-    util.Long = Long;
-    configure();
 }

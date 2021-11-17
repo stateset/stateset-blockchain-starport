@@ -2,9 +2,11 @@
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgDeleteAgreement } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgUpdateAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgDeleteAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
 const types = [
-    ["/stateset.agreement.v1beta1.MsgDeleteAgreement", MsgDeleteAgreement],
+    ["/stateset.agreement.v1beta1.MsgUpdateAgreementRequest", MsgUpdateAgreementRequest],
+    ["/stateset.agreement.v1beta1.MsgDeleteAgreementRequest", MsgDeleteAgreementRequest],
 ];
 export const MissingWalletError = new Error("wallet is required");
 const registry = new Registry(types);
@@ -19,7 +21,8 @@ const txClient = async (wallet, { addr: addr } = { addr: "http://localhost:26657
     const { address } = (await wallet.getAccounts())[0];
     return {
         signAndBroadcast: (msgs, { fee, memo } = { fee: defaultFee, memo: "" }) => client.signAndBroadcast(address, msgs, fee, memo),
-        msgDeleteAgreement: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgDeleteAgreement", value: data }),
+        msgUpdateAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgUpdateAgreementRequest", value: data }),
+        msgDeleteAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgDeleteAgreementRequest", value: data }),
     };
 };
 const queryClient = async ({ addr: addr } = { addr: "http://localhost:1317" }) => {

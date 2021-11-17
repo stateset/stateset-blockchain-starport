@@ -54,7 +54,6 @@ export interface MsgCreateAgreementResponse {
 }
 /** MsgCreateAgreementRequest is the Msg/CreateAgreement request type. */
 export interface MsgUpdateAgreementRequest {
-    /** creator is the address of the account that created the agreement class. */
     creator: string;
     agreementId: string;
     agreementNumber: string;
@@ -71,10 +70,6 @@ export interface MsgUpdateAgreementRequest {
 export interface MsgUpdateAgreementResponse {
     /** agreement_id is the unique ID of the newly created agreement class. */
     agreementId: string;
-}
-export interface MsgDeleteAgreement {
-    creator: string;
-    agreementId: number;
 }
 /** MsgDeleteAgreementRequest is the Msg/DeleteAgreement request type. */
 export interface MsgDeleteAgreementRequest {
@@ -170,13 +165,6 @@ export declare const MsgUpdateAgreementResponse: {
     fromJSON(object: any): MsgUpdateAgreementResponse;
     toJSON(message: MsgUpdateAgreementResponse): unknown;
     fromPartial(object: DeepPartial<MsgUpdateAgreementResponse>): MsgUpdateAgreementResponse;
-};
-export declare const MsgDeleteAgreement: {
-    encode(message: MsgDeleteAgreement, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): MsgDeleteAgreement;
-    fromJSON(object: any): MsgDeleteAgreement;
-    toJSON(message: MsgDeleteAgreement): unknown;
-    fromPartial(object: DeepPartial<MsgDeleteAgreement>): MsgDeleteAgreement;
 };
 export declare const MsgDeleteAgreementRequest: {
     encode(message: MsgDeleteAgreementRequest, writer?: Writer): Writer;

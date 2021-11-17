@@ -123,7 +123,6 @@ message MsgCreateAgreementResponse {
 // MsgCreateAgreementRequest is the Msg/CreateAgreement request type.
 message MsgUpdateAgreementRequest {
 
-    // creator is the address of the account that created the agreement class.
   string creator = 1;
 
   string agreement_id = 2 [ (gogoproto.moretags) = "yaml:\"agreement_id\"" ];
@@ -154,11 +153,6 @@ message MsgUpdateAgreementResponse {
 
     // agreement_id is the unique ID of the newly created agreement class.
     string agreement_id = 1;
-}
-
-message MsgDeleteAgreement {
-  string creator = 1;
-  uint64 agreement_id = 2;
 }
 
 // MsgDeleteAgreementRequest is the Msg/DeleteAgreement request type.

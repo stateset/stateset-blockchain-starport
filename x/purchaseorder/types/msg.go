@@ -107,6 +107,7 @@ func NewMsgDeletePurchaseOrder(creator string, id uint64) *MsgDeletePurchaseOrde
 		Creator: creator,
 	}
 }
+
 func (msg *MsgDeletePurchaseOrderRequest) Route() string {
 	return RouterKey
 }

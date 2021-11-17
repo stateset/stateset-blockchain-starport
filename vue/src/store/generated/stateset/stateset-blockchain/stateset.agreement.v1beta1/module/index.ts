@@ -4,11 +4,13 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgDeleteAgreement } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgUpdateAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgDeleteAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
 
 
 const types = [
-  ["/stateset.agreement.v1beta1.MsgDeleteAgreement", MsgDeleteAgreement],
+  ["/stateset.agreement.v1beta1.MsgUpdateAgreementRequest", MsgUpdateAgreementRequest],
+  ["/stateset.agreement.v1beta1.MsgDeleteAgreementRequest", MsgDeleteAgreementRequest],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -37,7 +39,8 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgDeleteAgreement: (data: MsgDeleteAgreement): EncodeObject => ({ typeUrl: "/stateset.agreement.v1beta1.MsgDeleteAgreement", value: data }),
+    msgUpdateAgreementRequest: (data: MsgUpdateAgreementRequest): EncodeObject => ({ typeUrl: "/stateset.agreement.v1beta1.MsgUpdateAgreementRequest", value: data }),
+    msgDeleteAgreementRequest: (data: MsgDeleteAgreementRequest): EncodeObject => ({ typeUrl: "/stateset.agreement.v1beta1.MsgDeleteAgreementRequest", value: data }),
     
   };
 };
