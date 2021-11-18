@@ -1,36 +1,34 @@
 package types
 
 import (
-	"time"
+	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// Keys for invoice store
-// Items are stored with the following key: values
-//
-// - 0x00<invoiceID_Bytes>: Invoice_Bytes
-// - 0x01: nextInvoiceID_Bytes
-//
-// - 0x11<merchant_Bytes><invoiceID_Bytes>: invoiceID_Bytes
-// - 0x12<createdTime_Bytes><invoiceID_Bytes>: invoiceID_Bytes
-var (
-	InvoicesKeyPrefix = []byte{0x00}
-	InvoiceIDKey      = []byte{0x01}
-	CreatedTimeInvoicesPrefix = []byte{0x12}
+const (
+	ModuleName = "invoice"
+
+	StoreKey = ModuleName
+
+	RouterKey = ModuleName
+
+	QuerierRoute = ModuleName
 )
 
-// key for getting a specific invoice from the store
-func key(invoiceID uint64) []byte {
-	bz := sdk.Uint64ToBigEndian(invoiceID)
-	return append(InvoicesKeyPrefix, bz...)
+var (
+	// KeyNextGlobalPurchaseOrderNumber defines key to store the next Purchase Order ID to be used
+	KeyNextGlobalInvoiceNumber = []byte{0x01}
+	// KeyPrefixPurchasOrders defines prefix to store purchaseorders
+	KeyPrefixInvoices = []byte{0x02}
+	// KeyTotalLiquidity defines key to store total liquidity
+	KeyTotalLiquidity = []byte{0x03}
+)
+
+func GetInvoiceShareDenom(invoiceId uint64) string {
+	return fmt.Sprintf("invoice/%d", invoiceId)
 }
 
-func createdTimeInvoicesKey(createdTime time.Time) []byte {
-	return append(CreatedTimeInvoicesPrefix, sdk.FormatTimeBytes(createdTime)...)
-}
-
-func createdTimeInvoiceKey(createdTime time.Time, invoiceID uint64) []byte {
-	bz := sdk.Uint64ToBigEndian(invoiceID)
-	return append(createdTimeInvoicesKey(createdTime), bz...)
+func GetKeyPrefixInvoices(invoiceId uint64) []byte {
+	return append(KeyPrefixInvoices, sdk.Uint64ToBigEndian(invoiceId)...)
 }
