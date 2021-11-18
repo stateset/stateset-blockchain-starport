@@ -4,13 +4,13 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgAddCredential } from "./types/stateset/did/v1beta1/tx";
 import { MsgAddDid } from "./types/stateset/did/v1beta1/tx";
+import { MsgAddCredential } from "./types/stateset/did/v1beta1/tx";
 
 
 const types = [
-  ["/did.MsgAddCredential", MsgAddCredential],
   ["/did.MsgAddDid", MsgAddDid],
+  ["/did.MsgAddCredential", MsgAddCredential],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -39,8 +39,8 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgAddCredential: (data: MsgAddCredential): EncodeObject => ({ typeUrl: "/did.MsgAddCredential", value: data }),
     msgAddDid: (data: MsgAddDid): EncodeObject => ({ typeUrl: "/did.MsgAddDid", value: data }),
+    msgAddCredential: (data: MsgAddCredential): EncodeObject => ({ typeUrl: "/did.MsgAddCredential", value: data }),
     
   };
 };

@@ -153,7 +153,7 @@ export interface MsgCompleteInvoiceResponse {}
 
 export interface MsgFactorInvoiceRequest {
   /** sender is the address of the sender of the transaction. */
-  creator: string;
+  sender: string;
   invoiceId: string;
 }
 
@@ -1731,15 +1731,15 @@ export const MsgCompleteInvoiceResponse = {
   },
 };
 
-const baseMsgFactorInvoiceRequest: object = { creator: "", invoiceId: "" };
+const baseMsgFactorInvoiceRequest: object = { sender: "", invoiceId: "" };
 
 export const MsgFactorInvoiceRequest = {
   encode(
     message: MsgFactorInvoiceRequest,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.creator !== "") {
-      writer.uint32(10).string(message.creator);
+    if (message.sender !== "") {
+      writer.uint32(10).string(message.sender);
     }
     if (message.invoiceId !== "") {
       writer.uint32(18).string(message.invoiceId);
@@ -1757,7 +1757,7 @@ export const MsgFactorInvoiceRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.creator = reader.string();
+          message.sender = reader.string();
           break;
         case 2:
           message.invoiceId = reader.string();
@@ -1774,10 +1774,10 @@ export const MsgFactorInvoiceRequest = {
     const message = {
       ...baseMsgFactorInvoiceRequest,
     } as MsgFactorInvoiceRequest;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender);
     } else {
-      message.creator = "";
+      message.sender = "";
     }
     if (object.invoiceId !== undefined && object.invoiceId !== null) {
       message.invoiceId = String(object.invoiceId);
@@ -1789,7 +1789,7 @@ export const MsgFactorInvoiceRequest = {
 
   toJSON(message: MsgFactorInvoiceRequest): unknown {
     const obj: any = {};
-    message.creator !== undefined && (obj.creator = message.creator);
+    message.sender !== undefined && (obj.sender = message.sender);
     message.invoiceId !== undefined && (obj.invoiceId = message.invoiceId);
     return obj;
   },
@@ -1800,10 +1800,10 @@ export const MsgFactorInvoiceRequest = {
     const message = {
       ...baseMsgFactorInvoiceRequest,
     } as MsgFactorInvoiceRequest;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = object.sender;
     } else {
-      message.creator = "";
+      message.sender = "";
     }
     if (object.invoiceId !== undefined && object.invoiceId !== null) {
       message.invoiceId = object.invoiceId;

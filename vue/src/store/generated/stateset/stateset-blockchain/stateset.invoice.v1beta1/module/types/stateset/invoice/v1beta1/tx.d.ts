@@ -104,7 +104,7 @@ export interface MsgCompleteInvoiceResponse {
 }
 export interface MsgFactorInvoiceRequest {
     /** sender is the address of the sender of the transaction. */
-    creator: string;
+    sender: string;
     invoiceId: string;
 }
 export interface MsgFactorInvoiceResponse {

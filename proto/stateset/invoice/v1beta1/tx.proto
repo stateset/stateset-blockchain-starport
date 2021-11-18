@@ -146,7 +146,7 @@ message MsgCompleteInvoiceResponse {}
 message MsgFactorInvoiceRequest {
 
   // sender is the address of the sender of the transaction.
-  string creator = 1;
+  string sender = 1;
   string invoice_id = 2;
 }
 
