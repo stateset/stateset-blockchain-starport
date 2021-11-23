@@ -1,5 +1,5 @@
 import { Reader, Writer } from "protobufjs/minimal";
-import { PurchaseOrder } from "../../../stateset/purchaseorder/v1beta1/tx";
+import { PurchaseOrder, PurchaseOrderFilters } from "../../../stateset/purchaseorder/v1beta1/tx";
 import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
 export declare const protobufPackage = "stateset.purchaseorder.v1beta1";
 /** QueryPurchaseOrderRequest is the Query/PurchaseOrder request type. */
@@ -11,6 +11,7 @@ export interface QueryPurchaseOrderResponse {
     purchaseorder: PurchaseOrder | undefined;
 }
 export interface QueryPurchaseOrdersRequest {
+    filters: PurchaseOrderFilters | undefined;
     pagination: PageRequest | undefined;
 }
 export interface QueryPurchaseOrdersResponse {

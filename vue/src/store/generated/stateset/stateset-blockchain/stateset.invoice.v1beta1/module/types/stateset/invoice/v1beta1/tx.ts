@@ -74,6 +74,11 @@ export interface Invoice {
   periodEndDate: string;
 }
 
+export interface InvoiceFilters {
+  owner: string;
+  state: string;
+}
+
 /** MsgCreateInvoiceRequest is the Msg/CreateInvoice request type. */
 export interface MsgCreateInvoiceRequest {
   /** sender is the address of the sender of the transaction. */
@@ -96,11 +101,13 @@ export interface MsgCreateInvoiceRequest {
 }
 
 /** MsgSignDataResponse is the Msg/SignData response type. */
-export interface MsgCreateInvoiceResponse {}
+export interface MsgCreateInvoiceResponse {
+  invoiceId: string;
+}
 
 /** MsgCreateInvoiceRequest is the Msg/CreateInvoice request type. */
 export interface MsgUpdateInvoiceRequest {
-  creator: string;
+  sender: string;
   invoiceId: string;
   invoiceNumber: string;
   invoiceName: string;
@@ -119,7 +126,9 @@ export interface MsgUpdateInvoiceRequest {
 }
 
 /** MsgSignDataResponse is the Msg/SignData response type. */
-export interface MsgUpdateInvoiceResponse {}
+export interface MsgUpdateInvoiceResponse {
+  invoiceId: string;
+}
 
 /** MsgActivateInvoiceRequest is the Msg/ActivateInvoice request type. */
 export interface MsgCancelInvoiceRequest {
@@ -505,6 +514,78 @@ export const Invoice = {
   },
 };
 
+const baseInvoiceFilters: object = { owner: "", state: "" };
+
+export const InvoiceFilters = {
+  encode(message: InvoiceFilters, writer: Writer = Writer.create()): Writer {
+    if (message.owner !== "") {
+      writer.uint32(10).string(message.owner);
+    }
+    if (message.state !== "") {
+      writer.uint32(18).string(message.state);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): InvoiceFilters {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseInvoiceFilters } as InvoiceFilters;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.owner = reader.string();
+          break;
+        case 2:
+          message.state = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): InvoiceFilters {
+    const message = { ...baseInvoiceFilters } as InvoiceFilters;
+    if (object.owner !== undefined && object.owner !== null) {
+      message.owner = String(object.owner);
+    } else {
+      message.owner = "";
+    }
+    if (object.state !== undefined && object.state !== null) {
+      message.state = String(object.state);
+    } else {
+      message.state = "";
+    }
+    return message;
+  },
+
+  toJSON(message: InvoiceFilters): unknown {
+    const obj: any = {};
+    message.owner !== undefined && (obj.owner = message.owner);
+    message.state !== undefined && (obj.state = message.state);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<InvoiceFilters>): InvoiceFilters {
+    const message = { ...baseInvoiceFilters } as InvoiceFilters;
+    if (object.owner !== undefined && object.owner !== null) {
+      message.owner = object.owner;
+    } else {
+      message.owner = "";
+    }
+    if (object.state !== undefined && object.state !== null) {
+      message.state = object.state;
+    } else {
+      message.state = "";
+    }
+    return message;
+  },
+};
+
 const baseMsgCreateInvoiceRequest: object = {
   creator: "",
   invoiceId: "",
@@ -862,13 +943,16 @@ export const MsgCreateInvoiceRequest = {
   },
 };
 
-const baseMsgCreateInvoiceResponse: object = {};
+const baseMsgCreateInvoiceResponse: object = { invoiceId: "" };
 
 export const MsgCreateInvoiceResponse = {
   encode(
-    _: MsgCreateInvoiceResponse,
+    message: MsgCreateInvoiceResponse,
     writer: Writer = Writer.create()
   ): Writer {
+    if (message.invoiceId !== "") {
+      writer.uint32(10).string(message.invoiceId);
+    }
     return writer;
   },
 
@@ -884,6 +968,9 @@ export const MsgCreateInvoiceResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.invoiceId = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -892,30 +979,41 @@ export const MsgCreateInvoiceResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgCreateInvoiceResponse {
+  fromJSON(object: any): MsgCreateInvoiceResponse {
     const message = {
       ...baseMsgCreateInvoiceResponse,
     } as MsgCreateInvoiceResponse;
+    if (object.invoiceId !== undefined && object.invoiceId !== null) {
+      message.invoiceId = String(object.invoiceId);
+    } else {
+      message.invoiceId = "";
+    }
     return message;
   },
 
-  toJSON(_: MsgCreateInvoiceResponse): unknown {
+  toJSON(message: MsgCreateInvoiceResponse): unknown {
     const obj: any = {};
+    message.invoiceId !== undefined && (obj.invoiceId = message.invoiceId);
     return obj;
   },
 
   fromPartial(
-    _: DeepPartial<MsgCreateInvoiceResponse>
+    object: DeepPartial<MsgCreateInvoiceResponse>
   ): MsgCreateInvoiceResponse {
     const message = {
       ...baseMsgCreateInvoiceResponse,
     } as MsgCreateInvoiceResponse;
+    if (object.invoiceId !== undefined && object.invoiceId !== null) {
+      message.invoiceId = object.invoiceId;
+    } else {
+      message.invoiceId = "";
+    }
     return message;
   },
 };
 
 const baseMsgUpdateInvoiceRequest: object = {
-  creator: "",
+  sender: "",
   invoiceId: "",
   invoiceNumber: "",
   invoiceName: "",
@@ -938,8 +1036,8 @@ export const MsgUpdateInvoiceRequest = {
     message: MsgUpdateInvoiceRequest,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.creator !== "") {
-      writer.uint32(10).string(message.creator);
+    if (message.sender !== "") {
+      writer.uint32(10).string(message.sender);
     }
     if (message.invoiceId !== "") {
       writer.uint32(18).string(message.invoiceId);
@@ -999,7 +1097,7 @@ export const MsgUpdateInvoiceRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.creator = reader.string();
+          message.sender = reader.string();
           break;
         case 2:
           message.invoiceId = reader.string();
@@ -1058,10 +1156,10 @@ export const MsgUpdateInvoiceRequest = {
     const message = {
       ...baseMsgUpdateInvoiceRequest,
     } as MsgUpdateInvoiceRequest;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender);
     } else {
-      message.creator = "";
+      message.sender = "";
     }
     if (object.invoiceId !== undefined && object.invoiceId !== null) {
       message.invoiceId = String(object.invoiceId);
@@ -1149,7 +1247,7 @@ export const MsgUpdateInvoiceRequest = {
 
   toJSON(message: MsgUpdateInvoiceRequest): unknown {
     const obj: any = {};
-    message.creator !== undefined && (obj.creator = message.creator);
+    message.sender !== undefined && (obj.sender = message.sender);
     message.invoiceId !== undefined && (obj.invoiceId = message.invoiceId);
     message.invoiceNumber !== undefined &&
       (obj.invoiceNumber = message.invoiceNumber);
@@ -1181,10 +1279,10 @@ export const MsgUpdateInvoiceRequest = {
     const message = {
       ...baseMsgUpdateInvoiceRequest,
     } as MsgUpdateInvoiceRequest;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = object.sender;
     } else {
-      message.creator = "";
+      message.sender = "";
     }
     if (object.invoiceId !== undefined && object.invoiceId !== null) {
       message.invoiceId = object.invoiceId;
@@ -1271,13 +1369,16 @@ export const MsgUpdateInvoiceRequest = {
   },
 };
 
-const baseMsgUpdateInvoiceResponse: object = {};
+const baseMsgUpdateInvoiceResponse: object = { invoiceId: "" };
 
 export const MsgUpdateInvoiceResponse = {
   encode(
-    _: MsgUpdateInvoiceResponse,
+    message: MsgUpdateInvoiceResponse,
     writer: Writer = Writer.create()
   ): Writer {
+    if (message.invoiceId !== "") {
+      writer.uint32(10).string(message.invoiceId);
+    }
     return writer;
   },
 
@@ -1293,6 +1394,9 @@ export const MsgUpdateInvoiceResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.invoiceId = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1301,24 +1405,35 @@ export const MsgUpdateInvoiceResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgUpdateInvoiceResponse {
+  fromJSON(object: any): MsgUpdateInvoiceResponse {
     const message = {
       ...baseMsgUpdateInvoiceResponse,
     } as MsgUpdateInvoiceResponse;
+    if (object.invoiceId !== undefined && object.invoiceId !== null) {
+      message.invoiceId = String(object.invoiceId);
+    } else {
+      message.invoiceId = "";
+    }
     return message;
   },
 
-  toJSON(_: MsgUpdateInvoiceResponse): unknown {
+  toJSON(message: MsgUpdateInvoiceResponse): unknown {
     const obj: any = {};
+    message.invoiceId !== undefined && (obj.invoiceId = message.invoiceId);
     return obj;
   },
 
   fromPartial(
-    _: DeepPartial<MsgUpdateInvoiceResponse>
+    object: DeepPartial<MsgUpdateInvoiceResponse>
   ): MsgUpdateInvoiceResponse {
     const message = {
       ...baseMsgUpdateInvoiceResponse,
     } as MsgUpdateInvoiceResponse;
+    if (object.invoiceId !== undefined && object.invoiceId !== null) {
+      message.invoiceId = object.invoiceId;
+    } else {
+      message.invoiceId = "";
+    }
     return message;
   },
 };

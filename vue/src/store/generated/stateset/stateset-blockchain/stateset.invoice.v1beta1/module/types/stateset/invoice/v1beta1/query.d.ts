@@ -1,9 +1,11 @@
 import { Reader, Writer } from "protobufjs/minimal";
-import { Invoice } from "../../../stateset/invoice/v1beta1/tx";
-import { PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
+import { InvoiceFilters, Invoice } from "../../../stateset/invoice/v1beta1/tx";
+import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
 export declare const protobufPackage = "stateset.invoice.v1beta1";
 /** QueryInvoiceRequest is the Query/Invoice request type. */
 export interface QueryInvoicesRequest {
+    filters: InvoiceFilters | undefined;
+    pagination: PageRequest | undefined;
 }
 export interface QueryInvoicesResponse {
     invoices: Invoice[];
@@ -18,11 +20,11 @@ export interface QueryInvoiceResponse {
     invoice: Invoice | undefined;
 }
 export declare const QueryInvoicesRequest: {
-    encode(_: QueryInvoicesRequest, writer?: Writer): Writer;
+    encode(message: QueryInvoicesRequest, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): QueryInvoicesRequest;
-    fromJSON(_: any): QueryInvoicesRequest;
-    toJSON(_: QueryInvoicesRequest): unknown;
-    fromPartial(_: DeepPartial<QueryInvoicesRequest>): QueryInvoicesRequest;
+    fromJSON(object: any): QueryInvoicesRequest;
+    toJSON(message: QueryInvoicesRequest): unknown;
+    fromPartial(object: DeepPartial<QueryInvoicesRequest>): QueryInvoicesRequest;
 };
 export declare const QueryInvoicesResponse: {
     encode(message: QueryInvoicesResponse, writer?: Writer): Writer;
@@ -47,9 +49,9 @@ export declare const QueryInvoiceResponse: {
 };
 /** Query defines the gRPC querier service. */
 export interface Query {
-    /** Invoices returns purchase order details based on purchase order. */
+    /** Invoices returns invoices. */
     Invoices(request: QueryInvoicesRequest): Promise<QueryInvoicesResponse>;
-    /** Queries a day by id. */
+    /** Invoice returns invoice details based on incoice id. */
     Invoice(request: QueryInvoiceRequest): Promise<QueryInvoiceResponse>;
 }
 export declare class QueryClientImpl implements Query {

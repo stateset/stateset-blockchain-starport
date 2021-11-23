@@ -1,11 +1,11 @@
 package keeper
 
 import (
-	"net/url"
 	"time"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/store/gaskv"
+	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/params"
 	log "github.com/tendermint/tendermint/libs/log"
@@ -13,14 +13,14 @@ import (
 
 // Keeper is the model object for the module
 type Keeper struct {
-	storeKey   sdk.StoreKey
-	cdc                codec.BinaryMarshaler
-	authKeeper         types.AccountKeeper
-	bankKeeper         types.BankKeeper
+	storeKey            sdk.StoreKey
+	cdc                 codec.BinaryMarshaler
+	authKeeper          types.AccountKeeper
+	bankKeeper          types.BankKeeper
 	purchaseorderKeeper types.PurchaseOrderKeeper
-	invoiceKeeper types.InvoiceKeeper
-	hooks              types.StakingHooks
-	paramStore params.Subspace
+	invoiceKeeper       types.InvoiceKeeper
+	hooks               types.StakingHooks
+	paramStore          params.Subspace
 }
 
 // NewKeeper creates a new account keeper
@@ -37,8 +37,6 @@ func NewKeeper(storeKey sdk.StoreKey, paramStore params.Subspace, codec *codec.L
 func (k Keeper) CreateAgreement(ctx sdk.Context, agreementID string) (agreement Agreement, err sdk.Error) {
 
 	agreement = NewAgreement(agreementId)
-		ctx.BlockHeader().Time,
-	)
 
 	// persist agreement
 	k.setAgreement(ctx, agreement)
@@ -53,31 +51,6 @@ func (k Keeper) CreateAgreement(ctx sdk.Context, agreementID string) (agreement 
 	logger(ctx).Info("Submitted " + agreement.String())
 
 	return agreement, nil
-}
-
-// EditAgreement allows admins to edit the details of an agreement
-
-func (k Keeper) EditAgreement(ctx sdk.Context, id uint64, body string, editor sdk.AccAddress) (agreement Agreement, err sdk.Error) {
-	if !k.isAdmin(ctx, editor) {
-		err = ErrAddressNotAuthorised()
-		return
-	}
-
-	err = k.validateLength(ctx, body)
-	if err != nil {
-		return
-	}
-
-	agreement, ok := k.Agreement(ctx, id)
-	if !ok {
-		err = ErrUnknownAgreement(id)
-		return
-	}
-
-	agreement.Body = body
-	k.setAgreement(ctx, agreement)
-
-	return
 }
 
 // Agreement gets a single agreement by its ID
@@ -133,7 +106,6 @@ func (k Keeper) MerchantAgreements(ctx sdk.Context, creator sdk.AccAddress) (agr
 	return k.associatedAgreements(ctx, merchantAgreementsKey(merchant))
 }
 
-
 // agreememtID gets the highest agreement ID
 func (k Keeper) agreementID(ctx sdk.Context) (agreementID uint64, err sdk.Error) {
 	store := k.store(ctx)
@@ -166,13 +138,11 @@ func (k Keeper) setMerchantAgreement(ctx sdk.Context, merchant sdk.AccAddress, a
 	store.Set(merchantAgreementKey(merchant, agreementID), bz)
 }
 
-
 func (k Keeper) setCreatedTimeAgreement(ctx sdk.Context, createdTime time.Time, agreementID uint64) {
 	store := k.store(ctx)
 	bz := k.codec.MustMarshalBinaryLengthPrefixed(agreementID)
 	store.Set(createdTimeAgreementKey(createdTime, agreementID), bz)
 }
-
 
 // agreementsIterator returns an sdk.Iterator for agreement from startAgreementID to endAgreementID
 func (k Keeper) agreementsIterator(ctx sdk.Context, startAgreementID, endAgreementID uint64) sdk.Iterator {
@@ -243,25 +213,25 @@ func (k Keeper) store(ctx sdk.Context) sdk.KVStore {
 }
 
 func (k Keeper) UpdateAgreement(ctx sdk.Context, agreement types.Agreement) {
-	store :=  prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AgreementKey))
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AgreementKey))
 	b := k.cdc.MustMarshalBinaryBare(&agreement)
-	store.Set(types.KeyPrefix(types.AgreementKey + agreement.Id), b)
+	store.Set(types.KeyPrefix(types.AgreementKey+agreement.Id), b)
 }
 
 func (k Keeper) GetAgreement(ctx sdk.Context, key string) types.Agreement {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AgreementKey))
 	var agreement types.Agreement
-	k.cdc.MustUnmarshalBinaryBare(store.Get(types.KeyPrefix(types.AgreementKey + key)), &agreement)
+	k.cdc.MustUnmarshalBinaryBare(store.Get(types.KeyPrefix(types.AgreementKey+key)), &agreement)
 	return agreement
 }
 
 func (k Keeper) HasAgreement(ctx sdk.Context, id string) bool {
-	store :=  prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AgreementKey))
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AgreementKey))
 	return store.Has(types.KeyPrefix(types.AgreementKey + id))
 }
 
 func (k Keeper) GetAgreementOwner(ctx sdk.Context, key string) string {
-    return k.GetAgreement(ctx, key).Creator
+	return k.GetAgreement(ctx, key).Creator
 }
 
 // DeleteAgreement deletes a agreement
@@ -271,7 +241,7 @@ func (k Keeper) DeleteAgreement(ctx sdk.Context, key string) {
 }
 
 func (k Keeper) GetAllAgreement(ctx sdk.Context) (msgs []types.Agreement) {
-    store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AgreementKey))
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AgreementKey))
 	iterator := sdk.KVStorePrefixIterator(store, types.KeyPrefix(types.AgreementKey))
 
 	defer iterator.Close()
@@ -279,10 +249,10 @@ func (k Keeper) GetAllAgreement(ctx sdk.Context) (msgs []types.Agreement) {
 	for ; iterator.Valid(); iterator.Next() {
 		var msg types.Agreement
 		k.cdc.MustUnmarshalBinaryBare(iterator.Value(), &msg)
-        msgs = append(msgs, msg)
+		msgs = append(msgs, msg)
 	}
 
-    return
+	return
 }
 
 func logger(ctx sdk.Context) log.Logger {

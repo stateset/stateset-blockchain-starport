@@ -1781,6 +1781,121 @@ export const MsgExpireAgreementResponse = {
         return message;
     },
 };
+const baseMsgFinanceAgreementRequest = { sender: "", agreementId: "" };
+export const MsgFinanceAgreementRequest = {
+    encode(message, writer = Writer.create()) {
+        if (message.sender !== "") {
+            writer.uint32(10).string(message.sender);
+        }
+        if (message.agreementId !== "") {
+            writer.uint32(18).string(message.agreementId);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = {
+            ...baseMsgFinanceAgreementRequest,
+        };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.sender = reader.string();
+                    break;
+                case 2:
+                    message.agreementId = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = {
+            ...baseMsgFinanceAgreementRequest,
+        };
+        if (object.sender !== undefined && object.sender !== null) {
+            message.sender = String(object.sender);
+        }
+        else {
+            message.sender = "";
+        }
+        if (object.agreementId !== undefined && object.agreementId !== null) {
+            message.agreementId = String(object.agreementId);
+        }
+        else {
+            message.agreementId = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.sender !== undefined && (obj.sender = message.sender);
+        message.agreementId !== undefined &&
+            (obj.agreementId = message.agreementId);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = {
+            ...baseMsgFinanceAgreementRequest,
+        };
+        if (object.sender !== undefined && object.sender !== null) {
+            message.sender = object.sender;
+        }
+        else {
+            message.sender = "";
+        }
+        if (object.agreementId !== undefined && object.agreementId !== null) {
+            message.agreementId = object.agreementId;
+        }
+        else {
+            message.agreementId = "";
+        }
+        return message;
+    },
+};
+const baseMsgFinanceAgreementResponse = {};
+export const MsgFinanceAgreementResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = {
+            ...baseMsgFinanceAgreementResponse,
+        };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = {
+            ...baseMsgFinanceAgreementResponse,
+        };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = {
+            ...baseMsgFinanceAgreementResponse,
+        };
+        return message;
+    },
+};
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -1824,6 +1939,11 @@ export class MsgClientImpl {
         const data = MsgExpireAgreementRequest.encode(request).finish();
         const promise = this.rpc.request("stateset.agreement.v1beta1.Msg", "Expire", data);
         return promise.then((data) => MsgExpireAgreementResponse.decode(new Reader(data)));
+    }
+    Finance(request) {
+        const data = MsgFinanceAgreementRequest.encode(request).finish();
+        const promise = this.rpc.request("stateset.agreement.v1beta1.Msg", "Finance", data);
+        return promise.then((data) => MsgFinanceAgreementResponse.decode(new Reader(data)));
     }
 }
 function toTimestamp(date) {

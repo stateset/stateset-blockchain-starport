@@ -30,6 +30,10 @@ export interface Invoice {
     periodStartDate: string;
     periodEndDate: string;
 }
+export interface InvoiceFilters {
+    owner: string;
+    state: string;
+}
 /** MsgCreateInvoiceRequest is the Msg/CreateInvoice request type. */
 export interface MsgCreateInvoiceRequest {
     /** sender is the address of the sender of the transaction. */
@@ -52,10 +56,11 @@ export interface MsgCreateInvoiceRequest {
 }
 /** MsgSignDataResponse is the Msg/SignData response type. */
 export interface MsgCreateInvoiceResponse {
+    invoiceId: string;
 }
 /** MsgCreateInvoiceRequest is the Msg/CreateInvoice request type. */
 export interface MsgUpdateInvoiceRequest {
-    creator: string;
+    sender: string;
     invoiceId: string;
     invoiceNumber: string;
     invoiceName: string;
@@ -74,6 +79,7 @@ export interface MsgUpdateInvoiceRequest {
 }
 /** MsgSignDataResponse is the Msg/SignData response type. */
 export interface MsgUpdateInvoiceResponse {
+    invoiceId: string;
 }
 /** MsgActivateInvoiceRequest is the Msg/ActivateInvoice request type. */
 export interface MsgCancelInvoiceRequest {
@@ -116,6 +122,13 @@ export declare const Invoice: {
     toJSON(message: Invoice): unknown;
     fromPartial(object: DeepPartial<Invoice>): Invoice;
 };
+export declare const InvoiceFilters: {
+    encode(message: InvoiceFilters, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): InvoiceFilters;
+    fromJSON(object: any): InvoiceFilters;
+    toJSON(message: InvoiceFilters): unknown;
+    fromPartial(object: DeepPartial<InvoiceFilters>): InvoiceFilters;
+};
 export declare const MsgCreateInvoiceRequest: {
     encode(message: MsgCreateInvoiceRequest, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreateInvoiceRequest;
@@ -124,11 +137,11 @@ export declare const MsgCreateInvoiceRequest: {
     fromPartial(object: DeepPartial<MsgCreateInvoiceRequest>): MsgCreateInvoiceRequest;
 };
 export declare const MsgCreateInvoiceResponse: {
-    encode(_: MsgCreateInvoiceResponse, writer?: Writer): Writer;
+    encode(message: MsgCreateInvoiceResponse, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreateInvoiceResponse;
-    fromJSON(_: any): MsgCreateInvoiceResponse;
-    toJSON(_: MsgCreateInvoiceResponse): unknown;
-    fromPartial(_: DeepPartial<MsgCreateInvoiceResponse>): MsgCreateInvoiceResponse;
+    fromJSON(object: any): MsgCreateInvoiceResponse;
+    toJSON(message: MsgCreateInvoiceResponse): unknown;
+    fromPartial(object: DeepPartial<MsgCreateInvoiceResponse>): MsgCreateInvoiceResponse;
 };
 export declare const MsgUpdateInvoiceRequest: {
     encode(message: MsgUpdateInvoiceRequest, writer?: Writer): Writer;
@@ -138,11 +151,11 @@ export declare const MsgUpdateInvoiceRequest: {
     fromPartial(object: DeepPartial<MsgUpdateInvoiceRequest>): MsgUpdateInvoiceRequest;
 };
 export declare const MsgUpdateInvoiceResponse: {
-    encode(_: MsgUpdateInvoiceResponse, writer?: Writer): Writer;
+    encode(message: MsgUpdateInvoiceResponse, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgUpdateInvoiceResponse;
-    fromJSON(_: any): MsgUpdateInvoiceResponse;
-    toJSON(_: MsgUpdateInvoiceResponse): unknown;
-    fromPartial(_: DeepPartial<MsgUpdateInvoiceResponse>): MsgUpdateInvoiceResponse;
+    fromJSON(object: any): MsgUpdateInvoiceResponse;
+    toJSON(message: MsgUpdateInvoiceResponse): unknown;
+    fromPartial(object: DeepPartial<MsgUpdateInvoiceResponse>): MsgUpdateInvoiceResponse;
 };
 export declare const MsgCancelInvoiceRequest: {
     encode(message: MsgCancelInvoiceRequest, writer?: Writer): Writer;

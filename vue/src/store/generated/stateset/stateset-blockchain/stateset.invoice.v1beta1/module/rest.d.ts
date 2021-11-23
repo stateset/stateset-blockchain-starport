@@ -25,6 +25,10 @@ export interface V1Beta1Invoice {
     periodStartDate?: string;
     periodEndDate?: string;
 }
+export interface V1Beta1InvoiceFilters {
+    owner?: string;
+    state?: string;
+}
 /**
  * MsgSignDataResponse is the Msg/SignData response type.
  */
@@ -36,7 +40,9 @@ export declare type V1Beta1MsgCompleteInvoiceResponse = object;
 /**
  * MsgSignDataResponse is the Msg/SignData response type.
  */
-export declare type V1Beta1MsgCreateInvoiceResponse = object;
+export interface V1Beta1MsgCreateInvoiceResponse {
+    invoiceId?: string;
+}
 /**
  * MsgSignDataResponse is the Msg/SignData response type.
  */
@@ -45,7 +51,46 @@ export declare type V1Beta1MsgFactorInvoiceResponse = object;
 /**
  * MsgSignDataResponse is the Msg/SignData response type.
  */
-export declare type V1Beta1MsgUpdateInvoiceResponse = object;
+export interface V1Beta1MsgUpdateInvoiceResponse {
+    invoiceId?: string;
+}
+/**
+* message SomeRequest {
+         Foo some_parameter = 1;
+         PageRequest pagination = 2;
+ }
+*/
+export interface V1Beta1PageRequest {
+    /**
+     * key is a value returned in PageResponse.next_key to begin
+     * querying the next page most efficiently. Only one of offset or key
+     * should be set.
+     * @format byte
+     */
+    key?: string;
+    /**
+     * offset is a numeric offset that can be used when key is unavailable.
+     * It is less efficient than using key. Only one of offset or key should
+     * be set.
+     * @format uint64
+     */
+    offset?: string;
+    /**
+     * limit is the total number of results to be returned in the result page.
+     * If left empty it will default to a value to be set by each app.
+     * @format uint64
+     */
+    limit?: string;
+    /**
+     * count_total is set to true  to indicate that the result set should include
+     * a count of the total number of items available for pagination in UIs.
+     * count_total is only respected when offset is used. It is ignored when key
+     * is set.
+     */
+    countTotal?: boolean;
+    /** reverse is set to true if results are to be returned in the descending order. */
+    reverse?: boolean;
+}
 /**
 * PageResponse is to be embedded in gRPC response messages where the
 corresponding request message has used PageRequest.
@@ -143,16 +188,24 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @tags Query
      * @name QueryInvoices
-     * @summary Invoices returns purchase order details based on purchase order.
+     * @summary Invoices returns invoices.
      * @request GET:/stateset/invoice/v1beta1/invoices
      */
-    queryInvoices: (params?: RequestParams) => Promise<HttpResponse<V1Beta1QueryInvoicesResponse, RpcStatus>>;
+    queryInvoices: (query?: {
+        "filters.owner"?: string;
+        "filters.state"?: string;
+        "pagination.key"?: string;
+        "pagination.offset"?: string;
+        "pagination.limit"?: string;
+        "pagination.countTotal"?: boolean;
+        "pagination.reverse"?: boolean;
+    }, params?: RequestParams) => Promise<HttpResponse<V1Beta1QueryInvoicesResponse, RpcStatus>>;
     /**
      * No description
      *
      * @tags Query
      * @name QueryInvoice
-     * @summary Queries a day by id.
+     * @summary Invoice returns invoice details based on incoice id.
      * @request GET:/stateset/invoice/v1beta1/invoices/{invoiceId}
      */
     queryInvoice: (invoiceId: string, params?: RequestParams) => Promise<HttpResponse<V1Beta1QueryInvoiceResponse, RpcStatus>>;

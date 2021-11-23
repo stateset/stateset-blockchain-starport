@@ -69,6 +69,11 @@ export interface EventExpired {
     /** expirer_date is the beginning of the period during which this agreement was expired */
     expirationDate: string;
 }
+export interface EventFinanced {
+    agreementId: string;
+    financer: string;
+    financeDate: string;
+}
 export declare const EventCreateAgreement: {
     encode(message: EventCreateAgreement, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): EventCreateAgreement;
@@ -110,6 +115,13 @@ export declare const EventExpired: {
     fromJSON(object: any): EventExpired;
     toJSON(message: EventExpired): unknown;
     fromPartial(object: DeepPartial<EventExpired>): EventExpired;
+};
+export declare const EventFinanced: {
+    encode(message: EventFinanced, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): EventFinanced;
+    fromJSON(object: any): EventFinanced;
+    toJSON(message: EventFinanced): unknown;
+    fromPartial(object: DeepPartial<EventFinanced>): EventFinanced;
 };
 declare type Builtin = Date | Function | Uint8Array | string | number | undefined;
 export declare type DeepPartial<T> = T extends Builtin ? T : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>> : T extends {} ? {

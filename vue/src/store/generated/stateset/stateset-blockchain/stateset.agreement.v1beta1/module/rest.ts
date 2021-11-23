@@ -64,6 +64,8 @@ export type V1Beta1MsgDeleteAgreementResponse = object;
  */
 export type V1Beta1MsgExpireAgreementResponse = object;
 
+export type V1Beta1MsgFinanceAgreementResponse = object;
+
 /**
  * MsgRenewAgreementResponse is the Msg/SignData response type.
  */
@@ -125,6 +127,23 @@ export interface V1Beta1PageRequest {
 }
 
 /**
+* PageResponse is to be embedded in gRPC response messages where the
+corresponding request message has used PageRequest.
+
+ message SomeResponse {
+         repeated Bar results = 1;
+         PageResponse page = 2;
+ }
+*/
+export interface V1Beta1PageResponse {
+  /** @format byte */
+  nextKey?: string;
+
+  /** @format uint64 */
+  total?: string;
+}
+
+/**
  * QueryClassInfoResponse is the Query/ClassInfo request type.
  */
 export interface V1Beta1QueryAgreementResponse {
@@ -135,12 +154,15 @@ export interface V1Beta1QueryAgreementsResponse {
   agreements?: V1Beta1Agreement[];
 
   /**
-   * message SomeRequest {
-   *          Foo some_parameter = 1;
-   *          PageRequest pagination = 2;
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
    *  }
    */
-  pagination?: V1Beta1PageRequest;
+  pagination?: V1Beta1PageResponse;
 }
 
 export type QueryParamsType = Record<string | number, any>;

@@ -83,9 +83,9 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/stateset/stateset-blockchain/x/agreement"
-	"github.com/stateset/stateset-blockchain/x/invoice"
-	"github.com/stateset/stateset-blockchain/x/purchaseorder"
+	//"github.com/stateset/stateset-blockchain/x/agreement"
+	//"github.com/stateset/stateset-blockchain/x/invoice"
+	//"github.com/stateset/stateset-blockchain/x/purchaseorder"
 
 	"github.com/tendermint/spm/cosmoscmd"
 	"github.com/tendermint/spm/openapiconsole"
@@ -142,10 +142,10 @@ var (
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
-		agreement.AppModuleBasic{},
-		did.AppModuleBasic{},
-		purchaseorder.AppModuleBasic{},
-		invoice.AppModuleBasic{},
+		//agreement.AppModuleBasic{},
+		//did.AppModuleBasic{},
+		//purchaseorder.AppModuleBasic{},
+		//invoice.AppModuleBasic{},
 	)
 
 	// module account permissions

@@ -1,6 +1,6 @@
 import { Reader, Writer } from "protobufjs/minimal";
 import { AgreementFilters, Agreement } from "../../../stateset/agreement/v1beta1/tx";
-import { PageRequest } from "../../../cosmos/base/query/v1beta1/pagination";
+import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
 export declare const protobufPackage = "stateset.agreement.v1beta1";
 /**
  * =============================== Agreements
@@ -12,7 +12,7 @@ export interface QueryAgreementsRequest {
 }
 export interface QueryAgreementsResponse {
     agreements: Agreement[];
-    pagination: PageRequest | undefined;
+    pagination: PageResponse | undefined;
 }
 export interface QueryAgreementRequest {
     /** agreement_id is the unique ID of agreement to query. */

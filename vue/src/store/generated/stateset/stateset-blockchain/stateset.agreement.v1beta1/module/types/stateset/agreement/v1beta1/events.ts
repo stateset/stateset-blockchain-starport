@@ -78,6 +78,12 @@ export interface EventExpired {
   expirationDate: string;
 }
 
+export interface EventFinanced {
+  agreementId: string;
+  financer: string;
+  financeDate: string;
+}
+
 const baseEventCreateAgreement: object = {
   agreementId: "",
   creator: "",
@@ -707,6 +713,101 @@ export const EventExpired = {
       message.expirationDate = object.expirationDate;
     } else {
       message.expirationDate = "";
+    }
+    return message;
+  },
+};
+
+const baseEventFinanced: object = {
+  agreementId: "",
+  financer: "",
+  financeDate: "",
+};
+
+export const EventFinanced = {
+  encode(message: EventFinanced, writer: Writer = Writer.create()): Writer {
+    if (message.agreementId !== "") {
+      writer.uint32(10).string(message.agreementId);
+    }
+    if (message.financer !== "") {
+      writer.uint32(18).string(message.financer);
+    }
+    if (message.financeDate !== "") {
+      writer.uint32(26).string(message.financeDate);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): EventFinanced {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseEventFinanced } as EventFinanced;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.agreementId = reader.string();
+          break;
+        case 2:
+          message.financer = reader.string();
+          break;
+        case 3:
+          message.financeDate = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EventFinanced {
+    const message = { ...baseEventFinanced } as EventFinanced;
+    if (object.agreementId !== undefined && object.agreementId !== null) {
+      message.agreementId = String(object.agreementId);
+    } else {
+      message.agreementId = "";
+    }
+    if (object.financer !== undefined && object.financer !== null) {
+      message.financer = String(object.financer);
+    } else {
+      message.financer = "";
+    }
+    if (object.financeDate !== undefined && object.financeDate !== null) {
+      message.financeDate = String(object.financeDate);
+    } else {
+      message.financeDate = "";
+    }
+    return message;
+  },
+
+  toJSON(message: EventFinanced): unknown {
+    const obj: any = {};
+    message.agreementId !== undefined &&
+      (obj.agreementId = message.agreementId);
+    message.financer !== undefined && (obj.financer = message.financer);
+    message.financeDate !== undefined &&
+      (obj.financeDate = message.financeDate);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<EventFinanced>): EventFinanced {
+    const message = { ...baseEventFinanced } as EventFinanced;
+    if (object.agreementId !== undefined && object.agreementId !== null) {
+      message.agreementId = object.agreementId;
+    } else {
+      message.agreementId = "";
+    }
+    if (object.financer !== undefined && object.financer !== null) {
+      message.financer = object.financer;
+    } else {
+      message.financer = "";
+    }
+    if (object.financeDate !== undefined && object.financeDate !== null) {
+      message.financeDate = object.financeDate;
+    } else {
+      message.financeDate = "";
     }
     return message;
   },

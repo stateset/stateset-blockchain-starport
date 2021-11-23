@@ -3,7 +3,7 @@ syntax = "proto3";
 package stateset.invoice.v1beta1;
 
 import "gogoproto/gogo.proto";
-import "google/protobuf/timestamp.proto"
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
 

@@ -188,6 +188,13 @@ export interface MsgExpireAgreementRequest {
 /** MsgExpireResponse is the Msg/ExpireAgreement response type. */
 export interface MsgExpireAgreementResponse {}
 
+export interface MsgFinanceAgreementRequest {
+  sender: string;
+  agreementId: string;
+}
+
+export interface MsgFinanceAgreementResponse {}
+
 const baseAgreement: object = {
   creator: "",
   agreementId: "",
@@ -2087,6 +2094,145 @@ export const MsgExpireAgreementResponse = {
   },
 };
 
+const baseMsgFinanceAgreementRequest: object = { sender: "", agreementId: "" };
+
+export const MsgFinanceAgreementRequest = {
+  encode(
+    message: MsgFinanceAgreementRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.sender !== "") {
+      writer.uint32(10).string(message.sender);
+    }
+    if (message.agreementId !== "") {
+      writer.uint32(18).string(message.agreementId);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgFinanceAgreementRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgFinanceAgreementRequest,
+    } as MsgFinanceAgreementRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.sender = reader.string();
+          break;
+        case 2:
+          message.agreementId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgFinanceAgreementRequest {
+    const message = {
+      ...baseMsgFinanceAgreementRequest,
+    } as MsgFinanceAgreementRequest;
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender);
+    } else {
+      message.sender = "";
+    }
+    if (object.agreementId !== undefined && object.agreementId !== null) {
+      message.agreementId = String(object.agreementId);
+    } else {
+      message.agreementId = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgFinanceAgreementRequest): unknown {
+    const obj: any = {};
+    message.sender !== undefined && (obj.sender = message.sender);
+    message.agreementId !== undefined &&
+      (obj.agreementId = message.agreementId);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgFinanceAgreementRequest>
+  ): MsgFinanceAgreementRequest {
+    const message = {
+      ...baseMsgFinanceAgreementRequest,
+    } as MsgFinanceAgreementRequest;
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = object.sender;
+    } else {
+      message.sender = "";
+    }
+    if (object.agreementId !== undefined && object.agreementId !== null) {
+      message.agreementId = object.agreementId;
+    } else {
+      message.agreementId = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgFinanceAgreementResponse: object = {};
+
+export const MsgFinanceAgreementResponse = {
+  encode(
+    _: MsgFinanceAgreementResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgFinanceAgreementResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgFinanceAgreementResponse,
+    } as MsgFinanceAgreementResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgFinanceAgreementResponse {
+    const message = {
+      ...baseMsgFinanceAgreementResponse,
+    } as MsgFinanceAgreementResponse;
+    return message;
+  },
+
+  toJSON(_: MsgFinanceAgreementResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgFinanceAgreementResponse>
+  ): MsgFinanceAgreementResponse {
+    const message = {
+      ...baseMsgFinanceAgreementResponse,
+    } as MsgFinanceAgreementResponse;
+    return message;
+  },
+};
+
 /** Msg is the stateset.agreement.v1beta1 Msg service */
 export interface Msg {
   /** Create defines a method to create a new agreement. */
@@ -2117,6 +2263,10 @@ export interface Msg {
   Expire(
     request: MsgExpireAgreementRequest
   ): Promise<MsgExpireAgreementResponse>;
+  /** Finance defines a metho to finance an agreement */
+  Finance(
+    request: MsgFinanceAgreementRequest
+  ): Promise<MsgFinanceAgreementResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -2229,6 +2379,20 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgExpireAgreementResponse.decode(new Reader(data))
+    );
+  }
+
+  Finance(
+    request: MsgFinanceAgreementRequest
+  ): Promise<MsgFinanceAgreementResponse> {
+    const data = MsgFinanceAgreementRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "stateset.agreement.v1beta1.Msg",
+      "Finance",
+      data
+    );
+    return promise.then((data) =>
+      MsgFinanceAgreementResponse.decode(new Reader(data))
     );
   }
 }

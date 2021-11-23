@@ -79,6 +79,11 @@ export interface PurchaseOrder {
   financer: string;
 }
 
+export interface PurchaseOrderFilters {
+  owner: string;
+  state: string;
+}
+
 /** MsgCreatePurchaseOrderRequest is the Msg/CreatePurchaseOrder request type. */
 export interface MsgCreatePurchaseOrderRequest {
   /**
@@ -533,6 +538,81 @@ export const PurchaseOrder = {
       message.financer = object.financer;
     } else {
       message.financer = "";
+    }
+    return message;
+  },
+};
+
+const basePurchaseOrderFilters: object = { owner: "", state: "" };
+
+export const PurchaseOrderFilters = {
+  encode(
+    message: PurchaseOrderFilters,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.owner !== "") {
+      writer.uint32(10).string(message.owner);
+    }
+    if (message.state !== "") {
+      writer.uint32(18).string(message.state);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): PurchaseOrderFilters {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...basePurchaseOrderFilters } as PurchaseOrderFilters;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.owner = reader.string();
+          break;
+        case 2:
+          message.state = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): PurchaseOrderFilters {
+    const message = { ...basePurchaseOrderFilters } as PurchaseOrderFilters;
+    if (object.owner !== undefined && object.owner !== null) {
+      message.owner = String(object.owner);
+    } else {
+      message.owner = "";
+    }
+    if (object.state !== undefined && object.state !== null) {
+      message.state = String(object.state);
+    } else {
+      message.state = "";
+    }
+    return message;
+  },
+
+  toJSON(message: PurchaseOrderFilters): unknown {
+    const obj: any = {};
+    message.owner !== undefined && (obj.owner = message.owner);
+    message.state !== undefined && (obj.state = message.state);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<PurchaseOrderFilters>): PurchaseOrderFilters {
+    const message = { ...basePurchaseOrderFilters } as PurchaseOrderFilters;
+    if (object.owner !== undefined && object.owner !== null) {
+      message.owner = object.owner;
+    } else {
+      message.owner = "";
+    }
+    if (object.state !== undefined && object.state !== null) {
+      message.state = object.state;
+    } else {
+      message.state = "";
     }
     return message;
   },

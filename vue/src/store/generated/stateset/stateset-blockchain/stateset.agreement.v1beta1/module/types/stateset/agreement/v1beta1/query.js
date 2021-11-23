@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
 import { AgreementFilters, Agreement, } from "../../../stateset/agreement/v1beta1/tx";
-import { PageRequest } from "../../../cosmos/base/query/v1beta1/pagination";
+import { PageRequest, PageResponse, } from "../../../cosmos/base/query/v1beta1/pagination";
 export const protobufPackage = "stateset.agreement.v1beta1";
 const baseQueryAgreementsRequest = {};
 export const QueryAgreementsRequest = {
@@ -86,7 +86,7 @@ export const QueryAgreementsResponse = {
             Agreement.encode(v, writer.uint32(10).fork()).ldelim();
         }
         if (message.pagination !== undefined) {
-            PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+            PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
         }
         return writer;
     },
@@ -104,7 +104,7 @@ export const QueryAgreementsResponse = {
                     message.agreements.push(Agreement.decode(reader, reader.uint32()));
                     break;
                 case 2:
-                    message.pagination = PageRequest.decode(reader, reader.uint32());
+                    message.pagination = PageResponse.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -124,7 +124,7 @@ export const QueryAgreementsResponse = {
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
-            message.pagination = PageRequest.fromJSON(object.pagination);
+            message.pagination = PageResponse.fromJSON(object.pagination);
         }
         else {
             message.pagination = undefined;
@@ -141,7 +141,7 @@ export const QueryAgreementsResponse = {
         }
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
-                ? PageRequest.toJSON(message.pagination)
+                ? PageResponse.toJSON(message.pagination)
                 : undefined);
         return obj;
     },
@@ -156,7 +156,7 @@ export const QueryAgreementsResponse = {
             }
         }
         if (object.pagination !== undefined && object.pagination !== null) {
-            message.pagination = PageRequest.fromPartial(object.pagination);
+            message.pagination = PageResponse.fromPartial(object.pagination);
         }
         else {
             message.pagination = undefined;

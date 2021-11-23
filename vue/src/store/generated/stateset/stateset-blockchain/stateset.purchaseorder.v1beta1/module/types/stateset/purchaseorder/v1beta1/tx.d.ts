@@ -29,6 +29,10 @@ export interface PurchaseOrder {
     fulfiller: string;
     financer: string;
 }
+export interface PurchaseOrderFilters {
+    owner: string;
+    state: string;
+}
 /** MsgCreatePurchaseOrderRequest is the Msg/CreatePurchaseOrder request type. */
 export interface MsgCreatePurchaseOrderRequest {
     /**
@@ -160,6 +164,13 @@ export declare const PurchaseOrder: {
     fromJSON(object: any): PurchaseOrder;
     toJSON(message: PurchaseOrder): unknown;
     fromPartial(object: DeepPartial<PurchaseOrder>): PurchaseOrder;
+};
+export declare const PurchaseOrderFilters: {
+    encode(message: PurchaseOrderFilters, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): PurchaseOrderFilters;
+    fromJSON(object: any): PurchaseOrderFilters;
+    toJSON(message: PurchaseOrderFilters): unknown;
+    fromPartial(object: DeepPartial<PurchaseOrderFilters>): PurchaseOrderFilters;
 };
 export declare const MsgCreatePurchaseOrderRequest: {
     encode(message: MsgCreatePurchaseOrderRequest, writer?: Writer): Writer;

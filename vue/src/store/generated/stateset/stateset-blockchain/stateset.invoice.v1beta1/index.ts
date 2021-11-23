@@ -8,9 +8,10 @@ import { EventCancelled } from "./module/types/stateset/invoice/v1beta1/events"
 import { EventFactored } from "./module/types/stateset/invoice/v1beta1/events"
 import { IbcInvoicePacketData } from "./module/types/stateset/invoice/v1beta1/packet"
 import { Invoice } from "./module/types/stateset/invoice/v1beta1/tx"
+import { InvoiceFilters } from "./module/types/stateset/invoice/v1beta1/tx"
 
 
-export { EventCreateInvoice, EventCompleted, EventCancelled, EventFactored, IbcInvoicePacketData, Invoice };
+export { EventCreateInvoice, EventCompleted, EventCancelled, EventFactored, IbcInvoicePacketData, Invoice, InvoiceFilters };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -58,6 +59,7 @@ const getDefaultState = () => {
 						EventFactored: getStructure(EventFactored.fromPartial({})),
 						IbcInvoicePacketData: getStructure(IbcInvoicePacketData.fromPartial({})),
 						Invoice: getStructure(Invoice.fromPartial({})),
+						InvoiceFilters: getStructure(InvoiceFilters.fromPartial({})),
 						
 		},
 		_Subscriptions: new Set(),
@@ -135,9 +137,13 @@ export default {
 		async QueryInvoices({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params: {...key}, query=null }) {
 			try {
 				const queryClient=await initQueryClient(rootGetters)
-				let value= (await queryClient.queryInvoices()).data
+				let value= (await queryClient.queryInvoices(query)).data
 				
 					
+				while (all && (<any> value).pagination && (<any> value).pagination.nextKey!=null) {
+					let next_values=(await queryClient.queryInvoices({...query, 'pagination.key':(<any> value).pagination.nextKey})).data
+					value = mergeResults(value, next_values);
+				}
 				commit('QUERY', { query: 'Invoices', key: { params: {...key}, query}, value })
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryInvoices', payload: { options: { all }, params: {...key},query }})
 				return getters['getInvoices']( { params: {...key}, query}) ?? {}
@@ -169,33 +175,18 @@ export default {
 		},
 		
 		
-		async sendMsgFactorInvoiceRequest({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgCreateInvoiceRequest({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgFactorInvoiceRequest(value)
+				const msg = await txClient.msgCreateInvoiceRequest(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgFactorInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgCreateInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new SpVuexError('TxClient:MsgFactorInvoiceRequest:Send', 'Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgDeleteInvoiceRequest({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgDeleteInvoiceRequest(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgDeleteInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new SpVuexError('TxClient:MsgDeleteInvoiceRequest:Send', 'Could not broadcast Tx: '+ e.message)
+					throw new SpVuexError('TxClient:MsgCreateInvoiceRequest:Send', 'Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -214,18 +205,18 @@ export default {
 				}
 			}
 		},
-		async sendMsgCreateInvoiceRequest({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgFactorInvoiceRequest({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCreateInvoiceRequest(value)
+				const msg = await txClient.msgFactorInvoiceRequest(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgCreateInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgFactorInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new SpVuexError('TxClient:MsgCreateInvoiceRequest:Send', 'Could not broadcast Tx: '+ e.message)
+					throw new SpVuexError('TxClient:MsgFactorInvoiceRequest:Send', 'Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -244,31 +235,32 @@ export default {
 				}
 			}
 		},
-		
-		async MsgFactorInvoiceRequest({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgFactorInvoiceRequest(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgFactorInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new SpVuexError('TxClient:MsgFactorInvoiceRequest:Create', 'Could not create message: ' + e.message)
-					
-				}
-			}
-		},
-		async MsgDeleteInvoiceRequest({ rootGetters }, { value }) {
+		async sendMsgDeleteInvoiceRequest({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
 				const msg = await txClient.msgDeleteInvoiceRequest(value)
-				return msg
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
 					throw new SpVuexError('TxClient:MsgDeleteInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new SpVuexError('TxClient:MsgDeleteInvoiceRequest:Create', 'Could not create message: ' + e.message)
+					throw new SpVuexError('TxClient:MsgDeleteInvoiceRequest:Send', 'Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		
+		async MsgCreateInvoiceRequest({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgCreateInvoiceRequest(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new SpVuexError('TxClient:MsgCreateInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new SpVuexError('TxClient:MsgCreateInvoiceRequest:Create', 'Could not create message: ' + e.message)
 					
 				}
 			}
@@ -287,16 +279,16 @@ export default {
 				}
 			}
 		},
-		async MsgCreateInvoiceRequest({ rootGetters }, { value }) {
+		async MsgFactorInvoiceRequest({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCreateInvoiceRequest(value)
+				const msg = await txClient.msgFactorInvoiceRequest(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgCreateInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgFactorInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new SpVuexError('TxClient:MsgCreateInvoiceRequest:Create', 'Could not create message: ' + e.message)
+					throw new SpVuexError('TxClient:MsgFactorInvoiceRequest:Create', 'Could not create message: ' + e.message)
 					
 				}
 			}
@@ -311,6 +303,20 @@ export default {
 					throw new SpVuexError('TxClient:MsgCancelInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new SpVuexError('TxClient:MsgCancelInvoiceRequest:Create', 'Could not create message: ' + e.message)
+					
+				}
+			}
+		},
+		async MsgDeleteInvoiceRequest({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgDeleteInvoiceRequest(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new SpVuexError('TxClient:MsgDeleteInvoiceRequest:Init', 'Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new SpVuexError('TxClient:MsgDeleteInvoiceRequest:Create', 'Could not create message: ' + e.message)
 					
 				}
 			}

@@ -386,6 +386,76 @@ export const PurchaseOrder = {
         return message;
     },
 };
+const basePurchaseOrderFilters = { owner: "", state: "" };
+export const PurchaseOrderFilters = {
+    encode(message, writer = Writer.create()) {
+        if (message.owner !== "") {
+            writer.uint32(10).string(message.owner);
+        }
+        if (message.state !== "") {
+            writer.uint32(18).string(message.state);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...basePurchaseOrderFilters };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.owner = reader.string();
+                    break;
+                case 2:
+                    message.state = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...basePurchaseOrderFilters };
+        if (object.owner !== undefined && object.owner !== null) {
+            message.owner = String(object.owner);
+        }
+        else {
+            message.owner = "";
+        }
+        if (object.state !== undefined && object.state !== null) {
+            message.state = String(object.state);
+        }
+        else {
+            message.state = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.owner !== undefined && (obj.owner = message.owner);
+        message.state !== undefined && (obj.state = message.state);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...basePurchaseOrderFilters };
+        if (object.owner !== undefined && object.owner !== null) {
+            message.owner = object.owner;
+        }
+        else {
+            message.owner = "";
+        }
+        if (object.state !== undefined && object.state !== null) {
+            message.state = object.state;
+        }
+        else {
+            message.state = "";
+        }
+        return message;
+    },
+};
 const baseMsgCreatePurchaseOrderRequest = {
     creator: "",
     purchaseorderId: "",

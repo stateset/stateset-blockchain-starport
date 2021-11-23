@@ -1,11 +1,17 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
-import { Invoice } from "../../../stateset/invoice/v1beta1/tx";
-import { PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
+import { InvoiceFilters, Invoice } from "../../../stateset/invoice/v1beta1/tx";
+import { PageRequest, PageResponse, } from "../../../cosmos/base/query/v1beta1/pagination";
 export const protobufPackage = "stateset.invoice.v1beta1";
 const baseQueryInvoicesRequest = {};
 export const QueryInvoicesRequest = {
-    encode(_, writer = Writer.create()) {
+    encode(message, writer = Writer.create()) {
+        if (message.filters !== undefined) {
+            InvoiceFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
+        }
+        if (message.pagination !== undefined) {
+            PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+        }
         return writer;
     },
     decode(input, length) {
@@ -15,6 +21,12 @@ export const QueryInvoicesRequest = {
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
+                case 1:
+                    message.filters = InvoiceFilters.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.pagination = PageRequest.decode(reader, reader.uint32());
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -22,16 +34,48 @@ export const QueryInvoicesRequest = {
         }
         return message;
     },
-    fromJSON(_) {
+    fromJSON(object) {
         const message = { ...baseQueryInvoicesRequest };
+        if (object.filters !== undefined && object.filters !== null) {
+            message.filters = InvoiceFilters.fromJSON(object.filters);
+        }
+        else {
+            message.filters = undefined;
+        }
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageRequest.fromJSON(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
         return message;
     },
-    toJSON(_) {
+    toJSON(message) {
         const obj = {};
+        message.filters !== undefined &&
+            (obj.filters = message.filters
+                ? InvoiceFilters.toJSON(message.filters)
+                : undefined);
+        message.pagination !== undefined &&
+            (obj.pagination = message.pagination
+                ? PageRequest.toJSON(message.pagination)
+                : undefined);
         return obj;
     },
-    fromPartial(_) {
+    fromPartial(object) {
         const message = { ...baseQueryInvoicesRequest };
+        if (object.filters !== undefined && object.filters !== null) {
+            message.filters = InvoiceFilters.fromPartial(object.filters);
+        }
+        else {
+            message.filters = undefined;
+        }
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageRequest.fromPartial(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
         return message;
     },
 };

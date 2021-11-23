@@ -130,6 +130,10 @@ export interface V1Beta1PurchaseOrder {
     fulfiller?: string;
     financer?: string;
 }
+export interface V1Beta1PurchaseOrderFilters {
+    owner?: string;
+    state?: string;
+}
 export interface V1Beta1QueryPurchaseOrderResponse {
     purchaseorder?: V1Beta1PurchaseOrder;
 }
@@ -213,6 +217,8 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @request GET:/stateset/purchaseorder/v1beta1/purchaseorders
      */
     queryPurchaseOrders: (query?: {
+        "filters.owner"?: string;
+        "filters.state"?: string;
         "pagination.key"?: string;
         "pagination.offset"?: string;
         "pagination.limit"?: string;

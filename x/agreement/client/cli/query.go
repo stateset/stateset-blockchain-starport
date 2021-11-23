@@ -1,6 +1,5 @@
 package cli
 
-
 import (
 	"context"
 	"fmt"
@@ -12,13 +11,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/version"
-
 )
 
 // QueryCmd returns the cli query commands for this module
 func QueryCmd() *cobra.Command {
 	agreementQueryCmd := &cobra.Command{
-		Use:                        types.ModuleName,
+		Use:                        "Query agreement",
 		Short:                      "Querying commands for the agreement module",
 		DisableFlagParsing:         true,
 		SuggestionsMinimumDistance: 2,
@@ -29,51 +27,12 @@ func QueryCmd() *cobra.Command {
 		GetCmdQueryParams(),
 		GetCmdQueryAgreement(),
 		GetCmdQueryAgreements(),
-		GetCmdQueryAgreementLineItem(),
-		GetCmdQueryAgreementLineItems(),
 	)
 
 	return agreementQueryCmd
 }
 
-//GetCmdQueryParams implements the params query command.
-func GetCmdQueryParams() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "params",
-		Args:  cobra.NoArgs,
-		Short: "Query the current agreement parameters information",
-		Long: strings.TrimSpace(
-			fmt.Sprintf(`Query values set as agreement parameters.
-Example:
-$ %s query agreement params
-`,
-				version.AppName,
-			),
-		),
-		RunE: func(cmd *cobra.Command, args []string) error {
-			clientCtx := client.GetClientContextFromCmd(cmd)
-			clientCtx, err := client.ReadQueryCommandFlags(clientCtx, cmd.Flags())
-			if err != nil {
-				return err
-			}
-
-			queryClient := types.NewQueryClient(clientCtx)
-
-			res, err := queryClient.Params(context.Background(), &types.QueryParamsRequest{})
-			if err != nil {
-				return err
-			}
-
-			return clientCtx.PrintOutput(&res.Params)
-		},
-	}
-
-	flags.AddQueryFlagsToCmd(cmd)
-
-	return cmd
-}
-
-func GetCmdQueryAgreementPool() *cobra.Command {
+func GetCmdQueryAgreement() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "agreement [agreement-id]",
 		Args:  cobra.ExactArgs(1),

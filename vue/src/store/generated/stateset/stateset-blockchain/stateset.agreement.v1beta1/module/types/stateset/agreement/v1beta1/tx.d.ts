@@ -122,6 +122,12 @@ export interface MsgExpireAgreementRequest {
 /** MsgExpireResponse is the Msg/ExpireAgreement response type. */
 export interface MsgExpireAgreementResponse {
 }
+export interface MsgFinanceAgreementRequest {
+    sender: string;
+    agreementId: string;
+}
+export interface MsgFinanceAgreementResponse {
+}
 export declare const Agreement: {
     encode(message: Agreement, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): Agreement;
@@ -248,6 +254,20 @@ export declare const MsgExpireAgreementResponse: {
     toJSON(_: MsgExpireAgreementResponse): unknown;
     fromPartial(_: DeepPartial<MsgExpireAgreementResponse>): MsgExpireAgreementResponse;
 };
+export declare const MsgFinanceAgreementRequest: {
+    encode(message: MsgFinanceAgreementRequest, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgFinanceAgreementRequest;
+    fromJSON(object: any): MsgFinanceAgreementRequest;
+    toJSON(message: MsgFinanceAgreementRequest): unknown;
+    fromPartial(object: DeepPartial<MsgFinanceAgreementRequest>): MsgFinanceAgreementRequest;
+};
+export declare const MsgFinanceAgreementResponse: {
+    encode(_: MsgFinanceAgreementResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgFinanceAgreementResponse;
+    fromJSON(_: any): MsgFinanceAgreementResponse;
+    toJSON(_: MsgFinanceAgreementResponse): unknown;
+    fromPartial(_: DeepPartial<MsgFinanceAgreementResponse>): MsgFinanceAgreementResponse;
+};
 /** Msg is the stateset.agreement.v1beta1 Msg service */
 export interface Msg {
     /** Create defines a method to create a new agreement. */
@@ -266,6 +286,8 @@ export interface Msg {
     Terminate(request: MsgTerminateAgreementRequest): Promise<MsgTerminateAgreementResponse>;
     /** Expire defines a method to expire an agreement */
     Expire(request: MsgExpireAgreementRequest): Promise<MsgExpireAgreementResponse>;
+    /** Finance defines a metho to finance an agreement */
+    Finance(request: MsgFinanceAgreementRequest): Promise<MsgFinanceAgreementResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
@@ -278,6 +300,7 @@ export declare class MsgClientImpl implements Msg {
     Amend(request: MsgAmendAgreementRequest): Promise<MsgAmendAgreementResponse>;
     Terminate(request: MsgTerminateAgreementRequest): Promise<MsgTerminateAgreementResponse>;
     Expire(request: MsgExpireAgreementRequest): Promise<MsgExpireAgreementResponse>;
+    Finance(request: MsgFinanceAgreementRequest): Promise<MsgFinanceAgreementResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

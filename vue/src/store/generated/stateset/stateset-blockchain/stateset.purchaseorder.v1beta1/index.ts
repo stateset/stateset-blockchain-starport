@@ -9,9 +9,10 @@ import { EventLocked } from "./module/types/stateset/purchaseorder/v1beta1/event
 import { EventFinanced } from "./module/types/stateset/purchaseorder/v1beta1/events"
 import { IbcPurchaseOrderPacketData } from "./module/types/stateset/purchaseorder/v1beta1/packet"
 import { PurchaseOrder } from "./module/types/stateset/purchaseorder/v1beta1/tx"
+import { PurchaseOrderFilters } from "./module/types/stateset/purchaseorder/v1beta1/tx"
 
 
-export { EventCreatePurchaseOrder, EventCompleted, EventCancelled, EventLocked, EventFinanced, IbcPurchaseOrderPacketData, PurchaseOrder };
+export { EventCreatePurchaseOrder, EventCompleted, EventCancelled, EventLocked, EventFinanced, IbcPurchaseOrderPacketData, PurchaseOrder, PurchaseOrderFilters };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -60,6 +61,7 @@ const getDefaultState = () => {
 						EventFinanced: getStructure(EventFinanced.fromPartial({})),
 						IbcPurchaseOrderPacketData: getStructure(IbcPurchaseOrderPacketData.fromPartial({})),
 						PurchaseOrder: getStructure(PurchaseOrder.fromPartial({})),
+						PurchaseOrderFilters: getStructure(PurchaseOrderFilters.fromPartial({})),
 						
 		},
 		_Subscriptions: new Set(),
@@ -175,6 +177,21 @@ export default {
 		},
 		
 		
+		async sendMsgDeletePurchaseOrderRequest({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgDeletePurchaseOrderRequest(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new SpVuexError('TxClient:MsgDeletePurchaseOrderRequest:Init', 'Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new SpVuexError('TxClient:MsgDeletePurchaseOrderRequest:Send', 'Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		async sendMsgCreatePurchaseOrderRequest({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -187,6 +204,21 @@ export default {
 					throw new SpVuexError('TxClient:MsgCreatePurchaseOrderRequest:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new SpVuexError('TxClient:MsgCreatePurchaseOrderRequest:Send', 'Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgFinancePurchaseOrderRequest({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgFinancePurchaseOrderRequest(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new SpVuexError('TxClient:MsgFinancePurchaseOrderRequest:Init', 'Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new SpVuexError('TxClient:MsgFinancePurchaseOrderRequest:Send', 'Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -205,22 +237,21 @@ export default {
 				}
 			}
 		},
-		async sendMsgDeletePurchaseOrderRequest({ rootGetters }, { value, fee = [], memo = '' }) {
+		
+		async MsgDeletePurchaseOrderRequest({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
 				const msg = await txClient.msgDeletePurchaseOrderRequest(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
+				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
 					throw new SpVuexError('TxClient:MsgDeletePurchaseOrderRequest:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new SpVuexError('TxClient:MsgDeletePurchaseOrderRequest:Send', 'Could not broadcast Tx: '+ e.message)
+					throw new SpVuexError('TxClient:MsgDeletePurchaseOrderRequest:Create', 'Could not create message: ' + e.message)
+					
 				}
 			}
 		},
-		
 		async MsgCreatePurchaseOrderRequest({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -235,6 +266,20 @@ export default {
 				}
 			}
 		},
+		async MsgFinancePurchaseOrderRequest({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgFinancePurchaseOrderRequest(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new SpVuexError('TxClient:MsgFinancePurchaseOrderRequest:Init', 'Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new SpVuexError('TxClient:MsgFinancePurchaseOrderRequest:Create', 'Could not create message: ' + e.message)
+					
+				}
+			}
+		},
 		async MsgUpdatePurchaseOrderRequest({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -245,20 +290,6 @@ export default {
 					throw new SpVuexError('TxClient:MsgUpdatePurchaseOrderRequest:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new SpVuexError('TxClient:MsgUpdatePurchaseOrderRequest:Create', 'Could not create message: ' + e.message)
-					
-				}
-			}
-		},
-		async MsgDeletePurchaseOrderRequest({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgDeletePurchaseOrderRequest(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgDeletePurchaseOrderRequest:Init', 'Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new SpVuexError('TxClient:MsgDeletePurchaseOrderRequest:Create', 'Could not create message: ' + e.message)
 					
 				}
 			}

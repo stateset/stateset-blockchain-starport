@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
-import { PurchaseOrder } from "../../../stateset/purchaseorder/v1beta1/tx";
+import { PurchaseOrder, PurchaseOrderFilters, } from "../../../stateset/purchaseorder/v1beta1/tx";
 import { PageRequest, PageResponse, } from "../../../cosmos/base/query/v1beta1/pagination";
 export const protobufPackage = "stateset.purchaseorder.v1beta1";
 const baseQueryPurchaseOrderRequest = { purchaseorderId: "" };
@@ -126,8 +126,11 @@ export const QueryPurchaseOrderResponse = {
 const baseQueryPurchaseOrdersRequest = {};
 export const QueryPurchaseOrdersRequest = {
     encode(message, writer = Writer.create()) {
+        if (message.filters !== undefined) {
+            PurchaseOrderFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
+        }
         if (message.pagination !== undefined) {
-            PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+            PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
         }
         return writer;
     },
@@ -141,6 +144,9 @@ export const QueryPurchaseOrdersRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    message.filters = PurchaseOrderFilters.decode(reader, reader.uint32());
+                    break;
+                case 2:
                     message.pagination = PageRequest.decode(reader, reader.uint32());
                     break;
                 default:
@@ -154,6 +160,12 @@ export const QueryPurchaseOrdersRequest = {
         const message = {
             ...baseQueryPurchaseOrdersRequest,
         };
+        if (object.filters !== undefined && object.filters !== null) {
+            message.filters = PurchaseOrderFilters.fromJSON(object.filters);
+        }
+        else {
+            message.filters = undefined;
+        }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromJSON(object.pagination);
         }
@@ -164,6 +176,10 @@ export const QueryPurchaseOrdersRequest = {
     },
     toJSON(message) {
         const obj = {};
+        message.filters !== undefined &&
+            (obj.filters = message.filters
+                ? PurchaseOrderFilters.toJSON(message.filters)
+                : undefined);
         message.pagination !== undefined &&
             (obj.pagination = message.pagination
                 ? PageRequest.toJSON(message.pagination)
@@ -174,6 +190,12 @@ export const QueryPurchaseOrdersRequest = {
         const message = {
             ...baseQueryPurchaseOrdersRequest,
         };
+        if (object.filters !== undefined && object.filters !== null) {
+            message.filters = PurchaseOrderFilters.fromPartial(object.filters);
+        }
+        else {
+            message.filters = undefined;
+        }
         if (object.pagination !== undefined && object.pagination !== null) {
             message.pagination = PageRequest.fromPartial(object.pagination);
         }

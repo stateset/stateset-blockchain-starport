@@ -141,12 +141,13 @@ export class Api extends HttpClient {
          *
          * @tags Query
          * @name QueryInvoices
-         * @summary Invoices returns purchase order details based on purchase order.
+         * @summary Invoices returns invoices.
          * @request GET:/stateset/invoice/v1beta1/invoices
          */
-        this.queryInvoices = (params = {}) => this.request({
+        this.queryInvoices = (query, params = {}) => this.request({
             path: `/stateset/invoice/v1beta1/invoices`,
             method: "GET",
+            query: query,
             format: "json",
             ...params,
         });
@@ -155,7 +156,7 @@ export class Api extends HttpClient {
          *
          * @tags Query
          * @name QueryInvoice
-         * @summary Queries a day by id.
+         * @summary Invoice returns invoice details based on incoice id.
          * @request GET:/stateset/invoice/v1beta1/invoices/{invoiceId}
          */
         this.queryInvoice = (invoiceId, params = {}) => this.request({

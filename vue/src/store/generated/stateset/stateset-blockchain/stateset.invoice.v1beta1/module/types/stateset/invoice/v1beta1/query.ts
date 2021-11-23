@@ -1,12 +1,18 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
-import { Invoice } from "../../../stateset/invoice/v1beta1/tx";
-import { PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
+import { InvoiceFilters, Invoice } from "../../../stateset/invoice/v1beta1/tx";
+import {
+  PageRequest,
+  PageResponse,
+} from "../../../cosmos/base/query/v1beta1/pagination";
 
 export const protobufPackage = "stateset.invoice.v1beta1";
 
 /** QueryInvoiceRequest is the Query/Invoice request type. */
-export interface QueryInvoicesRequest {}
+export interface QueryInvoicesRequest {
+  filters: InvoiceFilters | undefined;
+  pagination: PageRequest | undefined;
+}
 
 export interface QueryInvoicesResponse {
   invoices: Invoice[];
@@ -26,7 +32,16 @@ export interface QueryInvoiceResponse {
 const baseQueryInvoicesRequest: object = {};
 
 export const QueryInvoicesRequest = {
-  encode(_: QueryInvoicesRequest, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryInvoicesRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.filters !== undefined) {
+      InvoiceFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -37,6 +52,12 @@ export const QueryInvoicesRequest = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.filters = InvoiceFilters.decode(reader, reader.uint32());
+          break;
+        case 2:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -45,18 +66,46 @@ export const QueryInvoicesRequest = {
     return message;
   },
 
-  fromJSON(_: any): QueryInvoicesRequest {
+  fromJSON(object: any): QueryInvoicesRequest {
     const message = { ...baseQueryInvoicesRequest } as QueryInvoicesRequest;
+    if (object.filters !== undefined && object.filters !== null) {
+      message.filters = InvoiceFilters.fromJSON(object.filters);
+    } else {
+      message.filters = undefined;
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
     return message;
   },
 
-  toJSON(_: QueryInvoicesRequest): unknown {
+  toJSON(message: QueryInvoicesRequest): unknown {
     const obj: any = {};
+    message.filters !== undefined &&
+      (obj.filters = message.filters
+        ? InvoiceFilters.toJSON(message.filters)
+        : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
     return obj;
   },
 
-  fromPartial(_: DeepPartial<QueryInvoicesRequest>): QueryInvoicesRequest {
+  fromPartial(object: DeepPartial<QueryInvoicesRequest>): QueryInvoicesRequest {
     const message = { ...baseQueryInvoicesRequest } as QueryInvoicesRequest;
+    if (object.filters !== undefined && object.filters !== null) {
+      message.filters = InvoiceFilters.fromPartial(object.filters);
+    } else {
+      message.filters = undefined;
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
     return message;
   },
 };
@@ -274,9 +323,9 @@ export const QueryInvoiceResponse = {
 
 /** Query defines the gRPC querier service. */
 export interface Query {
-  /** Invoices returns purchase order details based on purchase order. */
+  /** Invoices returns invoices. */
   Invoices(request: QueryInvoicesRequest): Promise<QueryInvoicesResponse>;
-  /** Queries a day by id. */
+  /** Invoice returns invoice details based on incoice id. */
   Invoice(request: QueryInvoiceRequest): Promise<QueryInvoiceResponse>;
 }
 
