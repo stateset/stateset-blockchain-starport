@@ -11,7 +11,7 @@ import (
 
 
 // Create Invoice
-func (server msgServer) CreateInvoice(goCtx context.Context, msg *types.MsgCreateInvoice) (*types.MsgCreateInvoiceResponse, error) {
+func (server msgServer) CreateInvoice(goCtx context.Context, msg *types.MsgCreateInvoiceRequest) (*types.MsgCreateInvoiceResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)

@@ -11,20 +11,27 @@ option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
 // Query defines the gRPC querier service.
 service Query {
 
-  // Invoices returns purchase order details based on purchase order.
+  // Invoices returns invoices.
   rpc Invoices(QueryInvoicesRequest) returns (QueryInvoicesResponse) {
-    option (google.api.http).get = "/stateset/invoice/v1beta1/invoices";
+    option (google.api.http).get = 
+        "/stateset/invoice/v1beta1/invoices";
   }
 
-    // Queries a day by id.
+    // Invoice returns invoice details based on incoice id.
 	rpc Invoice(QueryInvoiceRequest) returns (QueryInvoiceResponse) {
-		option (google.api.http).get = "/stateset/invoice/v1beta1/invoices/{invoice_id}";
+    option (google.api.http).get = 
+        "/stateset/invoice/v1beta1/invoices/{invoice_id}";
 	}
 
 }
 
 // QueryInvoiceRequest is the Query/Invoice request type.
-message QueryInvoicesRequest {}
+message QueryInvoicesRequest {
+
+  InvoiceFilters filters = 1 [(gogoproto.nullable) = false];
+
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
 
 message QueryInvoicesResponse {
 

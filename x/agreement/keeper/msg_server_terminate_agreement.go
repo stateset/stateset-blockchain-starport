@@ -9,7 +9,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (k msgServer) TerminateAgreement(goCtx context.Context, msg *types.MsgTerminateAgreement) (*types.MsgTerminateAgreementResponse, error) {
+func (k msgServer) TerminateAgreement(goCtx context.Context, msg *types.MsgTerminateAgreementRequest) (*types.MsgTerminateAgreementResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	agreement, found := k.GetAgreement(ctx, msg.Id)

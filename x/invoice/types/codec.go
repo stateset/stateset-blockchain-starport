@@ -11,7 +11,7 @@ import (
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(MsgCreateInvoiceRequest{}, "stateset/CreateInvoice", nil)
 	cdc.RegisterConcrete(MsgCancelInvoiceRequest{}, "stateset/CancelInvoice", nil)
-	cdc.RegisterConcrete(MsgUpdateInvoiceRequest{}, "stateset/EditInvoice", nil)
+	cdc.RegisterConcrete(MsgUpdateInvoiceRequest{}, "stateset/UpdateInvoice", nil)
 	cdc.RegisterConcrete(MsgDeleteInvoiceRequest{}, "stateset/DeleteInvoice", nil)
 	cdc.RegisterConcrete(MsgFactorInvoiceRequest{}, "stateset/FactorInvoice", nil)
 }

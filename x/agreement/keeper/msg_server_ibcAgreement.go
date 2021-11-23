@@ -8,7 +8,7 @@ import (
 	"github.com/stateset/stateset-blockchain/x/agreement/types"
 )
 
-func (k msgServer) SendIbcAgreement(goCtx context.Context, msg *types.MsgSendIbcAgreement) (*types.MsgSendIbcAgreementResponse, error) {
+func (k msgServer) SendIbcAgreement(goCtx context.Context, msg *types.MsgSendIbcAgreementRequest) (*types.MsgSendIbcAgreementResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Construct the packet

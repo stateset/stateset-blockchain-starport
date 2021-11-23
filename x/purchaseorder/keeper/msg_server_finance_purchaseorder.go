@@ -9,7 +9,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (server msgServer) FinancePurchaseOrder(goCtx context.Context, msg *types.MsgFinancePurchaseOrder) (*types.MsgFinancePurchaseOrderResponse, error) {
+func (server msgServer) FinancePurchaseOrder(goCtx context.Context, msg *types.MsgFinancePurchaseOrderRequest) (*types.MsgFinancePurchaseOrderResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)

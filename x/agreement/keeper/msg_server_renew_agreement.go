@@ -9,7 +9,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (k msgServer) RenewAgreement(goCtx context.Context, msg *types.MsgRenewAgreement) (*types.MsgRenewAgreementResponse, error) {
+func (k msgServer) RenewAgreement(goCtx context.Context, msg *types.MsgRenewAgreementRequest) (*types.MsgRenewAgreementResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	agreement, found := k.GetAgreement(ctx, msg.Id)

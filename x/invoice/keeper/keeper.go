@@ -51,9 +51,6 @@ func (k Keeper) CreateInvoice(ctx sdk.Context, body, invoiceID string,
 	// increment invoiceID (primary key) for next invoice
 	k.setInvoiceID(ctx, invoiceID+1)
 
-	// persist associations
-	k.setControllerInvoice(ctx, invoice.Controller, invoiceID)
-	k.setProcessorInvoice(ctx, invoice.Processor, invoiceId)
 	k.setCreatedTimeInvoice(ctx, invoice.CreatedTime, invoiceID)
 
 	logger(ctx).Info("Submitted " + invoice.String())
@@ -61,9 +58,9 @@ func (k Keeper) CreateInvoice(ctx sdk.Context, body, invoiceID string,
 	return invoice, nil
 }
 
-// EditInvoice allows admins to edit the body of an invoice
+// UpdateInvoice allows admins to update the body of an invoice
 
-func (k Keeper) EditInvoice(ctx sdk.Context, id uint64, body string, editor sdk.AccAddress) (invoice Invoice, err sdk.Error) {
+func (k Keeper) UpdateInvoice(ctx sdk.Context, id uint64, body string, editor sdk.AccAddress) (invoice Invoice, err sdk.Error) {
 	if !k.isAdmin(ctx, editor) {
 		err = ErrAddressNotAuthorised()
 		return

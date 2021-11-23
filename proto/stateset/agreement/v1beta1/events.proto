@@ -96,3 +96,14 @@ message EventExpired {
   // expirer_date is the beginning of the period during which this agreement was expired
   string expiration_date = 3 [(gogoproto.moretags) = "yaml:\"start_date\""];
 }
+
+
+message EventFinanced {
+
+string agreement_id = 1 [(gogoproto.moretags) = "yaml:\"agreement_id\""];
+
+string financer = 2;
+
+string finance_date = 3 [(gogoproto.moretags) = "yaml:\"finance_date\"" ];
+
+}

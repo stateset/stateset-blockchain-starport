@@ -3,6 +3,7 @@ syntax = "proto3";
 package stateset.invoice.v1beta1;
 
 import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto"
 
 option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
 
@@ -27,6 +28,7 @@ message Invoice {
 
 // State is an enum which refers to state of an ourchase order
 enum State {
+
   option (gogoproto.goproto_enum_prefix) = false;
   // Prefix should start with 0 in enum. So declaring dummy state
   invalid = 0 [(gogoproto.enumvalue_customname) = "InvoiceStateInvalid"];
@@ -39,6 +41,17 @@ enum State {
 
   factored = 4 [(gogoproto.enumvalue_customname) = "Factored"];
 }
+
+message InvoiceFilters {
+  option (gogoproto.equal) = false;
+
+  string owner = 1 [(gogoproto.jsontag) = "owner", (gogoproto.moretags) = "yaml:\"owner\""];
+
+  string state = 2 [(gogoproto.jsontag) = "state", (gogoproto.moretags) = "yaml:\"state\""];
+
+}
+
+
 
 
 // Msg is the stateset.invoice.v1beta1 Msg service
@@ -86,32 +99,55 @@ message MsgCreateInvoiceRequest {
 }
 
 // MsgSignDataResponse is the Msg/SignData response type.
-message MsgCreateInvoiceResponse {}
+message MsgCreateInvoiceResponse {
+
+  string invoice_id = 1;
+
+}
 
 
 // MsgCreateInvoiceRequest is the Msg/CreateInvoice request type.
 message MsgUpdateInvoiceRequest {
   
-  string creator = 1;
+  string sender = 1;
+
   string invoice_id = 2;
-  string invoice_number = 3; 
+
+  string invoice_number = 3;
+
   string invoice_name = 4;
+
   string billing_reason = 5;
+ 
   string amount_due = 6;
+  
   string amount_paid = 7;
+  
   string amount_remaining = 8;
+  
   string subtotal = 9;
+  
   string total = 10;
+  
   string party = 11;
+  
   string counterparty = 12;
+  
   string factor = 13;
+  
   string due_date = 14;
+  
   string period_start_date = 15;
+  
   string period_end_date = 16;
 }
 
 // MsgSignDataResponse is the Msg/SignData response type.
-message MsgUpdateInvoiceResponse {}
+message MsgUpdateInvoiceResponse {
+
+  string invoice_id = 1;
+  
+}
 
 // MsgActivateInvoiceRequest is the Msg/ActivateInvoice request type.
 message MsgCancelInvoiceRequest {

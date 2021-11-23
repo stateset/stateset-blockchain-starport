@@ -10,6 +10,7 @@ type AgreementHooks interface {
 	AfterRenewAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins)
 	AfterAmendAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins)
 	AfterExpireAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins)
+	AfterTerminateAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins)
 	AfterLockAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins)
 }
 
@@ -62,6 +63,12 @@ func (h MultiAgreementHooks) AfterRenewAgreement(ctx sdk.Context, sender sdk.Acc
 func (h MultiAgreementHooks) AfterAmendAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins) {
 	for i := range h {
 		h[i].AfterAmendAgreement(ctx, sender, agreementId, amount)
+	}
+}
+
+func (h MultiAgreementHooks) AfterTerminateAgreement(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins) {
+	for i := range h {
+		h[i].AfterTerminateAgreement(ctx, sender, agreementId, amount)
 	}
 }
 

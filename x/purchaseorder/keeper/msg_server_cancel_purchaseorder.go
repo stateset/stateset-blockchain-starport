@@ -8,7 +8,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (server msgServer) CancelPurchaseOrder(goCtx context.Context, msg *types.MsgCancelPurchaseOrder) (*types.MsgCancelPurchaseOrderResponse, error) {
+func (server msgServer) CancelPurchaseOrder(goCtx context.Context, msg *types.MsgCancelPurchaseOrderRequest) (*types.MsgCancelPurchaseOrderResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
@@ -16,20 +16,20 @@ func (server msgServer) CancelPurchaseOrder(goCtx context.Context, msg *types.Ms
 		return nil, err
 	}
 
-	err = server.keeper.CompletePurchaseOrder(ctx, sender, msg.PurchaseOrderId, msg.amount)
+	err = server.keeper.CancelPurchaseOrder(ctx, sender, msg.PurchaseOrderId, msg.amount)
 	if err != nil {
 		return nil, err
 	}
 
 	purchaseorder, found := k.GetPurchaseOrder(ctx, msg.Id)
-	purchaseorder.PurchaseOrderStatus = "cancelled"
+	purchaseorder.PurchaseOrderStatus = "canceled"
 
 	// Burn a NFT that represents the Purchase Order DID and Value of the PO
 	k.bankKeeper.BurnCoins(ctx, purchaseorder, 1)
 
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
-			types.TypeEvtPurchaseOrderCancelled,
+			types.TypeEvtPurchaseOrderCanceled,
 			sdk.NewAttribute(types.AttributeKeyPurchaseOrderId, strconv.FormatUint(msg.PurchaseOrderId, 10)),
 		),
 		sdk.NewEvent(

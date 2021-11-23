@@ -38,9 +38,9 @@ func (h MultiPurchaseOrderHooks) AfterCompletePurchaseOrder(ctx sdk.Context, sen
 	}
 }
 
-func (h MultiPurchaseOrderHooks) AfterCancelPurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, agreementId uint64, amount sdk.Coins) {
+func (h MultiPurchaseOrderHooks) AfterCancelPurchaseOrder(ctx sdk.Context, sender sdk.AccAddress, purchaseOrderId uint64, amount sdk.Coins) {
 	for i := range h {
-		h[i].AfterCancelPurchaseOrder(ctx, sender, agreementId, amount)
+		h[i].AfterCancelPurchaseOrder(ctx, sender, purchaseOrderId, amount)
 	}
 }
 

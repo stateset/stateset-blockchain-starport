@@ -53,6 +53,8 @@ func (msg *MsgCreatePurchaseOrderRequest) ValidateBasic() error {
 	return nil
 }
 
+// Update Purchase Order
+
 var _ sdk.Msg = &MsgUpdatePurchaseOrderRequest{}
 
 func NewMsgUpdatePurchaseOrder(creator string, id uint64, purchaseorderId string, purchaseorderNumber string, description string, subtotal string, total string, purchaser string, vendor string, financer string, purchaseDate string, deliveryDate string) *MsgUpdatePurchaseOrderRequest {
@@ -100,6 +102,8 @@ func (msg *MsgUpdatePurchaseOrderRequest) ValidateBasic() error {
 	return nil
 }
 
+// Message Delete Purchase Order
+
 var _ sdk.Msg = &MsgDeletePurchaseOrderRequest{}
 
 func NewMsgDeletePurchaseOrder(creator string, id uint64) *MsgDeletePurchaseOrderRequest {
@@ -113,7 +117,7 @@ func (msg *MsgDeletePurchaseOrderRequest) Route() string {
 }
 
 func (msg *MsgDeletePurchaseOrderRequest) Type() string {
-	return "DeletePurchaseorder"
+	return "DeletePurchaseOrder"
 }
 
 func (msg *MsgDeletePurchaseOrderRequest) GetSigners() []sdk.AccAddress {
@@ -136,3 +140,44 @@ func (msg *MsgDeletePurchaseOrderRequest) ValidateBasic() error {
 	}
 	return nil
 }
+
+
+// Finance Purchase Order Request
+
+var _ sdk.Msg = &MsgFinancePurchaseOrderRequest{}
+
+func NewMsgFinancePurchaseOrder (creator string, id uint64) *MsgFinancePurchaseOrderRequest {
+	return &MsgFinancePurchaseOrderRequest{
+		Creator: creator,
+	}
+}
+
+func (msg *MsgFinancePurchaseOrderRequest) Route() string {
+	return RouterKey
+}
+
+func (msg *MsgFinancePurchaseOrderRequest) Type() string {
+	return "FinancePurchaseOrder"
+}
+
+func (msg *MsgFinancePurchaseOrderRequest) GetSigners() []sdk.AccAddress {
+	creator, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{creator}
+}
+
+func (msg *MsgFinancePurchaseOrderRequest) GetSignBytes() []byte {
+	bz := ModuleCdc.MustMarshalJSON(msg)
+	return sdk.MustSortJSON(bz)
+}
+
+func (msg *MsgFinancePurchaseOrderRequest) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+	return nil
+}
+

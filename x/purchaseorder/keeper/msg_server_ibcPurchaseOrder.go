@@ -8,7 +8,7 @@ import (
 	"github.com/stateset/stateset-blockchain/x/purchaseorder/types"
 )
 
-func (k msgServer) SendIbcPurchaseOrder(goCtx context.Context, msg *types.MsgSendIbcPurchaseOrder) (*types.MsgSendIbcPurchaseOrderResponse, error) {
+func (k msgServer) SendIbcPurchaseOrder(goCtx context.Context, msg *types.MsgSendIbcPurchaseOrderRequest) (*types.MsgSendIbcPurchaseOrderResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	var packet types.IbcPurchaseOrderPacketData

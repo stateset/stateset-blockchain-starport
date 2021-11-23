@@ -10,7 +10,7 @@ import (
 )
 
 // Factor Invoice
-func (server msgServer) FactorInvoice(goCtx context.Context, msg *types.MsgFactorInvoice) (*types.MsgFactorInvoiceResponse, error) {
+func (server msgServer) FactorInvoice(goCtx context.Context, msg *types.MsgFactorInvoiceRequest) (*types.MsgFactorInvoiceResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)

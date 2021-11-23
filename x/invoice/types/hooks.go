@@ -16,7 +16,7 @@ var _ InvoiceHooks = MultiInvoiceHooks{}
 type MultiInvoiceHooks []InvoiceHooks
 
 // Creates hooks for the Invoice Module
-func NewInvoiceGammHooks(hooks ...InvoiceHooks) MultiInvoiceHooks {
+func NewInvoiceHooks(hooks ...InvoiceHooks) MultiInvoiceHooks {
 	return hooks
 }
 

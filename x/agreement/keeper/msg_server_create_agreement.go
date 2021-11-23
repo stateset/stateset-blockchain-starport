@@ -9,7 +9,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (server msgServer) CreateAgreement(goCtx context.Context, msg *types.MsgCreateAgreement) (*types.MsgCreateAgreementResponse, error) {
+func (server msgServer) CreateAgreement(goCtx context.Context, msg *types.MsgCreateAgreementRequest) (*types.MsgCreateAgreementResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)

@@ -42,14 +42,16 @@ message QueryPurchaseOrderResponse {
 
 message QueryPurchaseOrdersRequest {
 
-  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+  PurchaseOrderFilters filters = 1 [(gogoproto.nullable) = false];
+
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 
 }
 
 
 message QueryPurchaseOrdersResponse {
 
-	repeated PurchaseOrder PurchaseOrder = 1;
+	repeated PurchaseOrder PurchaseOrder = 1 [(gogoproto.nullable) = false];
 
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

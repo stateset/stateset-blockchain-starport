@@ -8,7 +8,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (server msgServer) CompletePurchaseOrder(goCtx context.Context, msg *types.MsgCompletePurchaseOrder) (*types.MsgCompletePurchaseOrderResponse, error) {
+func (server msgServer) CompletePurchaseOrder(goCtx context.Context, msg *types.MsgCompletePurchaseOrderRequest) (*types.MsgCompletePurchaseOrderResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)

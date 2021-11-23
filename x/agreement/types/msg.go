@@ -283,3 +283,28 @@ func (msg *MsgExpireAgreementRequest) ValidateBasic() error {
 	}
 	return nil
 }
+
+// Finance Agreement
+var _ sdk.Msg = &MsgFinanceAgreeementRequest{}
+
+func (msg *MsgFinanceAgreeementRequest) Route() string { 
+	return RouterKey 
+}
+
+func (msg *MsgFinanceAgreeementRequest) Type() string { 
+	return "FinanceAgreement"
+}
+
+func (msg *MsgFinanceAgreeementRequest) GetSignBytes() []byte {
+	bz := ModuleCdc.MustMarshalJSON(msg)
+	return sdk.MustSortJSON(bz)
+}
+
+func (msg *MsgFinanceAgreeement) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid cretaor address (%s)", err)
+
+	}
+	return nil
+}

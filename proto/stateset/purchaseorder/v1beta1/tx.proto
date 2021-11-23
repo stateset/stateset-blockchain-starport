@@ -39,6 +39,17 @@ option go_package = "github.com/stateset/stateset-blockchain/x/purchaseorder/typ
       financed = 5 [(gogoproto.enumvalue_customname) = "Financed"];
     }
 
+
+message PurchaseOrderFilters {
+  option (gogoproto.equal) = false;
+
+  string owner = 1 [(gogoproto.jsontag) = "owner", (gogoproto.moretags) = "yaml:\"owner""];
+
+  string state = 2 [(gogoproto.jsontag) = "state", (gogoproto.moretags) = "yaml:\"state""];
+
+}
+
+
 // Msg is the stateset.purchaseorder.v1beta1 Msg service
 service Msg {
 

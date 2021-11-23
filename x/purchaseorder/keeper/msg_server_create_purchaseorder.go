@@ -8,7 +8,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (server msgServer) CreatePurchaseOrder(goCtx context.Context, msg *types.MsgCreatePurchaseOrder) (*types.MsgCreatePurchaseOrderResponse, error) {
+func (server msgServer) CreatePurchaseOrder(goCtx context.Context, msg *types.MsgCreatePurchaseOrderRequest) (*types.MsgCreatePurchaseOrderResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
@@ -16,7 +16,7 @@ func (server msgServer) CreatePurchaseOrder(goCtx context.Context, msg *types.Ms
 		return nil, err
 	}
 
-	poolId, err := server.keeper.CreatePurchaseOrder(ctx, sender, msg.PurchaseOrderParams, msg.PurchaseOrderAssets)
+	poolId, err := server.keeper.CreatePurchaseOrder(ctx, sender, msg.PurchaseOrderParams)
 	if err != nil {
 		return nil, err
 	}

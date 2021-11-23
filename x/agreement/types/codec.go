@@ -17,6 +17,7 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(MsgRenewAgreementRequest{}, "stateset/RenewAgreement", nil)
 	cdc.RegisterConcrete(MsgTerminateAgreementRequest{}, "stateset/TerminateAgreement", nil)
 	cdc.RegisterConcrete(MsgExpireAgreementRequest{}, "stateset/ExpireAgreement", nil)
+	csc.RegisterConcrete(MsgFinanceAgreementRequest{}, "stateset/FinanceAgreement," nil)
 }
 
 // RegisterInterfaces registers the agreement interfaces types with the interface registry
@@ -30,6 +31,7 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgRenewAgreementRequest{},
 		&MsgTerminateAgreementRequest{},
 		&MsgExpireAgreementRequest{},
+		&MsgFinanceAgreementRequest{},
 	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)

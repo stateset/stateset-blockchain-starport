@@ -12,7 +12,7 @@ import (
 
 
 // Cancel Invoice
-func (server msgServer) CancelInvoice(goCtx context.Context, msg *types.MsgCancelInvoice) (*types.MsgCancelInvoiceResponse, error) {
+func (server msgServer) CancelInvoice(goCtx context.Context, msg *types.MsgCancelInvoiceRequest) (*types.MsgCancelInvoiceResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
@@ -33,7 +33,7 @@ func (server msgServer) CancelInvoice(goCtx context.Context, msg *types.MsgCance
 
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
-			types.TypeEvtInvoiceCanceld,
+			types.TypeEvtInvoiceCanceled,
 			sdk.NewAttribute(types.AttributeKeyInvoiceId, strconv.FormatUint(msg.InvoiceId, 10)),
 		),
 		sdk.NewEvent(

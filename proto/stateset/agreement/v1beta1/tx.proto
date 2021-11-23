@@ -78,6 +78,9 @@ service Msg {
   // Expire defines a method to expire an agreement
   rpc Expire(MsgExpireAgreementRequest) returns (MsgExpireAgreementResponse);
 
+  // Finance defines a metho to finance an agreement
+  rpc Finance(MsgFinanceAgreementRequest) returns (MsgFinanceAgreementResponse);
+
 }
 
 // MsgCreateAgreementRequest is the Msg/CreateAgreement request type.
@@ -213,3 +216,12 @@ message MsgExpireAgreementRequest {
 
 // MsgExpireResponse is the Msg/ExpireAgreement response type.
 message MsgExpireAgreementResponse {}
+
+
+message MsgFinanceAgreementRequest{
+
+  string sender = 1;
+  string agreement_id = 2;
+}
+
+message MsgFinanceAgreementResponse {}
