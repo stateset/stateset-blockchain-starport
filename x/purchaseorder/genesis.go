@@ -3,7 +3,7 @@ package purchaseorder
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stateset/stateset-blockchain/x/purchaseorder/keeper"
-	"github.com/stateset/stateset-blockchain/x/purchaseorder/types"
+	"github.com/tendermint/spn/x/launch/types"
 )
 
 // InitGenesis initializes the capability module's state from a provided genesis
