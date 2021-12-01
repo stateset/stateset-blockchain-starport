@@ -48,7 +48,7 @@ func (k Keeper) Invoice(c context.Context, req *types.QueryGetInvoiceRequest) (*
 	ctx := sdk.UnwrapSDKContext(c)
 
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InvoiceKey))
-	k.cdc.MustUnmarshalBinaryBare(store.Get(types.KeyPrefix(types.InvoiceKey + req.Id)), &invoice)
+	k.cdc.MustUnmarshalBinaryBare(store.Get(types.KeyPrefix(types.InvoiceKey+req.Id)), &invoice)
 
 	return &types.QueryGetInvoiceResponse{Invoice: &invoice}, nil
 }

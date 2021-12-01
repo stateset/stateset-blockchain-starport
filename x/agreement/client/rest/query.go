@@ -6,11 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
-	
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/rest"
 	"github.com/gorilla/mux"
-
 )
 
 const restAgreementID = "agreement-id"
@@ -86,9 +84,9 @@ func queryAgreementsHandlerFn(cliCtx context.CLIContext) http.HandlerFunc {
 		}
 
 		var (
-			involveAddr   sdk.AccAddress
-			expiration    uint64
-			agreementStatus    types.AgreementStatus
+			involveAddr     sdk.AccAddress
+			expiration      uint64
+			agreementStatus types.AgreementStatus
 		)
 
 		if x := r.URL.Query().Get(RestInvolve); len(x) != 0 {

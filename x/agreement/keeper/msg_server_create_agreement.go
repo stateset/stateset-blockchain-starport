@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/stateset/stateset-blockchain/x/agreement/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/stateset/stateset-blockchain/x/agreement/types"
 )
 
 func (server msgServer) CreateAgreement(goCtx context.Context, msg *types.MsgCreateAgreementRequest) (*types.MsgCreateAgreementResponse, error) {
@@ -27,7 +27,7 @@ func (server msgServer) CreateAgreement(goCtx context.Context, msg *types.MsgCre
 
 	// Verify the Value of the Agreement from existing system
 	k.zkpKeeper.VerifyProof(ctx, agreement)
-	
+
 	// Add a DID to represent the Agreement in the Cosmosverse DID:STATESET:AGREEMENT:123
 	k.didKeeper.AddDID(ctx, agreementhash)
 

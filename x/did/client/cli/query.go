@@ -7,10 +7,10 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/stateset/stateset-blockchain/x/did/exported"
-	"github.com/stateset/stateset-blockchain/x/did/types"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+	"github.com/stateset/stateset-blockchain/x/did/exported"
+	"github.com/stateset/stateset-blockchain/x/did/types"
 )
 
 func GetQueryCmd() *cobra.Command {

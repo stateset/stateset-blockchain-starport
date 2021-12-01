@@ -104,7 +104,6 @@ func HasSufficientCoins(addr sdk.AccAddress, availableCoins, amt sdk.Coins) (err
 	return nil
 }
 
-
 func SkipSysTestChecker(t *testing.T) {
 	_, fname, _, ok := runtime.Caller(0)
 	enable := ok

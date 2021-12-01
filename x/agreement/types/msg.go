@@ -285,22 +285,27 @@ func (msg *MsgExpireAgreementRequest) ValidateBasic() error {
 }
 
 // Finance Agreement
-var _ sdk.Msg = &MsgFinanceAgreeementRequest{}
+var _ sdk.Msg = &MsgFinanceAgreementRequest{}
 
-func (msg *MsgFinanceAgreeementRequest) Route() string { 
-	return RouterKey 
+func (msg *MsgFinanceAgreementRequest) Route() string {
+	return RouterKey
 }
 
-func (msg *MsgFinanceAgreeementRequest) Type() string { 
+func (msg *MsgFinanceAgreementRequest) Type() string {
 	return "FinanceAgreement"
 }
 
-func (msg *MsgFinanceAgreeementRequest) GetSignBytes() []byte {
+// GetSigners gets the signs of the Msg
+func (msg *MsgFinanceAgreementRequest) GetSigners() []sdk.AccAddress {
+	return []sdk.AccAddress{sdk.AccAddress(msg.Sender)}
+}
+
+func (msg *MsgFinanceAgreementRequest) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgFinanceAgreeement) ValidateBasic() error {
+func (msg *MsgFinanceAgreementRequest) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Sender)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid cretaor address (%s)", err)

@@ -55,8 +55,7 @@ func CmdSendIbcPurchaseOrder() *cobra.Command {
 	}
 
 	cmd.Flags().Uint64(flagPacketTimeoutTimestamp, DefaultRelativePacketTimeoutTimestamp, "Packet timeout timestamp in nanoseconds. Default is 10 minutes.")
-	
-	
+
 	flags.AddTxFlagsToCmd(cmd)
 
 	return cmd

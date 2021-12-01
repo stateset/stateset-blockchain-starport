@@ -6,9 +6,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
+	host "github.com/cosmos/ibc-go/modules/core"
 	channeltypes "github.com/cosmos/ibc-go/modules/core/types"
 	porttypes "github.com/cosmos/ibc-go/modules/core/types"
-	host "github.com/cosmos/ibc-go/modules/core"
 )
 
 // OnChanOpenInit implements the IBCModule interface

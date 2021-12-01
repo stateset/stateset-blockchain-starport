@@ -27,7 +27,7 @@ func (msg MsgAddDid) Route() string { return RouterKey }
 func (msg MsgAddDid) GetSignerDid() exported.Did { return msg.Did }
 
 func (msg MsgAddDid) GetSigners() []sdk.AccAddress {
-	return []sdk.AccAddress{nil} 
+	return []sdk.AccAddress{nil}
 }
 
 func (msg MsgAddDid) ValidateBasic() error {

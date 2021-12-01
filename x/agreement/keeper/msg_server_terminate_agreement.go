@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/stateset/stateset-blockchain/x/agreement/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/stateset/stateset-blockchain/x/agreement/types"
 )
 
 func (k msgServer) TerminateAgreement(goCtx context.Context, msg *types.MsgTerminateAgreementRequest) (*types.MsgTerminateAgreementResponse, error) {

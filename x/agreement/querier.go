@@ -10,15 +10,15 @@ import (
 
 // query endpoints
 const (
-	QueryAgreement                = "agreement"
-	QueryAgreements               = "agreements"
-	QueryAgreementsByIDs          = "agreements_ids"
-	QueryLenderAgreement	      = "lender_agreements"
-	QueryLenderAgreeements        = "lenders_agreements"
-	QueryAgreementsIDRange        = "agreements_id_range"
-	QueryAgreementsBeforeTime     = "agreements_before_time"
-	QueryAgreementssAfterTime     = "agreementss_after_time"
-	QueryParams                   = "params"
+	QueryAgreement            = "agreement"
+	QueryAgreements           = "agreements"
+	QueryAgreementsByIDs      = "agreements_ids"
+	QueryLenderAgreement      = "lender_agreements"
+	QueryLenderAgreeements    = "lenders_agreements"
+	QueryAgreementsIDRange    = "agreements_id_range"
+	QueryAgreementsBeforeTime = "agreements_before_time"
+	QueryAgreementssAfterTime = "agreementss_after_time"
+	QueryParams               = "params"
 )
 
 // QueryAgreementParams for a single agreement
@@ -105,7 +105,6 @@ func queryAgreementsByIDs(ctx sdk.Context, req abci.RequestQuery, keeper Keeper)
 
 	return mustMarshal(agreements)
 }
-
 
 func queryAgreementsByIDRange(ctx sdk.Context, req abci.RequestQuery, keeper Keeper) ([]byte, sdk.Error) {
 	var params QueryAgreementsIDRangeParams

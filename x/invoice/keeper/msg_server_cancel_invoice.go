@@ -4,12 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/stateset/stateset-blockchain/x/invoice/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/stateset/stateset-blockchain/x/invoice/types"
 )
-
-
 
 // Cancel Invoice
 func (server msgServer) CancelInvoice(goCtx context.Context, msg *types.MsgCancelInvoiceRequest) (*types.MsgCancelInvoiceResponse, error) {

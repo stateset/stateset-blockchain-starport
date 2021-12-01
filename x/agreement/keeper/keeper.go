@@ -13,14 +13,12 @@ import (
 
 // Keeper is the model object for the module
 type Keeper struct {
-	storeKey            sdk.StoreKey
-	cdc                 codec.BinaryMarshaler
-	authKeeper          types.AccountKeeper
-	bankKeeper          types.BankKeeper
-	purchaseorderKeeper types.PurchaseOrderKeeper
-	invoiceKeeper       types.InvoiceKeeper
-	hooks               types.StakingHooks
-	paramStore          params.Subspace
+	storeKey   sdk.StoreKey
+	cdc        codec.BinaryMarshaler
+	authKeeper types.AccountKeeper
+	bankKeeper types.BankKeeper
+	hooks      types.StakingHooks
+	paramStore params.Subspace
 }
 
 // NewKeeper creates a new account keeper

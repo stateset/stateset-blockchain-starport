@@ -17,7 +17,6 @@ import (
 	"github.com/tendermint/spm/cosmoscmd"
 	tmrand "github.com/tendermint/tendermint/libs/rand"
 	tmdb "github.com/tendermint/tm-db"
-
 )
 
 type (

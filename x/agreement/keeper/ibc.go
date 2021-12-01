@@ -4,8 +4,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
-	channeltypes "github.com/cosmos/ibc-go/modules/core/types"
 	host "github.com/cosmos/ibc-go/modules/core"
+	channeltypes "github.com/cosmos/ibc-go/modules/core/types"
 	"github.com/stateset/stateset-blockchain/x/agreement/types"
 )
 

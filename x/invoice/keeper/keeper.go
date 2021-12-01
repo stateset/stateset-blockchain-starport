@@ -125,7 +125,7 @@ func (k Keeper) InvoicesBeforeTime(ctx sdk.Context, createdTime time.Time) (invo
 }
 
 // InvoicessAfterTime gets all invoices after a certain CreatedTime
-func (k Keeper) InvoicessAfterTime(ctx sdk.Context, createdTime time.Time) (invoices Invoices) {
+func (k Keeper) InvoicesAfterTime(ctx sdk.Context, createdTime time.Time) (invoices Invoices) {
 	iterator := k.afterCreatedTimeInvoicesIterator(ctx, createdTime)
 
 	return k.iterateAssociated(ctx, iterator)

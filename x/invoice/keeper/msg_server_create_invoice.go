@@ -4,11 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/stateset/stateset-blockchain/x/invoice/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/stateset/stateset-blockchain/x/invoice/types"
 )
-
 
 // Create Invoice
 func (server msgServer) CreateInvoice(goCtx context.Context, msg *types.MsgCreateInvoiceRequest) (*types.MsgCreateInvoiceResponse, error) {
@@ -29,10 +28,10 @@ func (server msgServer) CreateInvoice(goCtx context.Context, msg *types.MsgCreat
 
 	// Verify the Value of the Invoice from existing system
 	k.zkpKeeper.VerifyProof(ctx, invoice)
-	
+
 	// Add a DID to represent the Invoice in the Cosmosverse DID:STATESET:INV:123
 	k.didKeeper.AddDID(ctx, invoicehash)
-	
+
 	// Mint a NFT that represents the Invoice DID and Value of the Invoice
 	k.nftKeeper.MintCoins(ctx, did)
 

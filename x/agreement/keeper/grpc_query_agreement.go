@@ -9,7 +9,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-
 func (k Keeper) Agreements(c context.Context, req *types.QueryAgreementsRequest) (*types.QueryAgreementsResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
@@ -47,11 +46,10 @@ func (k Keeper) Agreement(ctx context.Context, req *types.QueryAgreementRequest)
 	ctx := sdk.UnwrapSDKContext(c)
 
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AgreementKey))
-	k.cdc.MustUnmarshalBinaryBare(store.Get(types.KeyPrefix(types.AgreementKey + req.Id)), &agreement)
+	k.cdc.MustUnmarshalBinaryBare(store.Get(types.KeyPrefix(types.AgreementKey+req.Id)), &agreement)
 
 	return &types.QueryAgreementResponse{Agreement: &agreement}, nil
 }
-
 
 func (k Keeper) AgreementParams(ctx context.Context, req *types.QueryAgreementParamsRequest) (*types.QueryAgreementParamsResponse, error) {
 	if req == nil {
@@ -68,4 +66,3 @@ func (k Keeper) AgreementParams(ctx context.Context, req *types.QueryAgreementPa
 		Params: agreement.GetAgreementParams(),
 	}, nil
 }
-

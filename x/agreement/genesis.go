@@ -12,7 +12,6 @@ func DefaultGenesis() *GenesisState {
 	}
 }
 
-
 func (gs GenesisState) Validate() error {
 
 	agreementIdMap := make(map[uint64]bool)

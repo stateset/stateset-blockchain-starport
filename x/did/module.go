@@ -12,11 +12,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/spf13/cobra"
 	"github.com/stateset/stateset-blockchain/x/did/client/cli"
 	"github.com/stateset/stateset-blockchain/x/did/client/rest"
 	"github.com/stateset/stateset-blockchain/x/did/keeper"
 	"github.com/stateset/stateset-blockchain/x/did/types"
-	"github.com/spf13/cobra"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 

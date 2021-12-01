@@ -11,5 +11,5 @@ var (
 	ErrSample               = sdkerrors.Register("agreement", 1100, "sample error")
 	ErrInvalidPacketTimeout = sdkerrors.Register("agreement", 1500, "invalid packet timeout")
 	ErrInvalidVersion       = sdkerrors.Register("agreement", 1501, "invalid version")
-	ErrWrongAgreementState = sdkerrors.Register("agreement", 6, "invalid agreement state")
+	ErrWrongAgreementState  = sdkerrors.Register("agreement", 6, "invalid agreement state")
 )

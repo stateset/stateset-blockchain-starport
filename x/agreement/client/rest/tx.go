@@ -6,10 +6,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/rest"
-	
 )
 
 func registerTxRoutes(cliCtx context.CLIContext, r *mux.Router) {
@@ -24,18 +22,17 @@ func registerTxRoutes(cliCtx context.CLIContext, r *mux.Router) {
 }
 
 type createAgreementRequest struct {
-	BaseReq rest.BaseReq `json:"base_req"`
-	Creator string `json:"creator"`
-	AgreementNumber string `json:"agreementNumber"`
-	AgreementName string `json:"agreementName"`
-	AgreementType string `json:"agreementType"`
-	AgreementStatus string `json:"agreementStatus"`
-	TotalAgreementValue string `json:"totalAgreementValue"`
-	Party string `json:"party"`
-	Counterparty string `json:"counterparty"`
-	AgreementStartBlock string `json:"AgreementStartBlock"`
-	AgreementEndBlock string `json:"AgreementEndBlock"`
-	
+	BaseReq             rest.BaseReq `json:"base_req"`
+	Creator             string       `json:"creator"`
+	AgreementNumber     string       `json:"agreementNumber"`
+	AgreementName       string       `json:"agreementName"`
+	AgreementType       string       `json:"agreementType"`
+	AgreementStatus     string       `json:"agreementStatus"`
+	TotalAgreementValue string       `json:"totalAgreementValue"`
+	Party               string       `json:"party"`
+	Counterparty        string       `json:"counterparty"`
+	AgreementStartBlock string       `json:"AgreementStartBlock"`
+	AgreementEndBlock   string       `json:"AgreementEndBlock"`
 }
 
 func createAgreementHandlerFn(cliCtx context.CLIContext) http.HandlerFunc {
@@ -58,21 +55,21 @@ func createAgreementHandlerFn(cliCtx context.CLIContext) http.HandlerFunc {
 		}
 
 		parsedAgreementNumber := req.AgreementNumber
-		
+
 		parsedAgreementName := req.AgreementName
-		
+
 		parsedAgreementType := req.AgreementType
-		
+
 		parsedAgreementStatus := req.AgreementStatus
-		
+
 		parsedTotalAgreementValue := req.TotalAgreementValue
-		
+
 		parsedParty := req.Party
-		
+
 		parsedCounterparty := req.Counterparty
-		
+
 		parsedAgreementStartBlock := req.AgreementStartBlock
-		
+
 		parsedAgreementEndBlock := req.AgreementEndBlock
 
 		msg := types.NewMsgCreateAgreement(
@@ -86,7 +83,6 @@ func createAgreementHandlerFn(cliCtx context.CLIContext) http.HandlerFunc {
 			parsedCounterparty,
 			parsedAgreementStartBlock,
 			parsedAgreementEndBlock,
-			
 		)
 
 		tx.WriteGeneratedTxResponse(clientCtx, w, req.BaseReq, msg)
@@ -95,7 +91,7 @@ func createAgreementHandlerFn(cliCtx context.CLIContext) http.HandlerFunc {
 
 func updateAgreementHandler(clientCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-        id := mux.Vars(r)["id"]
+		id := mux.Vars(r)["id"]
 
 		var req updateAgreementRequest
 		if !rest.ReadRESTReq(w, r, clientCtx.LegacyAmino, &req) {
@@ -114,29 +110,27 @@ func updateAgreementHandler(clientCtx client.Context) http.HandlerFunc {
 			return
 		}
 
-		
 		parsedAgreementNumber := req.AgreementNumber
-		
+
 		parsedAgreementName := req.AgreementName
-		
+
 		parsedAgreementType := req.AgreementType
-		
+
 		parsedAgreementStatus := req.AgreementStatus
-		
+
 		parsedTotalAgreementValue := req.TotalAgreementValue
-		
+
 		parsedParty := req.Party
-		
+
 		parsedCounterparty := req.Counterparty
-		
+
 		parsedAgreementStartBlock := req.AgreementStartBlock
-		
+
 		parsedAgreementEndBlock := req.AgreementEndBlock
-		
 
 		msg := types.NewMsgUpdateAgreement(
 			req.Creator,
-            id,
+			id,
 			parsedAgreementNumber,
 			parsedAgreementName,
 			parsedAgreementType,
@@ -146,7 +140,6 @@ func updateAgreementHandler(clientCtx client.Context) http.HandlerFunc {
 			parsedCounterparty,
 			parsedAgreementStartBlock,
 			parsedAgreementEndBlock,
-			
 		)
 
 		tx.WriteGeneratedTxResponse(clientCtx, w, req.BaseReq, msg)
@@ -155,12 +148,12 @@ func updateAgreementHandler(clientCtx client.Context) http.HandlerFunc {
 
 type deleteAgreementRequest struct {
 	BaseReq rest.BaseReq `json:"base_req"`
-	Creator string `json:"creator"`
+	Creator string       `json:"creator"`
 }
 
 func deleteAgreementHandler(clientCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-        id := mux.Vars(r)["id"]
+		id := mux.Vars(r)["id"]
 
 		var req deleteAgreementRequest
 		if !rest.ReadRESTReq(w, r, clientCtx.LegacyAmino, &req) {
@@ -181,7 +174,7 @@ func deleteAgreementHandler(clientCtx client.Context) http.HandlerFunc {
 
 		msg := types.NewMsgDeleteAgreement(
 			req.Creator,
-            id,
+			id,
 		)
 
 		tx.WriteGeneratedTxResponse(clientCtx, w, req.BaseReq, msg)

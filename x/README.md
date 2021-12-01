@@ -8,4 +8,5 @@ These are the modules that make Stateset:
 - `x/common`: Common logic.
 - `x/did`: DID logic.
 - `x/invoice`: Invoice logic.
+- `x/loan`: Loan logic.
 - `x/purchaseorder`: Purchase Order logic.

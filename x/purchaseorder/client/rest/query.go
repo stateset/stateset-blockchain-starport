@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 
-	
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/rest"
 	"github.com/gorilla/mux"
@@ -87,9 +86,9 @@ func queryPurchaseOrdersHandlerFn(cliCtx context.CLIContext) http.HandlerFunc {
 		}
 
 		var (
-			involveAddr   sdk.AccAddress
-			expiration    uint64
-			purchaseorderStatus    types.PurchaseOrderStatus
+			involveAddr         sdk.AccAddress
+			expiration          uint64
+			purchaseorderStatus types.PurchaseOrderStatus
 		)
 
 		if x := r.URL.Query().Get(RestInvolve); len(x) != 0 {

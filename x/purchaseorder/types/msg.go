@@ -102,6 +102,45 @@ func (msg *MsgUpdatePurchaseOrderRequest) ValidateBasic() error {
 	return nil
 }
 
+// Cancel Purchase Order Request
+
+var _ sdk.Msg = &MsgCancelPurchaseOrderRequest{}
+
+func NewMsgCancelPurchaseOrder(creator string, id uint64) *MsgCancelPurchaseOrderRequest {
+	return &MsgCancelPurchaseOrderRequest{
+		Creator: creator,
+	}
+}
+
+func (msg *MsgCancelPurchaseOrderRequest) Route() string {
+	return RouterKey
+}
+
+func (msg *MsgCancelPurchaseOrderRequest) Type() string {
+	return "CancelPurchaseOrder"
+}
+
+func (msg *MsgCancelPurchaseOrderRequest) GetSigners() []sdk.AccAddress {
+	creator, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{creator}
+}
+
+func (msg *MsgCancelPurchaseOrderRequest) GetSignBytes() []byte {
+	bz := ModuleCdc.MustMarshalJSON(msg)
+	return sdk.MustSortJSON(bz)
+}
+
+func (msg *MsgCancelPurchaseOrderRequest) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+	return nil
+}
+
 // Message Delete Purchase Order
 
 var _ sdk.Msg = &MsgDeletePurchaseOrderRequest{}
@@ -141,12 +180,11 @@ func (msg *MsgDeletePurchaseOrderRequest) ValidateBasic() error {
 	return nil
 }
 
-
 // Finance Purchase Order Request
 
 var _ sdk.Msg = &MsgFinancePurchaseOrderRequest{}
 
-func NewMsgFinancePurchaseOrder (creator string, id uint64) *MsgFinancePurchaseOrderRequest {
+func NewMsgFinancePurchaseOrder(creator string, id uint64) *MsgFinancePurchaseOrderRequest {
 	return &MsgFinancePurchaseOrderRequest{
 		Creator: creator,
 	}
@@ -180,4 +218,3 @@ func (msg *MsgFinancePurchaseOrderRequest) ValidateBasic() error {
 	}
 	return nil
 }
-

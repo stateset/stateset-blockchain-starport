@@ -1,0 +1,11 @@
+syntax = "proto3";
+package stateset.statesetblockchain.loan;
+
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/stateset/stateset-blockchain/x/loan/types";
+
+// GenesisState defines the loan module's genesis state.
+message GenesisState {
+    // this line is used by starport scaffolding # genesis/proto/state
+}

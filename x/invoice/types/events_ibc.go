@@ -2,7 +2,7 @@ package types
 
 // Stateset Invoice IBC events
 const (
-	EventTypeTimeout = "timeout"
+	EventTypeTimeout                = "timeout"
 	EventTypeIbcPurchaseOrderPacket = "ibcInvoice_packet"
 
 	AttributeKeyAckSuccess = "success"

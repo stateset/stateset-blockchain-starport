@@ -83,14 +83,15 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
-	//"github.com/stateset/stateset-blockchain/x/agreement"
-	//"github.com/stateset/stateset-blockchain/x/invoice"
-	//"github.com/stateset/stateset-blockchain/x/purchaseorder"
-
 	"github.com/tendermint/spm/cosmoscmd"
 	"github.com/tendermint/spm/openapiconsole"
 
+	"github.com/stateset/stateset-blockchain/x/agreement"
+
 	"github.com/stateset/stateset-blockchain/docs"
+	loanmodule "github.com/stateset/stateset-blockchain/x/loan"
+	loanmodulekeeper "github.com/stateset/stateset-blockchain/x/loan/keeper"
+	loanmoduletypes "github.com/stateset/stateset-blockchain/x/loan/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -141,8 +142,9 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
+		loanmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
-		//agreement.AppModuleBasic{},
+		agreement.AppModuleBasic{},
 		//did.AppModuleBasic{},
 		//purchaseorder.AppModuleBasic{},
 		//invoice.AppModuleBasic{},
@@ -157,6 +159,7 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		loanmoduletypes.ModuleName:     {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -213,6 +216,7 @@ type App struct {
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 
+	LoanKeeper loanmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// the module manager
@@ -246,6 +250,7 @@ func New(
 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
+		loanmoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -344,6 +349,15 @@ func New(
 		&stakingKeeper, govRouter,
 	)
 
+	app.LoanKeeper = *loanmodulekeeper.NewKeeper(
+		appCodec,
+		keys[loanmoduletypes.StoreKey],
+		keys[loanmoduletypes.MemStoreKey],
+
+		app.BankKeeper,
+	)
+	loanModule := loanmodule.NewAppModule(appCodec, app.LoanKeeper)
+
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	// Create static IBC router, add transfer route, then set and seal it
@@ -382,6 +396,7 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
+		loanModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -416,6 +431,7 @@ func New(
 		genutiltypes.ModuleName,
 		evidencetypes.ModuleName,
 		ibctransfertypes.ModuleName,
+		loanmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -603,6 +619,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(crisistypes.ModuleName)
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
+	paramsKeeper.Subspace(loanmoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper

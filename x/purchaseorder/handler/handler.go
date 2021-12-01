@@ -7,19 +7,17 @@ import (
 	"github.com/stateset/stateset-blockchain/x/purchaseorder/types"
 )
 
-
 // NewHandler returns a handler for "purchaseorder" type messages.
 func NewHandler(k keeper.Keeper) sdk.Handler {
 	msgServer := keeper.NewMsgServerImpl(k)
 
 	return func(ctx sdk.Context, msg sdk.Msg) (*sdk.Result, error) {
 
-
 		switch msg := msg.(type) {
 		case *types.MsgCreatePurchaseOrder:
 			res, err := msgServer.Create(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		
+
 		case *types.MsgUpdatePurchaseOrder:
 			res, err := msgServer.Update(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
@@ -31,7 +29,7 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgCompletePurchaseOrder:
 			res, err := msgServer.Complete(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		
+
 		case *types.MsgCancelPurchaseOrder:
 			res, err := msgServer.Cancel(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)

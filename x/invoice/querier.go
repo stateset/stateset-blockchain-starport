@@ -10,13 +10,13 @@ import (
 
 // query endpoints
 const (
-	QueryInvoice              = "invoice"
-	QueryInvoices             = "invoices"
-	QueryInvoiceByIDs         = "invoices_ids"
-	QueryInvoicesIDRange      = "invoices_id_range"
-	QueryInvoiceBeforeTime    = "invoices_before_time"
-	QueryInvoicesAfterTime    = "invoices_after_time"
-	QueryParams               = "params"
+	QueryInvoice           = "invoice"
+	QueryInvoices          = "invoices"
+	QueryInvoiceByIDs      = "invoices_ids"
+	QueryInvoicesIDRange   = "invoices_id_range"
+	QueryInvoiceBeforeTime = "invoices_before_time"
+	QueryInvoicesAfterTime = "invoices_after_time"
+	QueryParams            = "params"
 )
 
 // QueryInvoiceParams for a single invoice
@@ -103,7 +103,6 @@ func queryInvoicesByIDs(ctx sdk.Context, req abci.RequestQuery, keeper Keeper) (
 
 	return mustMarshal(invoices)
 }
-
 
 func queryInvoicesByIDRange(ctx sdk.Context, req abci.RequestQuery, keeper Keeper) ([]byte, sdk.Error) {
 	var params QueryInvoicesIDRangeParams

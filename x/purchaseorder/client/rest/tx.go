@@ -6,10 +6,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/rest"
-	
 
 	"github.com/stateset/stateset-blockchain/x/purchaseorder"
 )
@@ -60,7 +58,7 @@ func postCreateHandlerFn(cliCtx context.CLIContext) http.HandlerFunc {
 
 func deletePurchaseorderHandler(clientCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-        id := mux.Vars(r)["id"]
+		id := mux.Vars(r)["id"]
 
 		var req deletePurchaseorderRequest
 		if !rest.ReadRESTReq(w, r, clientCtx.LegacyAmino, &req) {
@@ -81,13 +79,12 @@ func deletePurchaseorderHandler(clientCtx client.Context) http.HandlerFunc {
 
 		msg := types.NewMsgDeletePurchaseorder(
 			req.Creator,
-            id,
+			id,
 		)
 
 		tx.WriteGeneratedTxResponse(clientCtx, w, req.BaseReq, msg)
 	}
 }
-
 
 func postCompleteHandlerFn(cliCtx context.CLIContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

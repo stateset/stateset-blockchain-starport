@@ -7,7 +7,6 @@ import (
 	"github.com/stateset/stateset-blockchain/x/invoice/types"
 )
 
-
 // NewHandler returns a handler for "invoice" type messages.
 func NewHandler(k keeper.Keeper) sdk.Handler {
 	msgServer := keeper.NewMsgServerImpl(k)
@@ -19,7 +18,7 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgCreateInvoice:
 			res, err := msgServer.CreateInvoice(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		
+
 		case *types.MsgEditInvoice:
 			res, err := msgServer.EditInvoice(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
@@ -31,7 +30,7 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgCompleteInvoice:
 			res, err := msgServer.CancelInvoice(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		
+
 		case *types.MsgCancelInvoice:
 			res, err := msgServer.CancelInvoice(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
