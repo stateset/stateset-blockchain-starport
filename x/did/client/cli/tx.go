@@ -6,7 +6,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
-	"github.com/stateset/stateset-blockchain/x/did/types"
+	"github.com/stateset/stateset-blockchain-starport/x/did/types"
 )
 
 func NewTxCmd() *cobra.Command {

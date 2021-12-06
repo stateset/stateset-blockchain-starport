@@ -2,8 +2,8 @@ package loan
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/stateset/stateset-blockchain/x/loan/keeper"
-	"github.com/stateset/stateset-blockchain/x/loan/types"
+	"github.com/stateset/stateset-blockchain-starport/x/loan/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/loan/types"
 )
 
 // InitGenesis initializes the capability module's state from a provided genesis

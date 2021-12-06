@@ -7,8 +7,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/types/rest"
 	"github.com/gorilla/mux"
-	"github.com/stateset/stateset-blockchain/x/did/exported"
-	"github.com/stateset/stateset-blockchain/x/did/types"
+	"github.com/stateset/stateset-blockchain-starport/x/did/exported"
+	"github.com/stateset/stateset-blockchain-starport/x/did/types"
 )
 
 func registerTxHandlers(clientCtx client.Context, r *mux.Router) {

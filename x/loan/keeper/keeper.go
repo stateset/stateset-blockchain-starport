@@ -7,7 +7,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/stateset/stateset-blockchain/x/loan/types"
+	"github.com/stateset/stateset-blockchain-starport/x/loan/types"
 )
 
 type (

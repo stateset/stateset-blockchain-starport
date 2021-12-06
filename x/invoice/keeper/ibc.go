@@ -6,7 +6,7 @@ import (
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	host "github.com/cosmos/ibc-go/modules/core"
 	channeltypes "github.com/cosmos/ibc-go/modules/core/types"
-	"github.com/stateset/stateset-blockchain/x/invoice/types"
+	"github.com/stateset/stateset-blockchain-starport/x/invoice/types"
 )
 
 // ChanCloseInit defines a wrapper function for the channel Keeper's function

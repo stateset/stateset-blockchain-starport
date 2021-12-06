@@ -7,7 +7,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
-	"github.com/stateset/stateset-blockchain/x/purchaseorder/types"
+	"github.com/stateset/stateset-blockchain-starport/x/purchaseorder/types"
 )
 
 func CmdListSentPurchaseOrder() *cobra.Command {

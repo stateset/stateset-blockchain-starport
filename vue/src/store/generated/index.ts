@@ -11,6 +11,10 @@ import CosmosCosmosSdkCosmosSlashingV1Beta1 from './cosmos/cosmos-sdk/cosmos.sla
 import CosmosCosmosSdkCosmosStakingV1Beta1 from './cosmos/cosmos-sdk/cosmos.staking.v1beta1'
 import CosmosCosmosSdkCosmosVestingV1Beta1 from './cosmos/cosmos-sdk/cosmos.vesting.v1beta1'
 import CosmosIbcGoIbcApplicationsTransferV1 from './cosmos/ibc-go/ibc.applications.transfer.v1'
+import StatesetStatesetBlockchainStarportDid from './stateset/stateset-blockchain-starport/did'
+import StatesetStatesetBlockchainStarportStatesetAgreementV1Beta1 from './stateset/stateset-blockchain-starport/stateset.agreement.v1beta1'
+import StatesetStatesetBlockchainStarportStatesetInvoiceV1Beta1 from './stateset/stateset-blockchain-starport/stateset.invoice.v1beta1'
+import StatesetStatesetBlockchainStarportStatesetPurchaseorderV1Beta1 from './stateset/stateset-blockchain-starport/stateset.purchaseorder.v1beta1'
 import StatesetStatesetBlockchainDid from './stateset/stateset-blockchain/did'
 import StatesetStatesetBlockchainStatesetAgreementV1Beta1 from './stateset/stateset-blockchain/stateset.agreement.v1beta1'
 import StatesetStatesetBlockchainStatesetInoviceV1Beta1 from './stateset/stateset-blockchain/stateset.inovice.v1beta1'
@@ -31,6 +35,10 @@ export default {
   CosmosCosmosSdkCosmosStakingV1Beta1: load(CosmosCosmosSdkCosmosStakingV1Beta1, 'cosmos.staking.v1beta1'),
   CosmosCosmosSdkCosmosVestingV1Beta1: load(CosmosCosmosSdkCosmosVestingV1Beta1, 'cosmos.vesting.v1beta1'),
   CosmosIbcGoIbcApplicationsTransferV1: load(CosmosIbcGoIbcApplicationsTransferV1, 'ibc.applications.transfer.v1'),
+  StatesetStatesetBlockchainStarportDid: load(StatesetStatesetBlockchainStarportDid, 'did'),
+  StatesetStatesetBlockchainStarportStatesetAgreementV1Beta1: load(StatesetStatesetBlockchainStarportStatesetAgreementV1Beta1, 'stateset.agreement.v1beta1'),
+  StatesetStatesetBlockchainStarportStatesetInvoiceV1Beta1: load(StatesetStatesetBlockchainStarportStatesetInvoiceV1Beta1, 'stateset.invoice.v1beta1'),
+  StatesetStatesetBlockchainStarportStatesetPurchaseorderV1Beta1: load(StatesetStatesetBlockchainStarportStatesetPurchaseorderV1Beta1, 'stateset.purchaseorder.v1beta1'),
   StatesetStatesetBlockchainDid: load(StatesetStatesetBlockchainDid, 'did'),
   StatesetStatesetBlockchainStatesetAgreementV1Beta1: load(StatesetStatesetBlockchainStatesetAgreementV1Beta1, 'stateset.agreement.v1beta1'),
   StatesetStatesetBlockchainStatesetInoviceV1Beta1: load(StatesetStatesetBlockchainStatesetInoviceV1Beta1, 'stateset.inovice.v1beta1'),

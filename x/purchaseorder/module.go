@@ -18,8 +18,8 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	"github.com/stateset/stateset-blockchain/x/purchaseorder/client/cli"
-	"github.com/stateset/stateset-blockchain/x/purchaseorder/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/purchaseorder/client/cli"
+	"github.com/stateset/stateset-blockchain-starport/x/purchaseorder/keeper"
 )
 
 var (

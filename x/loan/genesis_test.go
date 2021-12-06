@@ -3,9 +3,9 @@ package loan_test
 import (
 	"testing"
 
-	keepertest "github.com/stateset/stateset-blockchain/testutil/keeper"
-	"github.com/stateset/stateset-blockchain/x/loan"
-	"github.com/stateset/stateset-blockchain/x/loan/types"
+	keepertest "github.com/stateset/stateset-blockchain-starport/testutil/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/loan"
+	"github.com/stateset/stateset-blockchain-starport/x/loan/types"
 	"github.com/stretchr/testify/require"
 )
 

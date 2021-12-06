@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "stateset/invoice/v1beta1/tx.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
+option go_package = "github.com/stateset/stateset-blockchain-starport/x/invoice/types";
 
 // Query defines the gRPC querier service.
 service Query {

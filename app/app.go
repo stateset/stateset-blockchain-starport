@@ -77,23 +77,17 @@ import (
 	ibchost "github.com/cosmos/ibc-go/modules/core/24-host"
 	ibckeeper "github.com/cosmos/ibc-go/modules/core/keeper"
 	"github.com/spf13/cast"
+	"github.com/tendermint/starport/docs"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	"github.com/tendermint/tendermint/libs/log"
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
+	"github.com/CosmWasm/wasmd/x/wasm"
+
 	"github.com/tendermint/spm/cosmoscmd"
 	"github.com/tendermint/spm/openapiconsole"
-
-	purchaseordermodule "github.com/stateset/stateset-blockchain/x/purchaseorder"
-	purchaseorderkeeper "github.com/stateset/stateset-blockchain/x/purchaseorder/keeper"
-	purchaseordermoduletypes "github.com/stateset/stateset-blockchain/x/purchaseorder/types"
-
-	"github.com/stateset/stateset-blockchain/docs"
-	loanmodule "github.com/stateset/stateset-blockchain/x/loan"
-	loanmodulekeeper "github.com/stateset/stateset-blockchain/x/loan/keeper"
-	loanmoduletypes "github.com/stateset/stateset-blockchain/x/loan/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -144,26 +138,26 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
-		loanmodule.AppModuleBasic{},
+		//loanmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 		//agreement.AppModuleBasic{},
 		//did.AppModuleBasic{},
-		purchaseorder.AppModuleBasic{},
+		//purchaseorder.AppModuleBasic{},
 		//invoice.AppModuleBasic{},
 		wasm.AppModuleBasic{},
 	)
 
 	// module account permissions
 	maccPerms = map[string][]string{
-		authtypes.FeeCollectorName:          nil,
-		distrtypes.ModuleName:               nil,
-		minttypes.ModuleName:                {authtypes.Minter},
-		stakingtypes.BondedPoolName:         {authtypes.Burner, authtypes.Staking},
-		stakingtypes.NotBondedPoolName:      {authtypes.Burner, authtypes.Staking},
-		govtypes.ModuleName:                 {authtypes.Burner},
-		ibctransfertypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
-		loanmoduletypes.ModuleName:          {authtypes.Minter, authtypes.Burner, authtypes.Staking},
-		purchaseordermoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		authtypes.FeeCollectorName:     nil,
+		distrtypes.ModuleName:          nil,
+		minttypes.ModuleName:           {authtypes.Minter},
+		stakingtypes.BondedPoolName:    {authtypes.Burner, authtypes.Staking},
+		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
+		govtypes.ModuleName:            {authtypes.Burner},
+		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		//loanmoduletypes.ModuleName:          {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		//purchaseordermoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 		wasm.ModuleName: {authtypes.Burner},
 	}
@@ -221,8 +215,8 @@ type App struct {
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 
-	LoanKeeper          loanmodulekeeper.Keeper
-	PurchaseOrderKeeper purchaseorderkeeper.Keeper
+	//LoanKeeper          loanmodulekeeper.Keeper
+	//PurchaseOrderKeeper purchaseorderkeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 	wasmKeeper       wasm.Keeper
 	scopedWasmKeeper capabilitykeeper.ScopedKeeper
@@ -258,8 +252,8 @@ func New(
 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
-		loanmoduletypes.StoreKey,
-		purchaseordermoduletypes.StoreKey,
+		//loanmoduletypes.StoreKey,
+		//purchaseordermoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 		wasm.StoreKey,
 	)
@@ -358,25 +352,6 @@ func New(
 		appCodec, keys[govtypes.StoreKey], app.GetSubspace(govtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
 		&stakingKeeper, govRouter,
 	)
-
-	app.LoanKeeper = *loanmodulekeeper.NewKeeper(
-		appCodec,
-		keys[loanmoduletypes.StoreKey],
-		keys[loanmoduletypes.MemStoreKey],
-
-		app.BankKeeper,
-	)
-	loanModule := loanmodule.NewAppModule(appCodec, app.LoanKeeper)
-
-	app.PurchaseOrderKeeper = *purchaseordermodulekeeper.NewKeeper(
-		appCodec,
-		keys[purchaseordermoduletypes.StoreKey],
-		keys[purchaseordermoduletypes.MemStoreKey],
-
-		app.BankKeeper,
-	)
-	purchaserorderModule := purchaseordermodule.NewAppModule(appCodec, app.PurchaseOrderKeeper)
-
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	wasmDir := filepath.Join(homePath, "wasm")
@@ -386,6 +361,8 @@ func New(
 		panic("error while reading wasm config: " + err.Error())
 	}
 
+	// The last arguments can contain custom message handlers, and custom query handlers,
+	// if we want to allow any custom callbacks
 	supportedFeatures := "iterator,staking,stargate"
 	wasmOpts := GetWasmOpts(appOpts)
 	app.wasmKeeper = wasm.NewKeeper(
@@ -451,8 +428,8 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
-		loanModule,
-		purchaseorderModule,
+		//loanModule,
+		//purchaseorderModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 		wasm.NewAppModule(appCodec, &app.wasmKeeper, app.StakingKeeper),
 	)
@@ -488,10 +465,10 @@ func New(
 		genutiltypes.ModuleName,
 		evidencetypes.ModuleName,
 		ibctransfertypes.ModuleName,
-		loanmoduletypes.ModuleName,
-		purchaseordermoduletypes.ModuleName,
+		//loanmoduletypes.ModuleName,
+		//purchaseordermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
-		wasm.ModuleName
+		wasm.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
@@ -678,8 +655,8 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(crisistypes.ModuleName)
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
-	paramsKeeper.Subspace(loanmoduletypes.ModuleName)
-	paramsKeeper.Subspace(purchaseordermoduletypes.ModuleName)
+	//paramsKeeper.Subspace(loanmoduletypes.ModuleName)
+	//paramsKeeper.Subspace(purchaseordermoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 	paramsKeeper.Subspace(wasm.ModuleName)
 

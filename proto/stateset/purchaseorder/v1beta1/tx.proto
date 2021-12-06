@@ -3,7 +3,7 @@ package stateset.purchaseorder.v1beta1;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/purchaseorder/types";
+option go_package = "github.com/stateset/stateset-blockchain-starport/x/purchaseorder/types";
 
     message PurchaseOrder {
       string creator = 1;

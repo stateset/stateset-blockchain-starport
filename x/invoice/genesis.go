@@ -4,8 +4,6 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/stateset/stateset-blockchain/x/invoice/keeper"
-	"github.com/stateset/stateset-blockchain/x/invoice/types"
 )
 
 // GenesisState defines genesis data for the module

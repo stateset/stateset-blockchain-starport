@@ -3,8 +3,8 @@ package handler
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/stateset/stateset-blockchain/x/agreement/keeper"
-	"github.com/stateset/stateset-blockchain/x/agreement/types"
+	"github.com/stateset/stateset-blockchain-starport/x/agreement/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/agreement/types"
 )
 
 func NewHandler(k keeper.Keeper) sdk.Handler {

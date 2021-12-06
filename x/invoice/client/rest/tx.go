@@ -11,7 +11,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/rest"
 	
 
-	"github.com/stateset/stateset-blockchain/x/agreement"
+	"github.com/stateset/stateset-blockchain-starport/x/agreement"
 )
 
 func registerTxRoutes(cliCtx context.CLIContext, r *mux.Router) {

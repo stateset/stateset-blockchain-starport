@@ -4,7 +4,7 @@ package stateset.agreement.v1beta1;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/agreement/types";
+option go_package = "github.com/stateset/stateset-blockchain-starport/x/agreement/types";
 
 // EventCreateAgreement is an event emitted when an agreement is created.
 message EventCreateAgreement {

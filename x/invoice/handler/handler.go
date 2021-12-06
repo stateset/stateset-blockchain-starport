@@ -3,8 +3,8 @@ package invoice
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/stateset/stateset-blockchain/x/invoice/keeper"
-	"github.com/stateset/stateset-blockchain/x/invoice/types"
+	"github.com/stateset/stateset-blockchain-starport/x/invoice/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/invoice/types"
 )
 
 // NewHandler returns a handler for "invoice" type messages.

@@ -1,6 +1,6 @@
 package types
 
-import "github.com/stateset/stateset-blockchain/x/did/exported"
+import "github.com/stateset/stateset-blockchain-starport/x/did/exported"
 
 const (
 	ModuleName   = "did"

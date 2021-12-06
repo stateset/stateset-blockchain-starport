@@ -6,9 +6,9 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/gogo/protobuf/proto"
-	"github.com/stateset/stateset-blockchain/x/did/exported"
-	"github.com/stateset/stateset-blockchain/x/did/keeper"
-	"github.com/stateset/stateset-blockchain/x/did/types"
+	"github.com/stateset/stateset-blockchain-starport/x/did/exported"
+	"github.com/stateset/stateset-blockchain-starport/x/did/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/did/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 

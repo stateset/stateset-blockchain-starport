@@ -8,7 +8,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	// "github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/stateset/stateset-blockchain/x/loan/types"
+	"github.com/stateset/stateset-blockchain-starport/x/loan/types"
 )
 
 var (

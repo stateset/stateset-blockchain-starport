@@ -4,8 +4,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	didexported "github.com/stateset/stateset-blockchain/x/did/exported"
-	didtypes "github.com/stateset/stateset-blockchain/x/did/types"
+	didexported "github.com/stateset/stateset-blockchain-starport/x/did/exported"
+	didtypes "github.com/stateset/stateset-blockchain-starport/x/did/types"
 )
 
 type AccountKeeper interface {

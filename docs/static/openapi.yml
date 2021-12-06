@@ -14529,6 +14529,1844 @@ paths:
           type: string
       tags:
         - Query
+  /tendermint/spn/launch/chain:
+    get:
+      summary: Queries a list of chain items.
+      operationId: TendermintSpnLaunchChainAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              chain:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uint64
+                    coordinatorID:
+                      type: string
+                      format: uint64
+                    genesisChainID:
+                      type: string
+                    createdAt:
+                      type: string
+                      format: int64
+                    sourceURL:
+                      type: string
+                    sourceHash:
+                      type: string
+                    initialGenesis:
+                      type: object
+                      properties:
+                        defaultInitialGenesis:
+                          type: object
+                          title: >-
+                            DefaultInitialGenesis specifies using the default
+                            CLI-generated genesis as an initial genesis
+                        genesisURL:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                            hash:
+                              type: string
+                          title: >-
+                            GenesisURL specifies using a custom genesis from a
+                            URL as the initial genesis
+                    launchTriggered:
+                      type: boolean
+                    launchTimestamp:
+                      type: string
+                      format: int64
+              pagination:
+                type: object
+                properties:
+                  nextKey:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.countTotal
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/tendermint/spn/launch/chain/{id}':
+    get:
+      summary: Queries a chain by index.
+      operationId: TendermintSpnLaunchChain
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              chain:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uint64
+                  coordinatorID:
+                    type: string
+                    format: uint64
+                  genesisChainID:
+                    type: string
+                  createdAt:
+                    type: string
+                    format: int64
+                  sourceURL:
+                    type: string
+                  sourceHash:
+                    type: string
+                  initialGenesis:
+                    type: object
+                    properties:
+                      defaultInitialGenesis:
+                        type: object
+                        title: >-
+                          DefaultInitialGenesis specifies using the default
+                          CLI-generated genesis as an initial genesis
+                      genesisURL:
+                        type: object
+                        properties:
+                          url:
+                            type: string
+                          hash:
+                            type: string
+                        title: >-
+                          GenesisURL specifies using a custom genesis from a URL
+                          as the initial genesis
+                  launchTriggered:
+                    type: boolean
+                  launchTimestamp:
+                    type: string
+                    format: int64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
+  /tendermint/spn/launch/genesisAccount:
+    get:
+      summary: Queries a list of genesisAccount items.
+      operationId: TendermintSpnLaunchGenesisAccountAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              genesisAccount:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    chainID:
+                      type: string
+                      format: uint64
+                    address:
+                      type: string
+                    Coins:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          denom:
+                            type: string
+                          amount:
+                            type: string
+                        description: >-
+                          Coin defines a token with a denomination and an
+                          amount.
+
+
+                          NOTE: The amount field is an Int which implements the
+                          custom method
+
+                          signatures required by gogoproto.
+              pagination:
+                type: object
+                properties:
+                  nextKey:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: chainID
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.countTotal
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/tendermint/spn/launch/genesisAccount/{chainID}/{address}':
+    get:
+      summary: Queries a genesisAccount by index.
+      operationId: TendermintSpnLaunchGenesisAccount
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              genesisAccount:
+                type: object
+                properties:
+                  chainID:
+                    type: string
+                    format: uint64
+                  address:
+                    type: string
+                  Coins:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        denom:
+                          type: string
+                        amount:
+                          type: string
+                      description: >-
+                        Coin defines a token with a denomination and an amount.
+
+
+                        NOTE: The amount field is an Int which implements the
+                        custom method
+
+                        signatures required by gogoproto.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: chainID
+          in: path
+          required: true
+          type: string
+          format: uint64
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /tendermint/spn/launch/genesisValidator:
+    get:
+      summary: Queries a list of genesisValidator items.
+      operationId: TendermintSpnLaunchGenesisValidatorAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              genesisValidator:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    chainID:
+                      type: string
+                      format: uint64
+                    address:
+                      type: string
+                    genTx:
+                      type: string
+                      format: byte
+                    consPubKey:
+                      type: string
+                      format: byte
+                    selfDelegation:
+                      type: object
+                      properties:
+                        denom:
+                          type: string
+                        amount:
+                          type: string
+                      description: >-
+                        Coin defines a token with a denomination and an amount.
+
+
+                        NOTE: The amount field is an Int which implements the
+                        custom method
+
+                        signatures required by gogoproto.
+                    peer:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  nextKey:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: chainID
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.countTotal
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/tendermint/spn/launch/genesisValidator/{chainID}/{address}':
+    get:
+      summary: Queries a genesisValidator by index.
+      operationId: TendermintSpnLaunchGenesisValidator
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              genesisValidator:
+                type: object
+                properties:
+                  chainID:
+                    type: string
+                    format: uint64
+                  address:
+                    type: string
+                  genTx:
+                    type: string
+                    format: byte
+                  consPubKey:
+                    type: string
+                    format: byte
+                  selfDelegation:
+                    type: object
+                    properties:
+                      denom:
+                        type: string
+                      amount:
+                        type: string
+                    description: >-
+                      Coin defines a token with a denomination and an amount.
+
+
+                      NOTE: The amount field is an Int which implements the
+                      custom method
+
+                      signatures required by gogoproto.
+                  peer:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: chainID
+          in: path
+          required: true
+          type: string
+          format: uint64
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /tendermint/spn/launch/params:
+    get:
+      summary: Parameters queries the parameters of the module.
+      operationId: TendermintSpnLaunchParams
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                description: params holds all the parameters of this module.
+                type: object
+                properties:
+                  minLaunchTime:
+                    type: string
+                    format: uint64
+                  maxLaunchTime:
+                    type: string
+                    format: uint64
+            description: >-
+              QueryParamsResponse is response type for the Query/Params RPC
+              method.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  '/tendermint/spn/launch/request/{chainID}':
+    get:
+      summary: Queries a list of request for a chain.
+      operationId: TendermintSpnLaunchRequestAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              request:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    chainID:
+                      type: string
+                      format: uint64
+                    requestID:
+                      type: string
+                      format: uint64
+                    creator:
+                      type: string
+                    createdAt:
+                      type: string
+                      format: int64
+                    content:
+                      type: object
+                      properties:
+                        genesisAccount:
+                          type: object
+                          properties:
+                            chainID:
+                              type: string
+                              format: uint64
+                            address:
+                              type: string
+                            Coins:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  denom:
+                                    type: string
+                                  amount:
+                                    type: string
+                                description: >-
+                                  Coin defines a token with a denomination and
+                                  an amount.
+
+
+                                  NOTE: The amount field is an Int which
+                                  implements the custom method
+
+                                  signatures required by gogoproto.
+                        vestingAccount:
+                          type: object
+                          properties:
+                            chainID:
+                              type: string
+                              format: uint64
+                            address:
+                              type: string
+                            startingBalance:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  denom:
+                                    type: string
+                                  amount:
+                                    type: string
+                                description: >-
+                                  Coin defines a token with a denomination and
+                                  an amount.
+
+
+                                  NOTE: The amount field is an Int which
+                                  implements the custom method
+
+                                  signatures required by gogoproto.
+                            vestingOptions:
+                              type: object
+                              properties:
+                                delayedVesting:
+                                  type: object
+                                  properties:
+                                    vesting:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          denom:
+                                            type: string
+                                          amount:
+                                            type: string
+                                        description: >-
+                                          Coin defines a token with a denomination
+                                          and an amount.
+
+
+                                          NOTE: The amount field is an Int which
+                                          implements the custom method
+
+                                          signatures required by gogoproto.
+                                    endTime:
+                                      type: string
+                                      format: int64
+                                  title: >-
+                                    DelayedVesting represents options for
+                                    delayed vesting
+
+                                    Delayed vesting is the type of vesting where
+                                    all vesting coins are vested once end time
+                                    is reached
+                        genesisValidator:
+                          type: object
+                          properties:
+                            chainID:
+                              type: string
+                              format: uint64
+                            address:
+                              type: string
+                            genTx:
+                              type: string
+                              format: byte
+                            consPubKey:
+                              type: string
+                              format: byte
+                            selfDelegation:
+                              type: object
+                              properties:
+                                denom:
+                                  type: string
+                                amount:
+                                  type: string
+                              description: >-
+                                Coin defines a token with a denomination and an
+                                amount.
+
+
+                                NOTE: The amount field is an Int which
+                                implements the custom method
+
+                                signatures required by gogoproto.
+                            peer:
+                              type: string
+                        accountRemoval:
+                          type: object
+                          properties:
+                            address:
+                              type: string
+                        validatorRemoval:
+                          type: object
+                          properties:
+                            valAddress:
+                              type: string
+              pagination:
+                type: object
+                properties:
+                  nextKey:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: chainID
+          in: path
+          required: true
+          type: string
+          format: uint64
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.countTotal
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/tendermint/spn/launch/request/{chainID}/{requestID}':
+    get:
+      summary: Queries a request by index.
+      operationId: TendermintSpnLaunchRequest
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              request:
+                type: object
+                properties:
+                  chainID:
+                    type: string
+                    format: uint64
+                  requestID:
+                    type: string
+                    format: uint64
+                  creator:
+                    type: string
+                  createdAt:
+                    type: string
+                    format: int64
+                  content:
+                    type: object
+                    properties:
+                      genesisAccount:
+                        type: object
+                        properties:
+                          chainID:
+                            type: string
+                            format: uint64
+                          address:
+                            type: string
+                          Coins:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                denom:
+                                  type: string
+                                amount:
+                                  type: string
+                              description: >-
+                                Coin defines a token with a denomination and an
+                                amount.
+
+
+                                NOTE: The amount field is an Int which
+                                implements the custom method
+
+                                signatures required by gogoproto.
+                      vestingAccount:
+                        type: object
+                        properties:
+                          chainID:
+                            type: string
+                            format: uint64
+                          address:
+                            type: string
+                          startingBalance:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                denom:
+                                  type: string
+                                amount:
+                                  type: string
+                              description: >-
+                                Coin defines a token with a denomination and an
+                                amount.
+
+
+                                NOTE: The amount field is an Int which
+                                implements the custom method
+
+                                signatures required by gogoproto.
+                          vestingOptions:
+                            type: object
+                            properties:
+                              delayedVesting:
+                                type: object
+                                properties:
+                                  vesting:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        denom:
+                                          type: string
+                                        amount:
+                                          type: string
+                                      description: >-
+                                        Coin defines a token with a denomination
+                                        and an amount.
+
+
+                                        NOTE: The amount field is an Int which
+                                        implements the custom method
+
+                                        signatures required by gogoproto.
+                                  endTime:
+                                    type: string
+                                    format: int64
+                                title: >-
+                                  DelayedVesting represents options for delayed
+                                  vesting
+
+                                  Delayed vesting is the type of vesting where
+                                  all vesting coins are vested once end time is
+                                  reached
+                      genesisValidator:
+                        type: object
+                        properties:
+                          chainID:
+                            type: string
+                            format: uint64
+                          address:
+                            type: string
+                          genTx:
+                            type: string
+                            format: byte
+                          consPubKey:
+                            type: string
+                            format: byte
+                          selfDelegation:
+                            type: object
+                            properties:
+                              denom:
+                                type: string
+                              amount:
+                                type: string
+                            description: >-
+                              Coin defines a token with a denomination and an
+                              amount.
+
+
+                              NOTE: The amount field is an Int which implements
+                              the custom method
+
+                              signatures required by gogoproto.
+                          peer:
+                            type: string
+                      accountRemoval:
+                        type: object
+                        properties:
+                          address:
+                            type: string
+                      validatorRemoval:
+                        type: object
+                        properties:
+                          valAddress:
+                            type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: chainID
+          in: path
+          required: true
+          type: string
+          format: uint64
+        - name: requestID
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
+  /tendermint/spn/launch/vestingAccount:
+    get:
+      summary: Queries a list of vestingAccount items.
+      operationId: TendermintSpnLaunchVestingAccountAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              vestingAccount:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    chainID:
+                      type: string
+                      format: uint64
+                    address:
+                      type: string
+                    startingBalance:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          denom:
+                            type: string
+                          amount:
+                            type: string
+                        description: >-
+                          Coin defines a token with a denomination and an
+                          amount.
+
+
+                          NOTE: The amount field is an Int which implements the
+                          custom method
+
+                          signatures required by gogoproto.
+                    vestingOptions:
+                      type: object
+                      properties:
+                        delayedVesting:
+                          type: object
+                          properties:
+                            vesting:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  denom:
+                                    type: string
+                                  amount:
+                                    type: string
+                                description: >-
+                                  Coin defines a token with a denomination and
+                                  an amount.
+
+
+                                  NOTE: The amount field is an Int which
+                                  implements the custom method
+
+                                  signatures required by gogoproto.
+                            endTime:
+                              type: string
+                              format: int64
+                          title: >-
+                            DelayedVesting represents options for delayed
+                            vesting
+
+                            Delayed vesting is the type of vesting where all
+                            vesting coins are vested once end time is reached
+              pagination:
+                type: object
+                properties:
+                  nextKey:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: chainID
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.countTotal
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/tendermint/spn/launch/vestingAccount/{chainID}/{address}':
+    get:
+      summary: Queries a vestingAccount by index.
+      operationId: TendermintSpnLaunchVestingAccount
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              vestingAccount:
+                type: object
+                properties:
+                  chainID:
+                    type: string
+                    format: uint64
+                  address:
+                    type: string
+                  startingBalance:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        denom:
+                          type: string
+                        amount:
+                          type: string
+                      description: >-
+                        Coin defines a token with a denomination and an amount.
+
+
+                        NOTE: The amount field is an Int which implements the
+                        custom method
+
+                        signatures required by gogoproto.
+                  vestingOptions:
+                    type: object
+                    properties:
+                      delayedVesting:
+                        type: object
+                        properties:
+                          vesting:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                denom:
+                                  type: string
+                                amount:
+                                  type: string
+                              description: >-
+                                Coin defines a token with a denomination and an
+                                amount.
+
+
+                                NOTE: The amount field is an Int which
+                                implements the custom method
+
+                                signatures required by gogoproto.
+                          endTime:
+                            type: string
+                            format: int64
+                        title: >-
+                          DelayedVesting represents options for delayed vesting
+
+                          Delayed vesting is the type of vesting where all
+                          vesting coins are vested once end time is reached
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: chainID
+          in: path
+          required: true
+          type: string
+          format: uint64
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /tendermint/spn/profile/coordinator:
+    get:
+      summary: Queries a list of coordinator items.
+      operationId: TendermintSpnProfileCoordinatorAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              Coordinator:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    coordinatorId:
+                      type: string
+                      format: uint64
+                    address:
+                      type: string
+                    description:
+                      type: object
+                      properties:
+                        identity:
+                          type: string
+                        website:
+                          type: string
+                        details:
+                          type: string
+              pagination:
+                type: object
+                properties:
+                  nextKey:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.countTotal
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/tendermint/spn/profile/coordinator/{id}':
+    get:
+      summary: Queries a coordinator by id.
+      operationId: TendermintSpnProfileCoordinator
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              Coordinator:
+                type: object
+                properties:
+                  coordinatorId:
+                    type: string
+                    format: uint64
+                  address:
+                    type: string
+                  description:
+                    type: object
+                    properties:
+                      identity:
+                        type: string
+                      website:
+                        type: string
+                      details:
+                        type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
+  '/tendermint/spn/profile/coordinatorByAddress/{address}':
+    get:
+      summary: Queries a coordinatorByAddress by index.
+      operationId: TendermintSpnProfileCoordinatorByAddress
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              coordinatorByAddress:
+                type: object
+                properties:
+                  address:
+                    type: string
+                  coordinatorId:
+                    type: string
+                    format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /tendermint/spn/profile/validator:
+    get:
+      summary: Queries a list of validator items.
+      operationId: TendermintSpnProfileValidatorAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              validator:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                    description:
+                      type: object
+                      properties:
+                        identity:
+                          type: string
+                        moniker:
+                          type: string
+                        website:
+                          type: string
+                        securityContact:
+                          type: string
+                        details:
+                          type: string
+              pagination:
+                type: object
+                properties:
+                  nextKey:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.countTotal
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/tendermint/spn/profile/validator/{address}':
+    get:
+      summary: |-
+        this line is used by starport scaffolding # 2
+        Queries a validator by index.
+      operationId: TendermintSpnProfileValidator
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              validator:
+                type: object
+                properties:
+                  address:
+                    type: string
+                  description:
+                    type: object
+                    properties:
+                      identity:
+                        type: string
+                      moniker:
+                        type: string
+                      website:
+                        type: string
+                      securityContact:
+                        type: string
+                      details:
+                        type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
 definitions:
   cosmos.authz.v1beta1.Grant:
     type: object
@@ -22728,3 +24566,1544 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
+  tendermint.spn.launch.AccountRemoval:
+    type: object
+    properties:
+      address:
+        type: string
+  tendermint.spn.launch.Chain:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+      coordinatorID:
+        type: string
+        format: uint64
+      genesisChainID:
+        type: string
+      createdAt:
+        type: string
+        format: int64
+      sourceURL:
+        type: string
+      sourceHash:
+        type: string
+      initialGenesis:
+        type: object
+        properties:
+          defaultInitialGenesis:
+            type: object
+            title: >-
+              DefaultInitialGenesis specifies using the default CLI-generated
+              genesis as an initial genesis
+          genesisURL:
+            type: object
+            properties:
+              url:
+                type: string
+              hash:
+                type: string
+            title: >-
+              GenesisURL specifies using a custom genesis from a URL as the
+              initial genesis
+      launchTriggered:
+        type: boolean
+      launchTimestamp:
+        type: string
+        format: int64
+  tendermint.spn.launch.DefaultInitialGenesis:
+    type: object
+    title: >-
+      DefaultInitialGenesis specifies using the default CLI-generated genesis as
+      an initial genesis
+  tendermint.spn.launch.DelayedVesting:
+    type: object
+    properties:
+      vesting:
+        type: array
+        items:
+          type: object
+          properties:
+            denom:
+              type: string
+            amount:
+              type: string
+          description: |-
+            Coin defines a token with a denomination and an amount.
+
+            NOTE: The amount field is an Int which implements the custom method
+            signatures required by gogoproto.
+      endTime:
+        type: string
+        format: int64
+    title: >-
+      DelayedVesting represents options for delayed vesting
+
+      Delayed vesting is the type of vesting where all vesting coins are vested
+      once end time is reached
+  tendermint.spn.launch.GenesisAccount:
+    type: object
+    properties:
+      chainID:
+        type: string
+        format: uint64
+      address:
+        type: string
+      Coins:
+        type: array
+        items:
+          type: object
+          properties:
+            denom:
+              type: string
+            amount:
+              type: string
+          description: |-
+            Coin defines a token with a denomination and an amount.
+
+            NOTE: The amount field is an Int which implements the custom method
+            signatures required by gogoproto.
+  tendermint.spn.launch.GenesisURL:
+    type: object
+    properties:
+      url:
+        type: string
+      hash:
+        type: string
+    title: >-
+      GenesisURL specifies using a custom genesis from a URL as the initial
+      genesis
+  tendermint.spn.launch.GenesisValidator:
+    type: object
+    properties:
+      chainID:
+        type: string
+        format: uint64
+      address:
+        type: string
+      genTx:
+        type: string
+        format: byte
+      consPubKey:
+        type: string
+        format: byte
+      selfDelegation:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
+      peer:
+        type: string
+  tendermint.spn.launch.InitialGenesis:
+    type: object
+    properties:
+      defaultInitialGenesis:
+        type: object
+        title: >-
+          DefaultInitialGenesis specifies using the default CLI-generated
+          genesis as an initial genesis
+      genesisURL:
+        type: object
+        properties:
+          url:
+            type: string
+          hash:
+            type: string
+        title: >-
+          GenesisURL specifies using a custom genesis from a URL as the initial
+          genesis
+  tendermint.spn.launch.MsgCreateChainResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+  tendermint.spn.launch.MsgEditChainResponse:
+    type: object
+  tendermint.spn.launch.MsgRequestResponse:
+    type: object
+    properties:
+      requestID:
+        type: string
+        format: uint64
+      autoApproved:
+        type: boolean
+  tendermint.spn.launch.MsgRevertLaunchResponse:
+    type: object
+  tendermint.spn.launch.MsgSettleRequestResponse:
+    type: object
+  tendermint.spn.launch.MsgTriggerLaunchResponse:
+    type: object
+  tendermint.spn.launch.Params:
+    type: object
+    properties:
+      minLaunchTime:
+        type: string
+        format: uint64
+      maxLaunchTime:
+        type: string
+        format: uint64
+    description: Params defines the parameters for the staking module.
+  tendermint.spn.launch.QueryAllChainResponse:
+    type: object
+    properties:
+      chain:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uint64
+            coordinatorID:
+              type: string
+              format: uint64
+            genesisChainID:
+              type: string
+            createdAt:
+              type: string
+              format: int64
+            sourceURL:
+              type: string
+            sourceHash:
+              type: string
+            initialGenesis:
+              type: object
+              properties:
+                defaultInitialGenesis:
+                  type: object
+                  title: >-
+                    DefaultInitialGenesis specifies using the default
+                    CLI-generated genesis as an initial genesis
+                genesisURL:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                    hash:
+                      type: string
+                  title: >-
+                    GenesisURL specifies using a custom genesis from a URL as
+                    the initial genesis
+            launchTriggered:
+              type: boolean
+            launchTimestamp:
+              type: string
+              format: int64
+      pagination:
+        type: object
+        properties:
+          nextKey:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  tendermint.spn.launch.QueryAllGenesisAccountResponse:
+    type: object
+    properties:
+      genesisAccount:
+        type: array
+        items:
+          type: object
+          properties:
+            chainID:
+              type: string
+              format: uint64
+            address:
+              type: string
+            Coins:
+              type: array
+              items:
+                type: object
+                properties:
+                  denom:
+                    type: string
+                  amount:
+                    type: string
+                description: >-
+                  Coin defines a token with a denomination and an amount.
+
+
+                  NOTE: The amount field is an Int which implements the custom
+                  method
+
+                  signatures required by gogoproto.
+      pagination:
+        type: object
+        properties:
+          nextKey:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  tendermint.spn.launch.QueryAllGenesisValidatorResponse:
+    type: object
+    properties:
+      genesisValidator:
+        type: array
+        items:
+          type: object
+          properties:
+            chainID:
+              type: string
+              format: uint64
+            address:
+              type: string
+            genTx:
+              type: string
+              format: byte
+            consPubKey:
+              type: string
+              format: byte
+            selfDelegation:
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a token with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
+            peer:
+              type: string
+      pagination:
+        type: object
+        properties:
+          nextKey:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  tendermint.spn.launch.QueryAllRequestResponse:
+    type: object
+    properties:
+      request:
+        type: array
+        items:
+          type: object
+          properties:
+            chainID:
+              type: string
+              format: uint64
+            requestID:
+              type: string
+              format: uint64
+            creator:
+              type: string
+            createdAt:
+              type: string
+              format: int64
+            content:
+              type: object
+              properties:
+                genesisAccount:
+                  type: object
+                  properties:
+                    chainID:
+                      type: string
+                      format: uint64
+                    address:
+                      type: string
+                    Coins:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          denom:
+                            type: string
+                          amount:
+                            type: string
+                        description: >-
+                          Coin defines a token with a denomination and an
+                          amount.
+
+
+                          NOTE: The amount field is an Int which implements the
+                          custom method
+
+                          signatures required by gogoproto.
+                vestingAccount:
+                  type: object
+                  properties:
+                    chainID:
+                      type: string
+                      format: uint64
+                    address:
+                      type: string
+                    startingBalance:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          denom:
+                            type: string
+                          amount:
+                            type: string
+                        description: >-
+                          Coin defines a token with a denomination and an
+                          amount.
+
+
+                          NOTE: The amount field is an Int which implements the
+                          custom method
+
+                          signatures required by gogoproto.
+                    vestingOptions:
+                      type: object
+                      properties:
+                        delayedVesting:
+                          type: object
+                          properties:
+                            vesting:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  denom:
+                                    type: string
+                                  amount:
+                                    type: string
+                                description: >-
+                                  Coin defines a token with a denomination and
+                                  an amount.
+
+
+                                  NOTE: The amount field is an Int which
+                                  implements the custom method
+
+                                  signatures required by gogoproto.
+                            endTime:
+                              type: string
+                              format: int64
+                          title: >-
+                            DelayedVesting represents options for delayed
+                            vesting
+
+                            Delayed vesting is the type of vesting where all
+                            vesting coins are vested once end time is reached
+                genesisValidator:
+                  type: object
+                  properties:
+                    chainID:
+                      type: string
+                      format: uint64
+                    address:
+                      type: string
+                    genTx:
+                      type: string
+                      format: byte
+                    consPubKey:
+                      type: string
+                      format: byte
+                    selfDelegation:
+                      type: object
+                      properties:
+                        denom:
+                          type: string
+                        amount:
+                          type: string
+                      description: >-
+                        Coin defines a token with a denomination and an amount.
+
+
+                        NOTE: The amount field is an Int which implements the
+                        custom method
+
+                        signatures required by gogoproto.
+                    peer:
+                      type: string
+                accountRemoval:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                validatorRemoval:
+                  type: object
+                  properties:
+                    valAddress:
+                      type: string
+      pagination:
+        type: object
+        properties:
+          nextKey:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  tendermint.spn.launch.QueryAllVestingAccountResponse:
+    type: object
+    properties:
+      vestingAccount:
+        type: array
+        items:
+          type: object
+          properties:
+            chainID:
+              type: string
+              format: uint64
+            address:
+              type: string
+            startingBalance:
+              type: array
+              items:
+                type: object
+                properties:
+                  denom:
+                    type: string
+                  amount:
+                    type: string
+                description: >-
+                  Coin defines a token with a denomination and an amount.
+
+
+                  NOTE: The amount field is an Int which implements the custom
+                  method
+
+                  signatures required by gogoproto.
+            vestingOptions:
+              type: object
+              properties:
+                delayedVesting:
+                  type: object
+                  properties:
+                    vesting:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          denom:
+                            type: string
+                          amount:
+                            type: string
+                        description: >-
+                          Coin defines a token with a denomination and an
+                          amount.
+
+
+                          NOTE: The amount field is an Int which implements the
+                          custom method
+
+                          signatures required by gogoproto.
+                    endTime:
+                      type: string
+                      format: int64
+                  title: >-
+                    DelayedVesting represents options for delayed vesting
+
+                    Delayed vesting is the type of vesting where all vesting
+                    coins are vested once end time is reached
+      pagination:
+        type: object
+        properties:
+          nextKey:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  tendermint.spn.launch.QueryGetChainResponse:
+    type: object
+    properties:
+      chain:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uint64
+          coordinatorID:
+            type: string
+            format: uint64
+          genesisChainID:
+            type: string
+          createdAt:
+            type: string
+            format: int64
+          sourceURL:
+            type: string
+          sourceHash:
+            type: string
+          initialGenesis:
+            type: object
+            properties:
+              defaultInitialGenesis:
+                type: object
+                title: >-
+                  DefaultInitialGenesis specifies using the default
+                  CLI-generated genesis as an initial genesis
+              genesisURL:
+                type: object
+                properties:
+                  url:
+                    type: string
+                  hash:
+                    type: string
+                title: >-
+                  GenesisURL specifies using a custom genesis from a URL as the
+                  initial genesis
+          launchTriggered:
+            type: boolean
+          launchTimestamp:
+            type: string
+            format: int64
+  tendermint.spn.launch.QueryGetGenesisAccountResponse:
+    type: object
+    properties:
+      genesisAccount:
+        type: object
+        properties:
+          chainID:
+            type: string
+            format: uint64
+          address:
+            type: string
+          Coins:
+            type: array
+            items:
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a token with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
+  tendermint.spn.launch.QueryGetGenesisValidatorResponse:
+    type: object
+    properties:
+      genesisValidator:
+        type: object
+        properties:
+          chainID:
+            type: string
+            format: uint64
+          address:
+            type: string
+          genTx:
+            type: string
+            format: byte
+          consPubKey:
+            type: string
+            format: byte
+          selfDelegation:
+            type: object
+            properties:
+              denom:
+                type: string
+              amount:
+                type: string
+            description: >-
+              Coin defines a token with a denomination and an amount.
+
+
+              NOTE: The amount field is an Int which implements the custom
+              method
+
+              signatures required by gogoproto.
+          peer:
+            type: string
+  tendermint.spn.launch.QueryGetRequestResponse:
+    type: object
+    properties:
+      request:
+        type: object
+        properties:
+          chainID:
+            type: string
+            format: uint64
+          requestID:
+            type: string
+            format: uint64
+          creator:
+            type: string
+          createdAt:
+            type: string
+            format: int64
+          content:
+            type: object
+            properties:
+              genesisAccount:
+                type: object
+                properties:
+                  chainID:
+                    type: string
+                    format: uint64
+                  address:
+                    type: string
+                  Coins:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        denom:
+                          type: string
+                        amount:
+                          type: string
+                      description: >-
+                        Coin defines a token with a denomination and an amount.
+
+
+                        NOTE: The amount field is an Int which implements the
+                        custom method
+
+                        signatures required by gogoproto.
+              vestingAccount:
+                type: object
+                properties:
+                  chainID:
+                    type: string
+                    format: uint64
+                  address:
+                    type: string
+                  startingBalance:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        denom:
+                          type: string
+                        amount:
+                          type: string
+                      description: >-
+                        Coin defines a token with a denomination and an amount.
+
+
+                        NOTE: The amount field is an Int which implements the
+                        custom method
+
+                        signatures required by gogoproto.
+                  vestingOptions:
+                    type: object
+                    properties:
+                      delayedVesting:
+                        type: object
+                        properties:
+                          vesting:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                denom:
+                                  type: string
+                                amount:
+                                  type: string
+                              description: >-
+                                Coin defines a token with a denomination and an
+                                amount.
+
+
+                                NOTE: The amount field is an Int which
+                                implements the custom method
+
+                                signatures required by gogoproto.
+                          endTime:
+                            type: string
+                            format: int64
+                        title: >-
+                          DelayedVesting represents options for delayed vesting
+
+                          Delayed vesting is the type of vesting where all
+                          vesting coins are vested once end time is reached
+              genesisValidator:
+                type: object
+                properties:
+                  chainID:
+                    type: string
+                    format: uint64
+                  address:
+                    type: string
+                  genTx:
+                    type: string
+                    format: byte
+                  consPubKey:
+                    type: string
+                    format: byte
+                  selfDelegation:
+                    type: object
+                    properties:
+                      denom:
+                        type: string
+                      amount:
+                        type: string
+                    description: >-
+                      Coin defines a token with a denomination and an amount.
+
+
+                      NOTE: The amount field is an Int which implements the
+                      custom method
+
+                      signatures required by gogoproto.
+                  peer:
+                    type: string
+              accountRemoval:
+                type: object
+                properties:
+                  address:
+                    type: string
+              validatorRemoval:
+                type: object
+                properties:
+                  valAddress:
+                    type: string
+  tendermint.spn.launch.QueryGetVestingAccountResponse:
+    type: object
+    properties:
+      vestingAccount:
+        type: object
+        properties:
+          chainID:
+            type: string
+            format: uint64
+          address:
+            type: string
+          startingBalance:
+            type: array
+            items:
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a token with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
+          vestingOptions:
+            type: object
+            properties:
+              delayedVesting:
+                type: object
+                properties:
+                  vesting:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        denom:
+                          type: string
+                        amount:
+                          type: string
+                      description: >-
+                        Coin defines a token with a denomination and an amount.
+
+
+                        NOTE: The amount field is an Int which implements the
+                        custom method
+
+                        signatures required by gogoproto.
+                  endTime:
+                    type: string
+                    format: int64
+                title: >-
+                  DelayedVesting represents options for delayed vesting
+
+                  Delayed vesting is the type of vesting where all vesting coins
+                  are vested once end time is reached
+  tendermint.spn.launch.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+        properties:
+          minLaunchTime:
+            type: string
+            format: uint64
+          maxLaunchTime:
+            type: string
+            format: uint64
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
+  tendermint.spn.launch.Request:
+    type: object
+    properties:
+      chainID:
+        type: string
+        format: uint64
+      requestID:
+        type: string
+        format: uint64
+      creator:
+        type: string
+      createdAt:
+        type: string
+        format: int64
+      content:
+        type: object
+        properties:
+          genesisAccount:
+            type: object
+            properties:
+              chainID:
+                type: string
+                format: uint64
+              address:
+                type: string
+              Coins:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    denom:
+                      type: string
+                    amount:
+                      type: string
+                  description: >-
+                    Coin defines a token with a denomination and an amount.
+
+
+                    NOTE: The amount field is an Int which implements the custom
+                    method
+
+                    signatures required by gogoproto.
+          vestingAccount:
+            type: object
+            properties:
+              chainID:
+                type: string
+                format: uint64
+              address:
+                type: string
+              startingBalance:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    denom:
+                      type: string
+                    amount:
+                      type: string
+                  description: >-
+                    Coin defines a token with a denomination and an amount.
+
+
+                    NOTE: The amount field is an Int which implements the custom
+                    method
+
+                    signatures required by gogoproto.
+              vestingOptions:
+                type: object
+                properties:
+                  delayedVesting:
+                    type: object
+                    properties:
+                      vesting:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            denom:
+                              type: string
+                            amount:
+                              type: string
+                          description: >-
+                            Coin defines a token with a denomination and an
+                            amount.
+
+
+                            NOTE: The amount field is an Int which implements
+                            the custom method
+
+                            signatures required by gogoproto.
+                      endTime:
+                        type: string
+                        format: int64
+                    title: >-
+                      DelayedVesting represents options for delayed vesting
+
+                      Delayed vesting is the type of vesting where all vesting
+                      coins are vested once end time is reached
+          genesisValidator:
+            type: object
+            properties:
+              chainID:
+                type: string
+                format: uint64
+              address:
+                type: string
+              genTx:
+                type: string
+                format: byte
+              consPubKey:
+                type: string
+                format: byte
+              selfDelegation:
+                type: object
+                properties:
+                  denom:
+                    type: string
+                  amount:
+                    type: string
+                description: >-
+                  Coin defines a token with a denomination and an amount.
+
+
+                  NOTE: The amount field is an Int which implements the custom
+                  method
+
+                  signatures required by gogoproto.
+              peer:
+                type: string
+          accountRemoval:
+            type: object
+            properties:
+              address:
+                type: string
+          validatorRemoval:
+            type: object
+            properties:
+              valAddress:
+                type: string
+  tendermint.spn.launch.RequestContent:
+    type: object
+    properties:
+      genesisAccount:
+        type: object
+        properties:
+          chainID:
+            type: string
+            format: uint64
+          address:
+            type: string
+          Coins:
+            type: array
+            items:
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a token with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
+      vestingAccount:
+        type: object
+        properties:
+          chainID:
+            type: string
+            format: uint64
+          address:
+            type: string
+          startingBalance:
+            type: array
+            items:
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a token with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
+          vestingOptions:
+            type: object
+            properties:
+              delayedVesting:
+                type: object
+                properties:
+                  vesting:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        denom:
+                          type: string
+                        amount:
+                          type: string
+                      description: >-
+                        Coin defines a token with a denomination and an amount.
+
+
+                        NOTE: The amount field is an Int which implements the
+                        custom method
+
+                        signatures required by gogoproto.
+                  endTime:
+                    type: string
+                    format: int64
+                title: >-
+                  DelayedVesting represents options for delayed vesting
+
+                  Delayed vesting is the type of vesting where all vesting coins
+                  are vested once end time is reached
+      genesisValidator:
+        type: object
+        properties:
+          chainID:
+            type: string
+            format: uint64
+          address:
+            type: string
+          genTx:
+            type: string
+            format: byte
+          consPubKey:
+            type: string
+            format: byte
+          selfDelegation:
+            type: object
+            properties:
+              denom:
+                type: string
+              amount:
+                type: string
+            description: >-
+              Coin defines a token with a denomination and an amount.
+
+
+              NOTE: The amount field is an Int which implements the custom
+              method
+
+              signatures required by gogoproto.
+          peer:
+            type: string
+      accountRemoval:
+        type: object
+        properties:
+          address:
+            type: string
+      validatorRemoval:
+        type: object
+        properties:
+          valAddress:
+            type: string
+  tendermint.spn.launch.ValidatorRemoval:
+    type: object
+    properties:
+      valAddress:
+        type: string
+  tendermint.spn.launch.VestingAccount:
+    type: object
+    properties:
+      chainID:
+        type: string
+        format: uint64
+      address:
+        type: string
+      startingBalance:
+        type: array
+        items:
+          type: object
+          properties:
+            denom:
+              type: string
+            amount:
+              type: string
+          description: |-
+            Coin defines a token with a denomination and an amount.
+
+            NOTE: The amount field is an Int which implements the custom method
+            signatures required by gogoproto.
+      vestingOptions:
+        type: object
+        properties:
+          delayedVesting:
+            type: object
+            properties:
+              vesting:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    denom:
+                      type: string
+                    amount:
+                      type: string
+                  description: >-
+                    Coin defines a token with a denomination and an amount.
+
+
+                    NOTE: The amount field is an Int which implements the custom
+                    method
+
+                    signatures required by gogoproto.
+              endTime:
+                type: string
+                format: int64
+            title: >-
+              DelayedVesting represents options for delayed vesting
+
+              Delayed vesting is the type of vesting where all vesting coins are
+              vested once end time is reached
+  tendermint.spn.launch.VestingOptions:
+    type: object
+    properties:
+      delayedVesting:
+        type: object
+        properties:
+          vesting:
+            type: array
+            items:
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a token with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
+          endTime:
+            type: string
+            format: int64
+        title: >-
+          DelayedVesting represents options for delayed vesting
+
+          Delayed vesting is the type of vesting where all vesting coins are
+          vested once end time is reached
+  tendermint.spn.profile.Coordinator:
+    type: object
+    properties:
+      coordinatorId:
+        type: string
+        format: uint64
+      address:
+        type: string
+      description:
+        type: object
+        properties:
+          identity:
+            type: string
+          website:
+            type: string
+          details:
+            type: string
+  tendermint.spn.profile.CoordinatorByAddress:
+    type: object
+    properties:
+      address:
+        type: string
+      coordinatorId:
+        type: string
+        format: uint64
+  tendermint.spn.profile.CoordinatorDescription:
+    type: object
+    properties:
+      identity:
+        type: string
+      website:
+        type: string
+      details:
+        type: string
+  tendermint.spn.profile.MsgCreateCoordinatorResponse:
+    type: object
+    properties:
+      coordinatorId:
+        type: string
+        format: uint64
+  tendermint.spn.profile.MsgDeleteCoordinatorResponse:
+    type: object
+    properties:
+      coordinatorId:
+        type: string
+        format: uint64
+  tendermint.spn.profile.MsgDeleteValidatorResponse:
+    type: object
+  tendermint.spn.profile.MsgUpdateCoordinatorAddressResponse:
+    type: object
+  tendermint.spn.profile.MsgUpdateCoordinatorDescriptionResponse:
+    type: object
+  tendermint.spn.profile.MsgUpdateValidatorDescriptionResponse:
+    type: object
+  tendermint.spn.profile.QueryAllCoordinatorResponse:
+    type: object
+    properties:
+      Coordinator:
+        type: array
+        items:
+          type: object
+          properties:
+            coordinatorId:
+              type: string
+              format: uint64
+            address:
+              type: string
+            description:
+              type: object
+              properties:
+                identity:
+                  type: string
+                website:
+                  type: string
+                details:
+                  type: string
+      pagination:
+        type: object
+        properties:
+          nextKey:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  tendermint.spn.profile.QueryAllValidatorResponse:
+    type: object
+    properties:
+      validator:
+        type: array
+        items:
+          type: object
+          properties:
+            address:
+              type: string
+            description:
+              type: object
+              properties:
+                identity:
+                  type: string
+                moniker:
+                  type: string
+                website:
+                  type: string
+                securityContact:
+                  type: string
+                details:
+                  type: string
+      pagination:
+        type: object
+        properties:
+          nextKey:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  tendermint.spn.profile.QueryGetCoordinatorByAddressResponse:
+    type: object
+    properties:
+      coordinatorByAddress:
+        type: object
+        properties:
+          address:
+            type: string
+          coordinatorId:
+            type: string
+            format: uint64
+  tendermint.spn.profile.QueryGetCoordinatorResponse:
+    type: object
+    properties:
+      Coordinator:
+        type: object
+        properties:
+          coordinatorId:
+            type: string
+            format: uint64
+          address:
+            type: string
+          description:
+            type: object
+            properties:
+              identity:
+                type: string
+              website:
+                type: string
+              details:
+                type: string
+  tendermint.spn.profile.QueryGetValidatorResponse:
+    type: object
+    properties:
+      validator:
+        type: object
+        properties:
+          address:
+            type: string
+          description:
+            type: object
+            properties:
+              identity:
+                type: string
+              moniker:
+                type: string
+              website:
+                type: string
+              securityContact:
+                type: string
+              details:
+                type: string
+  tendermint.spn.profile.Validator:
+    type: object
+    properties:
+      address:
+        type: string
+      description:
+        type: object
+        properties:
+          identity:
+            type: string
+          moniker:
+            type: string
+          website:
+            type: string
+          securityContact:
+            type: string
+          details:
+            type: string
+  tendermint.spn.profile.ValidatorDescription:
+    type: object
+    properties:
+      identity:
+        type: string
+      moniker:
+        type: string
+      website:
+        type: string
+      securityContact:
+        type: string
+      details:
+        type: string

@@ -3,7 +3,7 @@ package types_test
 import (
 	"testing"
 
-	"github.com/stateset/stateset-blockchain/x/loan/types"
+	"github.com/stateset/stateset-blockchain-starport/x/loan/types"
 	"github.com/stretchr/testify/require"
 )
 

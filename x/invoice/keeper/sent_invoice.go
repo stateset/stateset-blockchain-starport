@@ -6,7 +6,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/stateset/stateset-blockchain/x/invoice/types"
+	"github.com/stateset/stateset-blockchain-starport/x/invoice/types"
 )
 
 // GetSentInvoiceCount get the total number of sentInvoice

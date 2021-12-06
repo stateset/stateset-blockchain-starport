@@ -10,7 +10,7 @@ import (
 	// "github.com/cosmos/cosmos-sdk/client/flags"
 	// sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/stateset/stateset-blockchain/x/loan/types"
+	"github.com/stateset/stateset-blockchain-starport/x/loan/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module

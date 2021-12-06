@@ -8,8 +8,8 @@ import (
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/stateset/stateset-blockchain/x/did/keeper"
-	"github.com/stateset/stateset-blockchain/x/did/types"
+	"github.com/stateset/stateset-blockchain-starport/x/did/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/did/types"
 )
 
 var (

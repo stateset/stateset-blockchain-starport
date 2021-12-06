@@ -13,10 +13,10 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
-	"github.com/stateset/stateset-blockchain/x/did/client/cli"
-	"github.com/stateset/stateset-blockchain/x/did/client/rest"
-	"github.com/stateset/stateset-blockchain/x/did/keeper"
-	"github.com/stateset/stateset-blockchain/x/did/types"
+	"github.com/stateset/stateset-blockchain-starport/x/did/client/cli"
+	"github.com/stateset/stateset-blockchain-starport/x/did/client/rest"
+	"github.com/stateset/stateset-blockchain-starport/x/did/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/did/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 

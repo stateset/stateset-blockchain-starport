@@ -1,7 +1,7 @@
 syntax = "proto3";
 package stateset.agreement.v1beta1;
 
-option go_package = "github.com/stateset/stateset-blockchain/x/agreement/types";
+option go_package = "github.com/stateset/stateset-blockchain-starport/x/agreement/types";
 
 // IbcAgreementPacketData defines a struct for the packet payload
 message IbcAgreementPacketData {

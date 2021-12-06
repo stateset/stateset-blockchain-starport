@@ -4,7 +4,7 @@ package stateset.invoice.v1beta1;
 import "gogoproto/gogo.proto";
 import "stateset/invoice/v1beta1/tx.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
+option go_package = "github.com/stateset/stateset-blockchain-starport/x/invoice/types";
 
 // GenesisState defines the genesis state used by agreement module
 message GenesisState {

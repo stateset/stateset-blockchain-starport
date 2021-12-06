@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	keepertest "github.com/stateset/stateset-blockchain/testutil/keeper"
-	"github.com/stateset/stateset-blockchain/x/loan/keeper"
-	"github.com/stateset/stateset-blockchain/x/loan/types"
+	keepertest "github.com/stateset/stateset-blockchain-starport/testutil/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/loan/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/loan/types"
 )
 
 func setupMsgServer(t testing.TB) (types.MsgServer, context.Context) {

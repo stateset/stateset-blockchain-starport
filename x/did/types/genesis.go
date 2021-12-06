@@ -5,7 +5,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/gogo/protobuf/proto"
-	"github.com/stateset/stateset-blockchain/x/did/exported"
+	"github.com/stateset/stateset-blockchain-starport/x/did/exported"
 )
 
 func NewGenesisState(dd []exported.DidDoc) *GenesisState {

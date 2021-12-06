@@ -4,7 +4,7 @@ package did;
 import "gogoproto/gogo.proto";
 import "stateset/did/v1beta1/did.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/did/types";
+option go_package = "github.com/stateset/stateset-blockchain-starport/x/did/types";
 
 // BaseDidDoc defines a base DID document type. It implements the DidDoc interface.
 message BaseDidDoc {

@@ -5,7 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	clienttypes "github.com/cosmos/ibc-go/modules/core/02-client/types"
-	"github.com/stateset/stateset-blockchain/x/agreement/types"
+	"github.com/stateset/stateset-blockchain-starport/x/agreement/types"
 )
 
 func (k msgServer) SendIbcAgreement(goCtx context.Context, msg *types.MsgSendIbcAgreementRequest) (*types.MsgSendIbcAgreementResponse, error) {

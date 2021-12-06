@@ -3,8 +3,8 @@ package handler
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/stateset/stateset-blockchain/x/purchaseorder/keeper"
-	"github.com/stateset/stateset-blockchain/x/purchaseorder/types"
+	"github.com/stateset/stateset-blockchain-starport/x/purchaseorder/keeper"
+	"github.com/stateset/stateset-blockchain-starport/x/purchaseorder/types"
 )
 
 // NewHandler returns a handler for "purchaseorder" type messages.

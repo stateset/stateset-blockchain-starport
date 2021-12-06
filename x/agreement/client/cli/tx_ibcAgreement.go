@@ -9,7 +9,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	channelutils "github.com/cosmos/ibc-go/modules/core/04-channel/client/utils"
-	"github.com/stateset/stateset-blockchain/x/agreement/types"
+	"github.com/stateset/stateset-blockchain-starport/x/agreement/types"
 )
 
 var _ = strconv.Itoa(0)

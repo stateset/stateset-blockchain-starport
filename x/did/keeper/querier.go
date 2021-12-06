@@ -2,10 +2,11 @@ package keeper
 
 import (
 	"encoding/json"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/stateset/stateset-blockchain/x/did/exported"
+	"github.com/stateset/stateset-blockchain-starport/x/did/exported"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 

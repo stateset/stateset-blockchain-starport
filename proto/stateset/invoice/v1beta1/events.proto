@@ -4,7 +4,7 @@ package stateset.invoice.v1beta1;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
+option go_package = "github.com/stateset/stateset-blockchain-starport/x/invoice/types";
 
 // EventCreateInvoice is an event emitted when an invoice is created.
 message EventCreateInvoice {

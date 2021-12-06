@@ -5,7 +5,7 @@ package stateset.invoice.v1beta1;
 import "gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/stateset/stateset-blockchain/x/invoice/types";
+option go_package = "github.com/stateset/stateset-blockchain-starport/x/invoice/types";
 
 message Invoice {
   string creator = 1;

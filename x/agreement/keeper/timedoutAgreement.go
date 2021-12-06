@@ -6,7 +6,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/stateset/stateset-blockchain/x/agreement/types"
+	"github.com/stateset/stateset-blockchain-starport/x/agreement/types"
 )
 
 // GetTimedoutAgreementCount get the total number of timedoutAgreement
