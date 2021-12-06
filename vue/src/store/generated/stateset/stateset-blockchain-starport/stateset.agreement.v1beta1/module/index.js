@@ -2,23 +2,23 @@
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgUpdateAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
-import { MsgFinanceAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
-import { MsgActivateAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
-import { MsgRenewAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
-import { MsgExpireAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
-import { MsgDeleteAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
 import { MsgAmendAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgUpdateAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgRenewAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgDeleteAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgExpireAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
 import { MsgTerminateAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgActivateAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
+import { MsgFinanceAgreementRequest } from "./types/stateset/agreement/v1beta1/tx";
 const types = [
-    ["/stateset.agreement.v1beta1.MsgUpdateAgreementRequest", MsgUpdateAgreementRequest],
-    ["/stateset.agreement.v1beta1.MsgFinanceAgreementRequest", MsgFinanceAgreementRequest],
-    ["/stateset.agreement.v1beta1.MsgActivateAgreementRequest", MsgActivateAgreementRequest],
-    ["/stateset.agreement.v1beta1.MsgRenewAgreementRequest", MsgRenewAgreementRequest],
-    ["/stateset.agreement.v1beta1.MsgExpireAgreementRequest", MsgExpireAgreementRequest],
-    ["/stateset.agreement.v1beta1.MsgDeleteAgreementRequest", MsgDeleteAgreementRequest],
     ["/stateset.agreement.v1beta1.MsgAmendAgreementRequest", MsgAmendAgreementRequest],
+    ["/stateset.agreement.v1beta1.MsgUpdateAgreementRequest", MsgUpdateAgreementRequest],
+    ["/stateset.agreement.v1beta1.MsgRenewAgreementRequest", MsgRenewAgreementRequest],
+    ["/stateset.agreement.v1beta1.MsgDeleteAgreementRequest", MsgDeleteAgreementRequest],
+    ["/stateset.agreement.v1beta1.MsgExpireAgreementRequest", MsgExpireAgreementRequest],
     ["/stateset.agreement.v1beta1.MsgTerminateAgreementRequest", MsgTerminateAgreementRequest],
+    ["/stateset.agreement.v1beta1.MsgActivateAgreementRequest", MsgActivateAgreementRequest],
+    ["/stateset.agreement.v1beta1.MsgFinanceAgreementRequest", MsgFinanceAgreementRequest],
 ];
 export const MissingWalletError = new Error("wallet is required");
 const registry = new Registry(types);
@@ -33,14 +33,14 @@ const txClient = async (wallet, { addr: addr } = { addr: "http://localhost:26657
     const { address } = (await wallet.getAccounts())[0];
     return {
         signAndBroadcast: (msgs, { fee, memo } = { fee: defaultFee, memo: "" }) => client.signAndBroadcast(address, msgs, fee, memo),
-        msgUpdateAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgUpdateAgreementRequest", value: data }),
-        msgFinanceAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgFinanceAgreementRequest", value: data }),
-        msgActivateAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgActivateAgreementRequest", value: data }),
-        msgRenewAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgRenewAgreementRequest", value: data }),
-        msgExpireAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgExpireAgreementRequest", value: data }),
-        msgDeleteAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgDeleteAgreementRequest", value: data }),
         msgAmendAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgAmendAgreementRequest", value: data }),
+        msgUpdateAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgUpdateAgreementRequest", value: data }),
+        msgRenewAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgRenewAgreementRequest", value: data }),
+        msgDeleteAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgDeleteAgreementRequest", value: data }),
+        msgExpireAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgExpireAgreementRequest", value: data }),
         msgTerminateAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgTerminateAgreementRequest", value: data }),
+        msgActivateAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgActivateAgreementRequest", value: data }),
+        msgFinanceAgreementRequest: (data) => ({ typeUrl: "/stateset.agreement.v1beta1.MsgFinanceAgreementRequest", value: data }),
     };
 };
 const queryClient = async ({ addr: addr } = { addr: "http://localhost:1317" }) => {
